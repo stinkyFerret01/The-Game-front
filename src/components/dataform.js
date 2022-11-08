@@ -1,19 +1,32 @@
 //-- CONFIG
 import { useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 //--START
-const Dataform = ({ formType, setFormType }) => {
+const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   //-- STATES
   // data nécéssaire pour l'inscription ou la connection
+  const [mail, setMail] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   //-- FONCTIONS
   //--envoie une requete pour enregistrer un Player en BDD et l'authentifier
-  const signer = () => {
+  const signer = async () => {
     console.log("ok");
+    const response = await axios.post(`http://localhost:3000/player/signup`, {
+      mail: `${mail}`,
+      name: `${name}`,
+      password: `${password}`,
+    });
+    const newToken = response.data.playerData.token;
+    Cookies.set("TGtoken", newToken);
+    setPlayerData(response.data.playerData);
+    setFormType("none");
+    setToken(newToken);
   };
+
   //--envoie une requete pour authentifier un Player
   const logger = () => {};
 
@@ -61,9 +74,9 @@ const Dataform = ({ formType, setFormType }) => {
               <input
                 type="email"
                 placeholder="Your Email"
-                value={email}
+                value={mail}
                 onChange={(event) => {
-                  setEmail(event.target.value);
+                  setMail(event.target.value);
                 }}
               />
               <br />
@@ -76,7 +89,7 @@ const Dataform = ({ formType, setFormType }) => {
                 }}
               />
               <br />
-              <input type="submit" value="Valider !" onClick={signer} />
+              <input type="submit" value="Valider !" onClick={() => signer()} />
             </div>
           )}
           {/* type LOGIN */}

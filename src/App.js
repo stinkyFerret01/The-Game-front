@@ -15,26 +15,40 @@ import Dataform from "./components/dataform";
 
 //--START
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   //-- détermine l'authentification d'un Player
-  const [token, setToken] = useState(Cookies.get("TG-token") || null);
+  const [token, setToken] = useState(Cookies.get("TGtoken") || null);
   //-- détérmine la présence d'un formulaire et son type
   const [formType, setFormType] = useState("none");
+  //-- enregistre les données publiques d'un player
+  const [playerData, setPlayerData] = useState(null);
 
   //--useEffect
-  useEffect(() => {}, [formType]);
+  useEffect(() => {}, [playerData, formType]);
 
   //--RENDER
   return (
     <section className="App">
       <Router>
-        <Header token={token} setTken={setToken} setFormType={setFormType} />
+        <Header
+          token={token}
+          setToken={setToken}
+          playerData={playerData}
+          setPlayerData={setPlayerData}
+          setFormType={setFormType}
+        />
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
         {/* décide de la présence d'un formulaire */}
         {formType !== "none" && (
-          <Dataform formType={formType} setFormType={setFormType} />
+          <Dataform
+            formType={formType}
+            setFormType={setFormType}
+            playerData={playerData}
+            setPlayerData={setPlayerData}
+            setToken={setToken}
+          />
         )}
       </Router>
     </section>
