@@ -1,0 +1,11 @@
+/* container */
+.header {
+    width: 1024px;
+    height: 6rem;
+    background-color: blue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 2rem;
+    box-sizing: border-box;
+}
