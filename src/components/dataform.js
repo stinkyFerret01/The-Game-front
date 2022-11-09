@@ -28,7 +28,17 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   };
 
   //--envoie une requete pour authentifier un Player
-  const logger = () => {};
+  const logger = async() => {
+    const response = await axios.post(`http://localhost:3000/player/login`, {
+      mail: `${mail}`,
+      password: `${password}`,
+    });
+    const newToken = response.data.playerData.token;
+    Cookies.set("TGtoken", newToken);
+    setPlayerData(response.data.playerData);
+    setFormType("none");
+    setToken(newToken);
+  };
 
   //--RENDER
   return (
@@ -93,6 +103,30 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
             </div>
           )}
           {/* type LOGIN */}
+
+          {formType === "login" && (
+            <div className="formInputsWrapper">
+              <input
+                type="email"
+                placeholder="Your Email"
+                value={mail}
+                onChange={(event) => {
+                  setMail(event.target.value);
+                }}
+              />
+              <br />
+              <input
+                type="password"
+                placeholder="Your Password"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+              <br />
+              <input type="submit" value="Valider !" onClick={() => logger()} />
+            </div>
+          )}
         </div>
       </section>
     </main>
