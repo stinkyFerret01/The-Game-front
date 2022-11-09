@@ -9,3 +9,72 @@
     padding: 0rem 2rem;
     box-sizing: border-box;
 }
+
+/* LEFT */
+.headerLeft {
+    width: 16rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    color: white;
+}
+.leaderBoardBA {
+    width: 6rem;
+    height: 2rem;
+}
+.leaderBoardBA:hover {
+    cursor: pointer;
+}
+
+/* RIGHT */
+/* deconnexion */
+
+
+/* playercard */
+.playerCard {
+    position: absolute;
+    top: 1rem;
+    right: 7.5rem;
+    /*  */
+    width: 12rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.playerCardAccessLevel {
+    height: 8px;
+    background-color: brown;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.playerInfo {
+    height: 3.5rem;
+    display: flex;
+}
+.playerInfo:hover {
+    cursor: pointer;
+}
+.playerAvatar {
+    height: 3.5rem;
+    width: 3rem;
+    background-color: green;
+}
+.playerNameAndStats {
+    width: calc(100% - 3rem);
+    padding: 4px 0px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.playerName {
+    display: flex;
+    padding-left: 1rem;
+    border-bottom: 1px solid black  ;
+}
+.playerStats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

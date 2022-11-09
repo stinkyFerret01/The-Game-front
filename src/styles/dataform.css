@@ -1,13 +1,4 @@
-.dataformContainer {
-    position: absolute;
-    /*  */
-    width: 1024px;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(100, 100, 100, 0.5);
-}
+/* container */
 .dataform {
     width: 20rem;
     height: 30rem;
@@ -16,6 +7,8 @@
     flex-direction: column;
     padding: 0.4rem 0.4rem;
 }
+
+/* TOP */
 .dataformTop {
     height: 2rem;
     display: flex;
@@ -24,10 +17,12 @@
 .dataformTopLeft {
     width: 10rem;
 }
+
+/* formulaire */
 .form {
     display: flex;
     flex-direction: column;
 }
-/* .chooseform {}
 
+/* .chooseform {}
 .formInputswrapper {} */

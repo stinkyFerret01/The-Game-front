@@ -13,35 +13,43 @@ import Home from "./pages/home";
 //-- import des composants
 import Header from "./components/header";
 import Dataform from "./components/dataform";
+import LeaderBoard from "./components/leaderboard";
 
-//--START
+//-- START
 function App() {
-  // const [isLoading, setIsLoading] = useState(true);
   //-- détermine l'authentification d'un Player
   const [token, setToken] = useState(Cookies.get("TGtoken") || null);
-  //-- détérmine la présence d'un formulaire et son type
+  //-- détérmine l'affichage d'un formulaire et son type
   const [formType, setFormType] = useState("none");
   //-- enregistre les données publiques d'un player
   const [playerData, setPlayerData] = useState(null);
+  //-- détermine l'affichage du leaderBoard
+  const [displayLeaderBoard, setDisplayLeaderBoard] = useState(false);
 
-  //--useEffect
+  //-- FONCTIONS
+  //-- envoie une requete pour authentifier un joueur si celui-ci possède un token
+  const autoLogger = async (token) => {
+    //-- l'autoLogger utilise 2 cookies pour procéder: le nom d'un joueur et son token
+    const name = Cookies.get("TGplayer");
+    const response = await axios.post(
+      `http://localhost:3000/player/autologin`,
+      {
+        name: `${name}`,
+        token: `${token}`,
+      }
+    );
+    setPlayerData(response.data.playerData);
+  };
+
+  //-- USEEFFECT
   useEffect(() => {
-    //--envoie une requete pour authentifier un Player si celui-ci possède un token
-    const autoLogger = async (token) => {
-      const response = await axios.post(
-        `http://localhost:3000/player/autologin`,
-        {
-          token: `${token}`,
-        }
-      );
-      setPlayerData(response.data.playerData);
-    };
-    if (token !== null) {
+    if (token !== null && playerData === null) {
       autoLogger(token);
+      console.log(token);
     }
-  }, [token, formType]);
+  }, [token, playerData, formType, displayLeaderBoard]);
 
-  //--RENDER
+  //-- RENDER
   return (
     <section className="App">
       <Router>
@@ -51,6 +59,7 @@ function App() {
           playerData={playerData}
           setPlayerData={setPlayerData}
           setFormType={setFormType}
+          setDisplayLeaderBoard={setDisplayLeaderBoard}
         />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -64,6 +73,10 @@ function App() {
             setPlayerData={setPlayerData}
             setToken={setToken}
           />
+        )}
+        {/* décide de la présence du leaderBoard */}
+        {displayLeaderBoard === true && (
+          <LeaderBoard setDisplayLeaderBoard={setDisplayLeaderBoard} />
         )}
       </Router>
     </section>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-//--START
+//-- START
 const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   //-- STATES
   // data nécéssaire pour l'inscription ou la connection
@@ -12,7 +12,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   const [password, setPassword] = useState("");
 
   //-- FONCTIONS
-  //--envoie une requete pour enregistrer un Player en BDD et l'authentifier
+  //-- envoie une requete pour enregistrer un Player en BDD et l'authentifier
   const signer = async () => {
     const response = await axios.post(`http://localhost:3000/player/signup`, {
       mail: `${mail}`,
@@ -20,13 +20,15 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
       password: `${password}`,
     });
     const newToken = response.data.playerData.token;
+    const cookedName = response.data.playerData.name;
     Cookies.set("TGtoken", newToken);
+    Cookies.set("TGplayer", cookedName);
     setPlayerData(response.data.playerData);
     setFormType("none");
     setToken(newToken);
   };
 
-  //--envoie une requete pour authentifier un Player
+  //-- envoie une requete pour authentifier un Player
   const logger = async () => {
     const response = await axios.post(`http://localhost:3000/player/login`, {
       mail: `${mail}`,
@@ -34,15 +36,17 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
     });
     console.log(response.data.playerData);
     const newToken = response.data.playerData.token;
+    const cookedName = response.data.playerData.name;
     Cookies.set("TGtoken", newToken);
+    Cookies.set("TGplayer", cookedName);
     setPlayerData(response.data.playerData);
     setFormType("none");
     setToken(newToken);
   };
 
-  //--RENDER
+  //-- RENDER
   return (
-    <main className="dataformContainer">
+    <main className="overallContainer">
       <section className="dataform">
         <div className="dataformTop">
           {/* message discret */}
