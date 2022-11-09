@@ -27,7 +27,7 @@ const Header = ({
             Cookies.remove("TGtoken");
           }}
         >
-          <div> {playerData.name}</div>
+          <div>{playerData.name}</div>
           <h1>se deconnecter</h1>
         </button>
       )}

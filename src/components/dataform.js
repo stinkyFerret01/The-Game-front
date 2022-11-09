@@ -14,7 +14,6 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   //-- FONCTIONS
   //--envoie une requete pour enregistrer un Player en BDD et l'authentifier
   const signer = async () => {
-    console.log("ok");
     const response = await axios.post(`http://localhost:3000/player/signup`, {
       mail: `${mail}`,
       name: `${name}`,
@@ -28,11 +27,12 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   };
 
   //--envoie une requete pour authentifier un Player
-  const logger = async() => {
+  const logger = async () => {
     const response = await axios.post(`http://localhost:3000/player/login`, {
       mail: `${mail}`,
       password: `${password}`,
     });
+    console.log(response.data.playerData);
     const newToken = response.data.playerData.token;
     Cookies.set("TGtoken", newToken);
     setPlayerData(response.data.playerData);

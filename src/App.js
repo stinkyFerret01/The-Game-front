@@ -4,6 +4,7 @@ import "./App.css";
 //-- CONFIG
 import { React, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
 import Cookies from "js-cookie";
 
 //-- import des pages
@@ -24,7 +25,21 @@ function App() {
   const [playerData, setPlayerData] = useState(null);
 
   //--useEffect
-  useEffect(() => {}, [playerData, formType]);
+  useEffect(() => {
+    //--envoie une requete pour authentifier un Player si celui-ci possède un token
+    const autoLogger = async (token) => {
+      const response = await axios.post(
+        `http://localhost:3000/player/autologin`,
+        {
+          token: `${token}`,
+        }
+      );
+      setPlayerData(response.data.playerData);
+    };
+    if (token !== null) {
+      autoLogger(token);
+    }
+  }, [token, formType]);
 
   //--RENDER
   return (
