@@ -34,7 +34,6 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
       mail: `${mail}`,
       password: `${password}`,
     });
-    console.log(response.data.playerData);
     const newToken = response.data.playerData.token;
     const cookedName = response.data.playerData.name;
     Cookies.set("TGtoken", newToken);
@@ -57,26 +56,33 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
           </div>
 
           {/* femer le formulaire */}
-          <button onClick={() => setFormType("none")}>X</button>
+          <button className="closingBox" onClick={() => setFormType("none")}>
+            X
+          </button>
         </div>
         <div className="form">
-          <h1>Form</h1>
-
           {/* choix du type de formulaire */}
-
-          <div className="choseForm">
-            <button onClick={() => setFormType("signup")}>s'inscrire</button>
-            <button onClick={() => setFormType("login")}>
+          <div className="chooseForm">
+            <button
+              className="chooseFormBA"
+              onClick={() => setFormType("signup")}
+            >
+              s'inscrire
+            </button>
+            <button
+              className="chooseFormBA"
+              onClick={() => setFormType("login")}
+            >
               J'ai déja un compte
             </button>
           </div>
-          <h1>{formType}</h1>
+          <h1 className="formTitle">{formType}</h1>
 
           {/* type SIGNUP */}
-
           {formType === "signup" && (
             <div className="formInputsWrapper">
               <input
+                className="formInputs"
                 type="name"
                 placeholder="Your Name"
                 value={name}
@@ -86,6 +92,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
               />
               <br />
               <input
+                className="formInputs"
                 type="email"
                 placeholder="Your Email"
                 value={mail}
@@ -95,6 +102,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
               />
               <br />
               <input
+                className="formInputs"
                 type="password"
                 placeholder="Your Password"
                 value={password}
@@ -103,7 +111,14 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
                 }}
               />
               <br />
-              <input type="submit" value="Valider !" onClick={() => signer()} />
+              <div className="formSubmitContainer">
+                <input
+                  className="formSubmit"
+                  type="submit"
+                  value="Valider !"
+                  onClick={() => signer()}
+                />
+              </div>
             </div>
           )}
           {/* type LOGIN */}
@@ -111,6 +126,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
           {formType === "login" && (
             <div className="formInputsWrapper">
               <input
+                className="formInputs"
                 type="email"
                 placeholder="Your Email"
                 value={mail}
@@ -120,6 +136,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
               />
               <br />
               <input
+                className="formInputs"
                 type="password"
                 placeholder="Your Password"
                 value={password}
@@ -128,9 +145,19 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
                 }}
               />
               <br />
-              <input type="submit" value="Valider !" onClick={() => logger()} />
+              <div className="formInputsBlank"></div>
+              <br />
+              <div className="formSubmitContainer">
+                <input
+                  className="formSubmit"
+                  type="submit"
+                  value="Valider !"
+                  onClick={() => logger()}
+                />
+              </div>
             </div>
           )}
+          <div className="dataformFooter">FORMFOOTER</div>
         </div>
       </section>
     </main>

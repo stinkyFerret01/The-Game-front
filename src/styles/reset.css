@@ -62,6 +62,10 @@ table {
 button {
 	padding: 0 0;
 	border: none;
+	background-color: white;
+}
+button:hover {
+	cursor: pointer;
 }
 h1:hover {cursor: default;}
 /* h2:hover {cursor: default;}

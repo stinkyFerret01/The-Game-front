@@ -30,7 +30,12 @@ const LeaderBoard = ({ setDisplayLeaderBoard }) => {
             <h6>* nous ne conservons aucun sel dans nos bases de données</h6>
           </div>
           {/* femer le leaderboard */}
-          <button onClick={() => setDisplayLeaderBoard(false)}>X</button>
+          <button
+            className="closingBox"
+            onClick={() => setDisplayLeaderBoard(false)}
+          >
+            X
+          </button>
         </div>
         <h1 className="leaderBoardTitle">LEADERBOARD</h1>
         {console.log(boardList)}

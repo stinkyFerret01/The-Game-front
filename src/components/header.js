@@ -21,21 +21,23 @@ const Header = ({
       <div className="headerLeft">
         {/* logo/acceuil */}
         <div>
-          <h1 className="logo">THE GAME</h1>
+          <h1 className="logo">THE 🎮 GAME</h1>
         </div>
         {/* acces au leaderBoard */}
         <button
           className="leaderBoardBA"
           onClick={() => setDisplayLeaderBoard(true)}
         >
-          leaderboard
+          🏆 LEADER-BOARD
         </button>
       </div>
       {/* RIGHT */}
       <div className="headerRight">
         {/* inscription, connection */}
         {token === null && (
-          <button onClick={() => setFormType("signup")}>se connecter</button>
+          <button className="dataformBA" onClick={() => setFormType("signup")}>
+            <h3>se connecter / s'inscrire</h3>
+          </button>
         )}
         {playerData !== null && (
           //-- playerCard
@@ -67,16 +69,19 @@ const Header = ({
             </button>
             {/* //-- déconnection du joueur */}
             {displayLargePlayerCard === true && (
-              <button
-                onClick={() => {
-                  setToken(null);
-                  setPlayerData(null);
-                  Cookies.remove("TGtoken");
-                  Cookies.remove("TGplayer");
-                }}
-              >
-                <h1>se deconnecter</h1>
-              </button>
+              <div className="enlargedPC">
+                <button
+                  className="playerCardDisconect"
+                  onClick={() => {
+                    setToken(null);
+                    setPlayerData(null);
+                    Cookies.remove("TGtoken");
+                    Cookies.remove("TGplayer");
+                  }}
+                >
+                  <h3>se deconnecter</h3>
+                </button>
+              </div>
             )}
           </article>
         )}
