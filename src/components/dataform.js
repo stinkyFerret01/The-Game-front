@@ -4,7 +4,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //-- START
-const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
+const Dataform = ({
+  backend,
+  formType,
+  setFormType,
+  setPlayerData,
+  setToken,
+}) => {
   //-- STATES
   // data nécéssaire pour l'inscription ou la connection
   const [mail, setMail] = useState("");
@@ -14,7 +20,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
   //-- FONCTIONS
   //-- envoie une requete pour enregistrer un Player en BDD et l'authentifier
   const signer = async () => {
-    const response = await axios.post(`http://localhost:3000/player/signup`, {
+    const response = await axios.post(`${backend}/player/signup`, {
       mail: `${mail}`,
       name: `${name}`,
       password: `${password}`,
@@ -30,7 +36,7 @@ const Dataform = ({ formType, setFormType, setPlayerData, setToken }) => {
 
   //-- envoie une requete pour authentifier un Player
   const logger = async () => {
-    const response = await axios.post(`http://localhost:3000/player/login`, {
+    const response = await axios.post(`${backend}/player/login`, {
       mail: `${mail}`,
       password: `${password}`,
     });

@@ -3,22 +3,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 //-- START
-const LeaderBoard = ({ setDisplayLeaderBoard }) => {
+const LeaderBoard = ({ backend, setDisplayLeaderBoard }) => {
   const [boardList, setBoardList] = useState([]);
-
-  //-- FONCTIONS
-  const leaderBoardDataFetcher = async () => {
-    //-- leaderBoardDataFetcher envoie une requete pour récupérer le classement des joueurs
-    const response = await axios.get(`http://localhost:3000/game/lead`);
-    setBoardList(response.data.leaderBoard);
-  };
 
   //-- USEEFFECT
   useEffect(() => {
+    const leaderBoardDataFetcher = async () => {
+      //-- leaderBoardDataFetcher envoie une requete pour récupérer le classement des joueurs
+      const response = await axios.get(`${backend}/game/lead`);
+      setBoardList(response.data.leaderBoard);
+    };
     if (boardList.length === 0) {
       leaderBoardDataFetcher();
     }
-  }, [boardList]);
+  }, [backend, boardList]);
 
   //-- RENDER
   return (

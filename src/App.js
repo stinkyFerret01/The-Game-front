@@ -17,6 +17,11 @@ import LeaderBoard from "./components/leaderboard";
 
 //-- START
 function App() {
+  //-- détermine l'acces au backend en ligne ou en local (test)
+  const online = "https://the-game-backend.herokuapp.com";
+  const local = "http://localhost:3000";
+  const [backend, setBackend] = useState(online);
+
   //-- détermine l'authentification d'un Player
   const [token, setToken] = useState(Cookies.get("TGtoken") || null);
   //-- détérmine l'affichage d'un formulaire et son type
@@ -27,33 +32,32 @@ function App() {
   const [displayLeaderBoard, setDisplayLeaderBoard] = useState(false);
 
   //-- FONCTIONS
-  //-- envoie une requete pour authentifier un joueur si celui-ci possède un token
-  const autoLogger = async (token) => {
-    //-- l'autoLogger utilise 2 cookies pour procéder: le nom d'un joueur et son token
-    const name = Cookies.get("TGplayer");
-    const response = await axios.post(
-      `http://localhost:3000/player/autologin`,
-      {
-        name: `${name}`,
-        token: `${token}`,
-      }
-    );
-    setPlayerData(response.data.playerData);
-  };
 
   //-- USEEFFECT
   useEffect(() => {
+    const autoLogger = async (token) => {
+      //-- la fonction autologger envoie une requete pour authentifier un joueur si celui-ci possède un token
+      //-- l'autoLogger utilise 2 cookies pour procéder: le nom d'un joueur et son token
+      const name = Cookies.get("TGplayer");
+      const response = await axios.post(`${backend}/player/autologin`, {
+        name: `${name}`,
+        token: `${token}`,
+      });
+      setPlayerData(response.data.playerData);
+    };
     if (token !== null && playerData === null) {
       autoLogger(token);
       console.log(token);
     }
-  }, [token, playerData, formType, displayLeaderBoard]);
+  }, [backend, token, playerData, formType, displayLeaderBoard]);
 
   //-- RENDER
   return (
     <section className="App">
+      {online === local && (console.log("problemo!"), setBackend(local))}
       <Router>
         <Header
+          backend={backend}
           token={token}
           setToken={setToken}
           playerData={playerData}
@@ -67,6 +71,7 @@ function App() {
         {/* décide de la présence d'un formulaire */}
         {formType !== "none" && (
           <Dataform
+            backend={backend}
             formType={formType}
             setFormType={setFormType}
             playerData={playerData}
@@ -76,7 +81,10 @@ function App() {
         )}
         {/* décide de la présence du leaderBoard */}
         {displayLeaderBoard === true && (
-          <LeaderBoard setDisplayLeaderBoard={setDisplayLeaderBoard} />
+          <LeaderBoard
+            backend={backend}
+            setDisplayLeaderBoard={setDisplayLeaderBoard}
+          />
         )}
       </Router>
     </section>
