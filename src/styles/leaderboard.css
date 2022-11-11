@@ -13,9 +13,6 @@
     color: white;
     font-weight: bold;
 }
-
-/* le style de la partie haute du leaderboard
- est commune à celle du dataform */
 .leaderBoardTitle {
     color: orange;
     font-weight: bold;

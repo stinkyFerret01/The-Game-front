@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 
 //-- import des pages
 import Home from "./pages/home";
+import Admin from "./pages/admin";
 
 //-- import des composants
 import Header from "./components/header";
@@ -67,6 +68,10 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/admin"
+            element={<Admin backend={backend} playerData={playerData} />}
+          />
         </Routes>
         {/* décide de la présence d'un formulaire */}
         {formType !== "none" && (

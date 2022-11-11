@@ -2,6 +2,7 @@
 
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 //-- START
 const Header = ({
@@ -14,6 +15,11 @@ const Header = ({
 }) => {
   //-- détermine l'affichage étendu de la playerCard
   const [displayLargePlayerCard, setDisplayLargePlayerCard] = useState(false);
+
+  //-- variables de configuration
+  const navigate = useNavigate();
+  const location = useLocation();
+
   //-- RENDER
   return (
     <header className="header">
@@ -68,21 +74,43 @@ const Header = ({
               </div>
             </button>
             {/* //-- déconnection du joueur */}
-            {displayLargePlayerCard === true && (
-              <div className="enlargedPC">
+            <div className="enlargedPC">
+              <button className="enlargedPCButtons" onClick={() => {}}>
+                <h3>Game Chat</h3>
+              </button>
+              <button className="enlargedPCButtons" onClick={() => {}}>
+                <h3>Private Chat</h3>
+              </button>
+              {playerData.accessLevel > 0 && (
                 <button
-                  className="playerCardDisconect"
+                  className="enlargedPCButtonsBorder"
                   onClick={() => {
-                    setToken(null);
-                    setPlayerData(null);
-                    Cookies.remove("TGtoken");
-                    Cookies.remove("TGplayer");
+                    if (location.pathname === "/") {
+                      navigate("/admin");
+                    } else if (location.pathname === "/admin") {
+                      navigate("/");
+                    }
                   }}
                 >
-                  <h3>se deconnecter</h3>
+                  {location.pathname === "/" && <h3>Zone Admin</h3>}
+                  {location.pathname === "/admin" && <h3>Game Zone</h3>}
                 </button>
-              </div>
-            )}
+              )}
+              <button className="enlargedPCButtonsBorder" onClick={() => {}}>
+                <h3>⚙ Settings</h3>
+              </button>
+              <button
+                className="playerCardDisconect"
+                onClick={() => {
+                  setToken(null);
+                  setPlayerData(null);
+                  Cookies.remove("TGtoken");
+                  Cookies.remove("TGplayer");
+                }}
+              >
+                <h3>se deconnecter</h3>
+              </button>
+            </div>
           </article>
         )}
       </div>
