@@ -1,7 +1,11 @@
 //-- CONFIG
 import { useEffect } from "react";
 
+//-- import des composants
+import PlayerFate from "./playerfate";
+
 //-- START
+//-- AdminSpace est un composant résevé à tous les administrateurs
 const AdminSpace = ({
   backend,
   playerData,
@@ -10,18 +14,22 @@ const AdminSpace = ({
 }) => {
   //-- USEEFFECT
   useEffect(() => {}, [playersSensData]);
+
   //-- RENDER
   return (
     <section>
       {/* espace administration (acces à la supression des profils et des messages) */}
-      {playersSensData.length > 0 && (
+      {playersSensData && playersSensData.length > 0 && (
         <div>
           {playersSensData.map((player, index) => {
             return (
-              <article key={index}>
-                <h2>{player.name}</h2>
-                <h2>{player.mail}</h2>
-              </article>
+              <PlayerFate
+                backend={backend}
+                playerData={playerData}
+                setPlayersSensData={setPlayersSensData}
+                player={player}
+                key={index}
+              />
             );
           })}
         </div>

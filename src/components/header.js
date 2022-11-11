@@ -1,9 +1,9 @@
 //-- CONFIG
 import Cookies from "js-cookie";
-import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 //-- START
+//-- Header permet de s'inscrire/se connecter et d'acceder a la PlayerCard et ses options
 const Header = ({
   token,
   setToken,
@@ -12,8 +12,8 @@ const Header = ({
   setFormType,
   setDisplayLeaderBoard,
 }) => {
-  //-- détermine l'affichage étendu de la playerCard
-  const [displayLargePlayerCard, setDisplayLargePlayerCard] = useState(false);
+  //-- STATES
+  //-- none
 
   //-- variables de configuration
   const navigate = useNavigate();
@@ -50,21 +50,16 @@ const Header = ({
             <div className="playerCardAccessLevel">
               {playerData.accessLevel}
             </div>
-            <button
-              onClick={() => {
-                if (!displayLargePlayerCard) {
-                  setDisplayLargePlayerCard(true);
-                } else {
-                  setDisplayLargePlayerCard(false);
-                }
-              }}
-            >
+            <button onClick={() => {}}>
               <div className="playerInfo">
+                {/* //-- avatar du joueur */}
                 <div className="playerAvatar"></div>
                 <div className="playerNameAndStats">
+                  {/* //-- nom du joueur */}
                   <div className="playerName">
                     <h2>{playerData.name}</h2>
                   </div>
+                  {/* //-- stats du joueur */}
                   <div className="playerStats">
                     <h3>scr: {playerData.score.score}</h3>
                     <h3>lvl: {playerData.score.level}</h3>
@@ -74,12 +69,15 @@ const Header = ({
             </button>
             {/* //-- playerCard étendue */}
             <div className="enlargedPC">
+              {/* //-- chat publique */}
               <button className="enlargedPCButtons" onClick={() => {}}>
                 <h3>Game Chat</h3>
               </button>
+              {/* //-- chat privé */}
               <button className="enlargedPCButtons" onClick={() => {}}>
                 <h3>Private Chat</h3>
               </button>
+              {/* //-- zone admin / game zone */}
               {playerData.accessLevel > 0 && (
                 <button
                   className="enlargedPCButtonsBorder"
@@ -95,6 +93,7 @@ const Header = ({
                   {location.pathname === "/admin" && <h3>Game Zone</h3>}
                 </button>
               )}
+              {/* //-- settings */}
               <button className="enlargedPCButtonsBorder" onClick={() => {}}>
                 <h3>⚙ Settings</h3>
               </button>
@@ -106,6 +105,7 @@ const Header = ({
                   setPlayerData(null);
                   Cookies.remove("TGtoken");
                   Cookies.remove("TGplayer");
+                  navigate("/");
                 }}
               >
                 <h3>se deconnecter</h3>

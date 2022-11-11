@@ -1,7 +1,0 @@
-/* ADMINSPACE et LORSPACE parage des élément de style */
-/* le style commun est attribué à adminspace.css */
-
-.playerSensData {
-    display: flex;
-    justify-content: space-between;
-}

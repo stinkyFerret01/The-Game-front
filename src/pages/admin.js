@@ -4,10 +4,12 @@ import axios from "axios";
 
 // import des composants
 import AdminSpace from "../components/adminspace";
-import LordSpace from "../components/lordspace";
 
 //-- START
+//-- Admin est un composant (page) reservé aux administrateurs
+//-- il permet de mettre a jour les BDD en fonction du niveau d'acces de l'administrateur
 const Admin = ({ backend, playerData }) => {
+  //-- STATES
   //-- enregistre les données sensibles des Players
   const [playersSensData, setPlayersSensData] = useState([]);
 
@@ -31,8 +33,8 @@ const Admin = ({ backend, playerData }) => {
         <div className="adminMain">
           {/* menu, coté gauche */}
           <section className="adminMenu">
-            {playerData.accessLevel === 1 && <h1>ADMINSPACE</h1>}
-            {playerData.accessLevel === 2 && <h1>LORDSPACE</h1>}
+            {playerData.accessLevel === 5 && <h1>ADMIN</h1>}
+            {playerData.accessLevel === 10 && <h1>LORD</h1>}
             <button
               onClick={() => {
                 playersSensDataFetcher(playerData.accessLevel);
@@ -43,16 +45,8 @@ const Admin = ({ backend, playerData }) => {
           </section>
           {/* espace administration (acces à la supression des profils et des messages) */}
           <section className="adminWorkSpace">
-            {playerData.accessLevel === 1 && (
+            {playerData.accessLevel > 0 && (
               <AdminSpace
-                backend={backend}
-                playerData={playerData}
-                playersSensData={playersSensData}
-                setPlayersSensData={setPlayersSensData}
-              />
-            )}
-            {playerData.accessLevel === 2 && (
-              <LordSpace
                 backend={backend}
                 playerData={playerData}
                 playersSensData={playersSensData}

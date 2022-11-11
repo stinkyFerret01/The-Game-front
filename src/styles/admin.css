@@ -9,6 +9,25 @@ background-color: blue;
 
 .adminWorkSpace {
 width: calc(100% - 15rem);
-background-color: brown;
 margin-left: 1rem;
+}
+.playerFate {
+    display: flex;
+    justify-content: space-between;
+}
+.playerFateName {
+    width: 14rem;
+    background-color: brown;
+}
+.playerFateMail {
+    width: 20rem;
+    background-color: green;
+}
+.playerFatePromote {
+    width: 6rem;
+    background-color: brown;
+}
+.playerFateDelete {
+    width: 6rem;
+    background-color: green;
 }
