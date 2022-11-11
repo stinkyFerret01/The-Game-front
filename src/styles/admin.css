@@ -1,0 +1,14 @@
+.adminMain {
+    display: flex;
+}
+
+.adminMenu {
+width: 14rem;
+background-color: blue;
+}
+
+.adminWorkSpace {
+width: calc(100% - 15rem);
+background-color: brown;
+margin-left: 1rem;
+}

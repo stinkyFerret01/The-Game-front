@@ -3,11 +3,14 @@
 
 /* import des styles de pages */
 @import "styles/home.css";
+@import "styles/admin.css";
 
 /* import des styles de composants */
 @import "styles/header.css";
 @import "styles/dataform.css";
 @import "styles/leaderboard.css";
+@import "styles/adminspace.css";
+@import "styles/lordspace.css";
 
 /* style général */
 

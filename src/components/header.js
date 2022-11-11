@@ -1,5 +1,4 @@
 //-- CONFIG
-
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -73,7 +72,7 @@ const Header = ({
                 </div>
               </div>
             </button>
-            {/* //-- déconnection du joueur */}
+            {/* //-- playerCard étendue */}
             <div className="enlargedPC">
               <button className="enlargedPCButtons" onClick={() => {}}>
                 <h3>Game Chat</h3>
@@ -99,6 +98,7 @@ const Header = ({
               <button className="enlargedPCButtonsBorder" onClick={() => {}}>
                 <h3>⚙ Settings</h3>
               </button>
+              {/* //-- déconnection du joueur */}
               <button
                 className="playerCardDisconect"
                 onClick={() => {
