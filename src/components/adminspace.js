@@ -7,7 +7,7 @@ import PlayerFate from "./playerfate";
 //-- START
 //-- AdminSpace est un composant résevé à tous les administrateurs
 const AdminSpace = ({
-  backend,
+  gameConst,
   playerData,
   playersSensData,
   setPlayersSensData,
@@ -24,7 +24,7 @@ const AdminSpace = ({
           {playersSensData.map((player, index) => {
             return (
               <PlayerFate
-                backend={backend}
+                gameConst={gameConst}
                 playerData={playerData}
                 setPlayersSensData={setPlayersSensData}
                 player={player}

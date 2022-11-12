@@ -8,7 +8,7 @@ import AdminSpace from "../components/adminspace";
 //-- START
 //-- Admin est un composant (page) reservé aux administrateurs
 //-- il permet de mettre a jour les BDD en fonction du niveau d'acces de l'administrateur
-const Admin = ({ backend, playerData }) => {
+const Admin = ({ gameConst, playerData }) => {
   //-- STATES
   //-1- enregistre les données sensibles des Players
   const [playersSensData, setPlayersSensData] = useState([]);
@@ -17,11 +17,11 @@ const Admin = ({ backend, playerData }) => {
     //-- la fonction playersDataFetcher envoie une requete pour récupérer la liste des joueurs
     //-- elle récupère aussi des données sensibles (mail)
     if (AL > 0) {
-      const response = await axios.post(`${backend}/admin/players`, {
+      const response = await axios.post(`${gameConst.backend}/admin/players`, {
         id: `${playerData.id}`,
       });
+      console.log(response.data.message);
       setPlayersSensData(response.data.playersList);
-      console.log(response.data.playersList);
     }
   };
 
@@ -46,7 +46,7 @@ const Admin = ({ backend, playerData }) => {
           <section className="adminWorkSpace">
             {playerData.accessLevel > 0 && (
               <AdminSpace
-                backend={backend}
+                gameConst={gameConst}
                 playerData={playerData}
                 playersSensData={playersSensData}
                 setPlayersSensData={setPlayersSensData}

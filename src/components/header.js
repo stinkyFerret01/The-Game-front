@@ -3,6 +3,9 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+//-- import des composants
+//-- none
+
 //-- START
 //-- Header permet de s'inscrire/se connecter et d'acceder a la PlayerCard et ses options
 const Header = ({
@@ -12,6 +15,7 @@ const Header = ({
   setPlayerData,
   setFormType,
   setDisplayLeaderBoard,
+  setDisplayGameChat,
 }) => {
   //-- STATES
   //-- none
@@ -74,7 +78,10 @@ const Header = ({
             {/* //-- playerCard étendue */}
             <div className="enlargedPC">
               {/* //-- chat publique */}
-              <button className="enlargedPCButtons" onClick={() => {}}>
+              <button
+                className="enlargedPCButtons"
+                onClick={() => setDisplayGameChat(true)}
+              >
                 <h3>Game Chat</h3>
               </button>
               {/* //-- chat privé */}

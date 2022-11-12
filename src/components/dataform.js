@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 //-- START
 const Dataform = ({
-  backend,
+  gameConst,
   formType,
   setFormType,
   setPlayerData,
@@ -20,11 +20,12 @@ const Dataform = ({
   //-- FONCTIONS
   //-- envoie une requete pour enregistrer un Player en BDD et l'authentifier
   const signer = async () => {
-    const response = await axios.post(`${backend}/player/signup`, {
+    const response = await axios.post(`${gameConst.backend}/player/signup`, {
       mail: `${mail}`,
       name: `${name}`,
       password: `${password}`,
     });
+    console.log(response.data.message);
     const newToken = response.data.playerData.token;
     const cookedName = response.data.playerData.name;
     Cookies.set("TGtoken", newToken);
@@ -36,12 +37,13 @@ const Dataform = ({
 
   //-- envoie une requete pour authentifier un Player
   const logger = async () => {
-    const response = await axios.post(`${backend}/player/login`, {
+    const response = await axios.post(`${gameConst.backend}/player/login`, {
       mail: `${mail}`,
       password: `${password}`,
     });
     const newToken = response.data.playerData.token;
     const cookedName = response.data.playerData.name;
+    console.log(response.data.message);
     Cookies.set("TGtoken", newToken);
     Cookies.set("TGplayer", cookedName);
     setPlayerData(response.data.playerData);
@@ -53,6 +55,7 @@ const Dataform = ({
   return (
     <main className="overallContainer">
       <section className="dataform">
+        {/* Dataform Header */}
         <div className="dataformTop">
           {/* message discret */}
           <div className="dataformTopLeft">
@@ -69,12 +72,14 @@ const Dataform = ({
         <div className="form">
           {/* choix du type de formulaire */}
           <div className="chooseForm">
+            {/* s'inscrire */}
             <button
               className="chooseFormBA"
               onClick={() => setFormType("signup")}
             >
               s'inscrire
             </button>
+            {/* se connecter */}
             <button
               className="chooseFormBA"
               onClick={() => setFormType("login")}
@@ -87,6 +92,7 @@ const Dataform = ({
           {/* type SIGNUP */}
           {formType === "signup" && (
             <div className="formInputsWrapper">
+              {/* NAME */}
               <input
                 className="formInputs"
                 type="name"
@@ -97,6 +103,7 @@ const Dataform = ({
                 }}
               />
               <br />
+              {/* MAIL */}
               <input
                 className="formInputs"
                 type="email"
@@ -107,6 +114,7 @@ const Dataform = ({
                 }}
               />
               <br />
+              {/* PASSWORD */}
               <input
                 className="formInputs"
                 type="password"
@@ -117,6 +125,7 @@ const Dataform = ({
                 }}
               />
               <br />
+              {/* SUBMIT */}
               <div className="formSubmitContainer">
                 <input
                   className="formSubmit"
@@ -128,9 +137,9 @@ const Dataform = ({
             </div>
           )}
           {/* type LOGIN */}
-
           {formType === "login" && (
             <div className="formInputsWrapper">
+              {/* NAME */}
               <input
                 className="formInputs"
                 type="email"
@@ -141,6 +150,7 @@ const Dataform = ({
                 }}
               />
               <br />
+              {/* PASSWORD */}
               <input
                 className="formInputs"
                 type="password"
@@ -151,8 +161,10 @@ const Dataform = ({
                 }}
               />
               <br />
+              {/* BLANK */}
               <div className="formInputsBlank"></div>
               <br />
+              {/* SUBMIT */}
               <div className="formSubmitContainer">
                 <input
                   className="formSubmit"
