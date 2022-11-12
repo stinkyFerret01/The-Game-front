@@ -1,5 +1,6 @@
 //-- CONFIG
 import Cookies from "js-cookie";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 //-- START
@@ -18,6 +19,9 @@ const Header = ({
   //-- variables de configuration
   const navigate = useNavigate();
   const location = useLocation();
+
+  //-- USEEFFECT
+  useEffect(() => {}, [playerData]);
 
   //-- RENDER
   return (

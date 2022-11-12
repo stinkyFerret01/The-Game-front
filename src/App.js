@@ -18,18 +18,18 @@ import LeaderBoard from "./components/leaderboard";
 
 //-- START
 function App() {
-  //-- détermine l'acces au backend en ligne ou en local (test)
+  //-1- détermine l'acces au backend en ligne ou en local (test)
   const online = "https://the-game-backend.herokuapp.com";
   const local = "http://localhost:3000";
   const [backend, setBackend] = useState(online);
 
-  //-- détermine l'authentification d'un Player
+  //-2- détermine l'authentification d'un Player
   const [token, setToken] = useState(Cookies.get("TGtoken") || null);
-  //-- détérmine l'affichage d'un formulaire et son type
+  //-3- détérmine l'affichage d'un formulaire et son type
   const [formType, setFormType] = useState("none");
-  //-- enregistre les données publiques d'un player
+  //-4- enregistre les données publiques d'un player
   const [playerData, setPlayerData] = useState(null);
-  //-- détermine l'affichage du leaderBoard
+  //-5- détermine l'affichage du leaderBoard
   const [displayLeaderBoard, setDisplayLeaderBoard] = useState(false);
 
   //-- FONCTIONS
@@ -44,7 +44,8 @@ function App() {
         name: `${name}`,
         token: `${token}`,
       });
-      setPlayerData(response.data.playerData);
+      const autoFetchedData = response.data.playerData;
+      setPlayerData(autoFetchedData);
     };
     if (token !== null && playerData === null) {
       autoLogger(token);

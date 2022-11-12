@@ -15,8 +15,15 @@ margin-left: 1rem;
     display: flex;
     justify-content: space-between;
 }
+.playerFateMedal {
+    width: 2rem;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .playerFateName {
-    width: 14rem;
+    width: 12rem;
     background-color: brown;
 }
 .playerFateMail {

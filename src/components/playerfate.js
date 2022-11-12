@@ -9,9 +9,17 @@ const PlayerFate = ({ backend, playerData, setPlayersSensData, player }) => {
   //-- STATES
   //-1- détermine si le joueur a été selectioné pour etre effacer des BDD
   const [playerDelSelection, setPlayerDelSelection] = useState(false);
-  const [playerPromSelection, setPlayerPromSelection] = useState(false);
+  //-2- détermine à quel statut le joueur va etre promu
+  const [playerPromSelection, setPlayerPromSelection] = useState(
+    player.accessLevel
+  );
+  //-3- détermine la médaille du rang
+  const [playerALMedal, setPlayerALMedal] = useState(
+    player.accessLevel.toString()
+  );
 
   //-- FONCTIONS
+
   const playerDeleter = async (bannedId) => {
     //-- efface un joueur des BDD
     if (playerData.accessLevel > 0) {
@@ -36,52 +44,54 @@ const PlayerFate = ({ backend, playerData, setPlayersSensData, player }) => {
       });
       const newList = response.data.newList;
       setPlayersSensData(newList);
-      setPlayerPromSelection(false);
+      setPlayerALMedal(newAL.toString());
       console.log(response.data.message);
     }
   };
 
   //-- USEEFFECT
-  useEffect(() => {}, [playerDelSelection, setPlayerPromSelection]);
+  useEffect(() => {}, [playerDelSelection, playerPromSelection]);
 
   //-- RENDER
   return (
     <article className="playerFate">
+      <div className="playerFateMedal">
+        {playerALMedal === "0" && <div>🎮</div>}
+        {playerALMedal === "5" && <div>🛡</div>}
+        {playerALMedal === "10" && <div>👑</div>}
+      </div>
       <h2 className="playerFateName">{player.name}</h2>
       <h2 className="playerFateMail">{player.mail}</h2>
       {/* //-- promotion de joueurs */}
       <div className="playerFatePromote">
-        {/* //-- checkbox de promotion */}
-        {playerData.accessLevel > 1 && (
+        {/* //-- select de promotion */}
+        {playerData.accessLevel > 5 && (
           <div>
-            {" "}
-            <input
-              className="checkbox"
-              checked={playerPromSelection}
-              type="checkbox"
-              onChange={() =>
-                playerPromSelection
-                  ? setPlayerPromSelection(false)
-                  : setPlayerPromSelection(true)
-              }
-            />
-            {/* //-- confirmation de promotion (dépend de la checkbox) */}
+            <select
+              value={playerPromSelection}
+              onChange={(event) => {
+                setPlayerPromSelection(event.target.value);
+              }}
+            >
+              <option value="0">Player</option>
+              <option value="5">Admin</option>
+              <option value="10">Lord</option>
+            </select>
+            {/* //-- confirmation de promotion (dépend du select) */}
             <button
               className={
-                playerPromSelection
+                playerPromSelection !== null
                   ? "playerPromSelected"
                   : "playerPromUnSelected"
               }
               onClick={() => {
-                playerPromSelection === true
-                  ? playerPromoter(player.id, 5)
-                  : alert(
-                      "vous devez selectionez un joueur pour en faire un administrateur!"
-                    );
+                playerPromSelection !== null
+                  ? playerPromoter(player.id, playerPromSelection)
+                  : alert(`ce joueur est déja ${playerPromSelection}`);
               }}
             >
               {/* <i class="fa-solid fa-trash-can"></i> */}
-              <h3>upGrader</h3>
+              <h3>OK</h3>
             </button>
           </div>
         )}

@@ -10,9 +10,8 @@ import AdminSpace from "../components/adminspace";
 //-- il permet de mettre a jour les BDD en fonction du niveau d'acces de l'administrateur
 const Admin = ({ backend, playerData }) => {
   //-- STATES
-  //-- enregistre les données sensibles des Players
+  //-1- enregistre les données sensibles des Players
   const [playersSensData, setPlayersSensData] = useState([]);
-
   //-- FONCTIONS
   const playersSensDataFetcher = async (AL) => {
     //-- la fonction playersDataFetcher envoie une requete pour récupérer la liste des joueurs
