@@ -26,9 +26,11 @@ const AdminSpace = ({
               <PlayerFate
                 gameConst={gameConst}
                 playerData={playerData}
+                playersSensData={playersSensData}
                 setPlayersSensData={setPlayersSensData}
                 player={player}
                 key={index}
+                index={index}
               />
             );
           })}

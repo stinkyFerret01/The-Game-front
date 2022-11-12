@@ -1,5 +1,64 @@
 .gameChat {
-    width: 30rem;
-    height: 35rem;
-    background-color: greenyellow;
+    width: 44rem;
+    height: 40rem;
+    background-color: rgba(220, 220, 220);
+    padding: 0.4rem 1rem;
+    box-sizing: border-box;
+}
+.gameChatTopLeft {
+    color: black;
+}
+.publicChatDisplayer {
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 42rem;
+    height: 32rem;
+    background-color: black;
+    padding: 0.2rem 0.2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.publicChatDisplayer::-webkit-scrollbar {
+    display: none;
+}
+.messageDisplay {
+    width: 41.6rem;
+    background-color: aliceblue;
+    margin-top: 0.1rem;
+    padding: 0.2rem 0.2rem;
+    box-sizing: border-box;
+}
+.messageDisplayTop {
+    display: flex;
+    justify-content: space-between;
+}
+.messageDisplayPublisher {
+    font-weight: bold;
+    text-decoration: underline;
+}
+.messageDate {
+    color: gray;
+}
+.messageDisplayMessage {
+    margin-left: 2rem;
+}
+.messageToSendForm {
+    width: 42rem;
+    height: 4rem;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.4rem;
+}
+.messageInputs {
+    width: 36rem;
+}
+.messageSubmitContainer {
+    width: 5rem;
+    background-color: aqua;
+}
+.messageSubmit {
+    width: 5rem;
+    height: 4rem;
 }

@@ -51,7 +51,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
         {/* Game Chat Header */}
         <div className="dataformTop">
           {/* message discret */}
-          <div className="leaderBoardTopLeft">
+          <div className="gameChatTopLeft">
             <h6>* soyez poli, pas polisson!</h6>
           </div>
           {/* femer le Game Chat */}
@@ -68,8 +68,15 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
             {publicChat.map((message, index) => {
               return (
                 <article className="messageDisplay" key={index}>
-                  <h2>{message.publisherName}</h2>
-                  <h3>{message.publisherMessage}</h3>
+                  <div className="messageDisplayTop">
+                    <h3 className="messageDisplayPublisher">
+                      from {message.publisherName} :
+                    </h3>
+                    <h4>prochainement, la date et l'heure</h4>
+                  </div>
+                  <h3 className="messageDisplayMessage">
+                    {message.publisherMessage}
+                  </h3>
                 </article>
               );
             })}
@@ -79,7 +86,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
         {/* Chat message */}
         <div className="messageToSendForm">
           <input
-            className="formInputs"
+            className="messageInputs"
             type="text"
             placeholder="Your Message"
             value={publicMessageToSend}
@@ -88,9 +95,9 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
             }}
           />
           {/* chat submit */}
-          <div className="formSubmitContainer">
+          <div className="messageSubmitContainer">
             <input
-              className="formSubmit"
+              className="messageSubmit"
               type="submit"
               value="Valider !"
               onClick={() => publicMessageSender()}

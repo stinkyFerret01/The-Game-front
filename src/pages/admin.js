@@ -1,5 +1,5 @@
 //-- CONFIG
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 // import des composants
@@ -24,6 +24,9 @@ const Admin = ({ gameConst, playerData }) => {
       setPlayersSensData(response.data.playersList);
     }
   };
+
+  //-- USEEFFECT
+  useEffect(() => {}, [playersSensData]);
 
   //-- RENDER
   return (

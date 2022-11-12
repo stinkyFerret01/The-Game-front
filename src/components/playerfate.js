@@ -5,7 +5,14 @@ import axios from "axios";
 //-- START
 //-- PlayerFate est un article retournant les noms et mails des joueurs
 //-- on peut y décider la suppression ou la promotion d'un joueur
-const PlayerFate = ({ gameConst, playerData, setPlayersSensData, player }) => {
+const PlayerFate = ({
+  gameConst,
+  playerData,
+  playersSensData,
+  setPlayersSensData,
+  player,
+  index,
+}) => {
   //-- STATES
   //-1- détermine si le joueur a été selectioné pour etre effacer des BDD
   const [playerDelSelection, setPlayerDelSelection] = useState(false);
@@ -15,7 +22,7 @@ const PlayerFate = ({ gameConst, playerData, setPlayersSensData, player }) => {
   );
   //-3- détermine la médaille du rang
   const [playerALMedal, setPlayerALMedal] = useState(
-    player.accessLevel.toString()
+    playersSensData[index].accessLevel.toString()
   );
 
   //-- FONCTIONS
@@ -29,8 +36,8 @@ const PlayerFate = ({ gameConst, playerData, setPlayersSensData, player }) => {
       });
       console.log(response.data.message);
       const newList = response.data.newList;
-      setPlayersSensData(newList);
       setPlayerDelSelection(false);
+      setPlayersSensData(newList);
     }
   };
 
@@ -50,7 +57,12 @@ const PlayerFate = ({ gameConst, playerData, setPlayersSensData, player }) => {
   };
 
   //-- USEEFFECT
-  useEffect(() => {}, [playerDelSelection, playerPromSelection, playerALMedal]);
+  useEffect(() => {}, [
+    playerDelSelection,
+    playerPromSelection,
+    setPlayersSensData,
+    playerALMedal,
+  ]);
 
   //-- RENDER
   return (
