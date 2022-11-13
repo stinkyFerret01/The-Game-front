@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 //-- START
 //-- Header permet de s'inscrire/se connecter et d'acceder a la PlayerCard et ses options
 const Header = ({
+  gameConst,
   token,
   setToken,
   playerData,
@@ -89,7 +90,7 @@ const Header = ({
                 <h3>Private Chat</h3>
               </button>
               {/* //-- zone admin / game zone */}
-              {playerData.accessLevel > 0 && (
+              {playerData.accessLevel >= gameConst.aLR.admin && (
                 <button
                   className="enlargedPCButtonsBorder"
                   onClick={() => {

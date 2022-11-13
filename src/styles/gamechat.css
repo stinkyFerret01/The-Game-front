@@ -24,7 +24,7 @@
     display: none;
 }
 .messageDisplay {
-    width: 41.6rem;
+    width: 38.6rem;
     background-color: aliceblue;
     margin-top: 0.1rem;
     padding: 0.2rem 0.2rem;
@@ -61,4 +61,5 @@
 .messageSubmit {
     width: 5rem;
     height: 4rem;
+    background-color: aquamarine
 }

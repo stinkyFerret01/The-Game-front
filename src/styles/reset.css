@@ -71,3 +71,6 @@ h1:hover {cursor: default;}
 /* h2:hover {cursor: default;}
 h3:hover {cursor: default;}
 h6:hover {cursor: default;} */
+textarea {
+	resize: none;
+}

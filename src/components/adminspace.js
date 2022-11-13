@@ -8,6 +8,7 @@ import PlayerFate from "./playerfate";
 //-- AdminSpace est un composant résevé à tous les administrateurs
 const AdminSpace = ({
   gameConst,
+  token,
   playerData,
   playersSensData,
   setPlayersSensData,
@@ -25,6 +26,7 @@ const AdminSpace = ({
             return (
               <PlayerFate
                 gameConst={gameConst}
+                token={token}
                 playerData={playerData}
                 playersSensData={playersSensData}
                 setPlayersSensData={setPlayersSensData}

@@ -28,6 +28,25 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
     setPublicChat(response.data.publicChat);
   };
 
+  const medaler = (AL) => {
+    //-- détermine la médaille du publicateur
+    if (AL === 0) {
+      return "💀";
+    }
+    if (AL === 1) {
+      return "🚫";
+    }
+    if (AL === 2) {
+      return "🎮";
+    }
+    if (AL === 5) {
+      return "🛡";
+    }
+    if (AL === 10) {
+      return "👑";
+    }
+  };
+
   //-- USEEFFECT
   useEffect(() => {
     const publicChatFetcher = async () => {
@@ -67,10 +86,28 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
           <div className="publicChatDisplayer">
             {publicChat.map((message, index) => {
               return (
-                <article className="messageDisplay" key={index}>
-                  <div className="messageDisplayTop">
+                <article
+                  className="messageDisplay"
+                  style={
+                    message.publisherName === playerData.name
+                      ? {
+                          marginLeft: 2 + "rem",
+                        }
+                      : {}
+                  }
+                  key={index}
+                >
+                  <div
+                    className="messageDisplayTop"
+                    style={
+                      message.publisherName === playerData.name
+                        ? { backgroundColor: "aqua" }
+                        : { backgroundColor: "aquamarine" }
+                    }
+                  >
                     <h3 className="messageDisplayPublisher">
-                      from {message.publisherName} :
+                      from {medaler(message.publisherAccessLevel)}/
+                      {message.publisherName} :
                     </h3>
                     <h4>prochainement, la date et l'heure</h4>
                   </div>
@@ -85,9 +122,10 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
         {/* Chat Sender */}
         {/* Chat message */}
         <div className="messageToSendForm">
-          <input
+          <textarea
             className="messageInputs"
             type="text"
+            maxLength="256"
             placeholder="Your Message"
             value={publicMessageToSend}
             onChange={(event) => {
@@ -99,7 +137,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
             <input
               className="messageSubmit"
               type="submit"
-              value="Valider !"
+              value="Envoyer !"
               onClick={() => publicMessageSender()}
             />
           </div>

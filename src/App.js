@@ -100,7 +100,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/admin"
-            element={<Admin gameConst={gameConst} playerData={playerData} />}
+            element={
+              <Admin
+                gameConst={gameConst}
+                token={token}
+                playerData={playerData}
+              />
+            }
           />
         </Routes>
         {/* décide de la présence d'un formulaire */}

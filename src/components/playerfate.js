@@ -7,6 +7,7 @@ import axios from "axios";
 //-- on peut y décider la suppression ou la promotion d'un joueur
 const PlayerFate = ({
   gameConst,
+  token,
   playerData,
   playersSensData,
   setPlayersSensData,
@@ -32,6 +33,7 @@ const PlayerFate = ({
     if (playerData.accessLevel >= gameConst.aLR.admin) {
       const response = await axios.post(`${gameConst.backend}/admin/ban`, {
         id: `${playerData.id}`,
+        playerToken: `${token}`,
         bannedId: `${bannedId}`,
       });
       console.log(response.data.message);
@@ -46,6 +48,7 @@ const PlayerFate = ({
     if (playerData.accessLevel >= gameConst.aLR.admin) {
       const response = await axios.put(`${gameConst.backend}/lord/promote`, {
         id: `${playerData.id}`,
+        playerToken: `${token}`,
         promotedId: `${promotedId}`,
         newAL: newAL,
       });
