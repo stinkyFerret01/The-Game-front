@@ -39,6 +39,7 @@ const Admin = ({ gameConst, token, playerData }) => {
             {playerData.accessLevel === 5 && <h1>ADMIN</h1>}
             {playerData.accessLevel === 10 && <h1>LORD</h1>}
             <button
+              className="adminMenuBA"
               onClick={() => {
                 playersSensDataFetcher(playerData.accessLevel);
               }}

@@ -9,8 +9,9 @@
 @import "styles/header.css";
 @import "styles/dataform.css";
 @import "styles/leaderboard.css";
-@import "styles/gamechat.css";
 @import "styles/adminspace.css";
+@import "styles/gamechat.css";
+@import "styles/privatechat.css";
 
 /* style général */
 
@@ -69,3 +70,7 @@ h4 {
 h6 {
   font-size: 10px;
 }
+h1:hover {cursor: default;}
+/* h2:hover {cursor: default;}
+h3:hover {cursor: default;}
+h6:hover {cursor: default;} */

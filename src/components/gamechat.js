@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 //-- START
-//-- game chat est un composant permettant d'acceder au chat public
+//-- GameChat est un composant permettant d'acceder au chat public
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //-- STATES
-  //-1- enregistre le message que le joueur veut publier
+  //-1- enregistre les messages du GameChat
   const [publicChat, setPublicChat] = useState([]);
   //-2- enregistre le message que le joueur veut publier
   const [publicMessageToSend, setPublicMessageToSend] = useState("");

@@ -2,11 +2,17 @@
     display: flex;
 }
 
+/* ADMINMENU */
 .adminMenu {
 width: 14rem;
-background-color: blue;
+}
+.adminMenuBA {
+    width: 14rem;
+    height: 3rem;
+    background-color: blue;
 }
 
+/* ADMINESPACE */
 .adminWorkSpace {
 width: calc(100% - 15rem);
 margin-left: 1rem;

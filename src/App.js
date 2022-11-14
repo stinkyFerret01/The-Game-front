@@ -16,6 +16,7 @@ import Header from "./components/header";
 import Dataform from "./components/dataform";
 import LeaderBoard from "./components/leaderboard";
 import GameChat from "./components/gamechat";
+import PrivateChat from "./components/privatechat";
 
 //-- START
 function App() {
@@ -52,8 +53,11 @@ function App() {
   const [displayLeaderBoard, setDisplayLeaderBoard] = useState(false);
   //-6- détermine l'affichage du gameChat
   const [displayGameChat, setDisplayGameChat] = useState(false);
+  //-7- détermine l'affichage du PrivateChat
+  const [displayPrivateChat, setDisplayPrivateChat] = useState(false);
 
   //-- FONCTIONS
+  //-- none
 
   //-- USEEFFECT
   useEffect(() => {
@@ -95,6 +99,7 @@ function App() {
           setFormType={setFormType}
           setDisplayLeaderBoard={setDisplayLeaderBoard}
           setDisplayGameChat={setDisplayGameChat}
+          setDisplayPrivateChat={setDisplayPrivateChat}
         />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -127,13 +132,22 @@ function App() {
             setDisplayLeaderBoard={setDisplayLeaderBoard}
           />
         )}
-        {/* décide de la présence du leaderBoard */}
+        {/* décide de la présence du GameChat */}
         {displayGameChat === true && (
           <GameChat
             gameConst={gameConst}
             token={token}
             playerData={playerData}
             setDisplayGameChat={setDisplayGameChat}
+          />
+        )}
+        {/* décide de la présence du PrivateChat */}
+        {displayPrivateChat === true && (
+          <PrivateChat
+            gameConst={gameConst}
+            token={token}
+            playerData={playerData}
+            setDisplayPrivateChat={setDisplayPrivateChat}
           />
         )}
       </Router>

@@ -17,6 +17,7 @@ const Header = ({
   setFormType,
   setDisplayLeaderBoard,
   setDisplayGameChat,
+  setDisplayPrivateChat,
 }) => {
   //-- STATES
   //-- none
@@ -86,7 +87,10 @@ const Header = ({
                 <h3>Game Chat</h3>
               </button>
               {/* //-- chat privé */}
-              <button className="enlargedPCButtons" onClick={() => {}}>
+              <button
+                className="enlargedPCButtons"
+                onClick={() => setDisplayPrivateChat(true)}
+              >
                 <h3>Private Chat</h3>
               </button>
               {/* //-- zone admin / game zone */}

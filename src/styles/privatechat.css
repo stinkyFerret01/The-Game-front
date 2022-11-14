@@ -1,0 +1,65 @@
+.privateChat {
+    width: 44rem;
+    height: 30rem;
+    background-color: rgba(220, 220, 220);
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+}
+.privateChatSpace {
+    display: flex;
+    justify-content: space-between;
+}
+.privateChatTopBox {
+    width: 100%;
+    height: 2.5rem;
+    background-color: aliceblue;
+}
+
+/* CHATTERLIST */
+.privateChatterList {
+    width: 10rem;
+    height: 24rem;
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CHATBOX */
+.privateChatBox {
+    width: 21rem;
+    height: 20rem;
+}
+.displayedPrivateChatBox {
+    height: 18rem;
+    background-color: black;
+    padding: 0.1rem 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+.privateMessageToDisplay {
+    background-color:  rgba(60, 60, 60, 0.5);
+    color: white;
+    margin-top: 0.1rem;
+    display: flex;
+    flex-direction: column;
+}
+.privateMessageToSendForm{
+    background-color: blue;
+    display: flex;
+}
+.privateMessageInputs {
+    width: 9rem;
+    height: 2rem;
+}
+.privateMessageSubmitContainer {
+ 
+}
+.privateMessageSubmit {}
+/* CHATOPEN */
+.privateChatOpen {
+    width: 10rem;
+    height: 24rem;
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+}
