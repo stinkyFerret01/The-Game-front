@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
-  const socket = io("ws://localhost:3000");
+  const socket = io.connect("ws://localhost:3000");
   //----------------------SOCKETSTUFF-------------------//
   //-- STATES
   //-1- enregistre les messages du GameChat
@@ -91,8 +91,14 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
   useEffect(() => {
     // socket.current = io(gameConst.aLR.backend);
-    socket.current = io("ws:http://localhost:3001");
-    socket.current.emit("add-player", playerData.id);
+    socket.current = io("http://localhost:3001");
+    socket.on("retour", (string) => {
+      console.log(string);
+    });
+    socket.emit("test", {
+      from: playerData.id,
+      fronthost: "http://localhost:3001",
+    });
     console.log("useeffect ok");
     console.log(socket.current);
   }, [gameConst, playerData, socket]);
