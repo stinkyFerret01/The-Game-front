@@ -11,6 +11,8 @@
 .publicChatDisplayer {
     overflow: hidden;
     overflow-y: scroll;
+    position : relative; bottom:0;
+    /*  */
     width: 42rem;
     height: 32rem;
     background-color: black;

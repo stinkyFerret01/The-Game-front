@@ -1,16 +1,26 @@
 //-- CONFIG
 import { useState, useEffect } from "react";
 import axios from "axios";
+//----------------------SOCKETSTUFF-------------------//
+import { io } from "socket.io-client";
+//----------------------SOCKETSTUFF-------------------//
 
 //-- START
 //-- GameChat est un composant permettant d'acceder au chat public
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
+  //----------------------SOCKETSTUFF-------------------//
+  const socket = io("ws://localhost:3000");
+  //----------------------SOCKETSTUFF-------------------//
   //-- STATES
   //-1- enregistre les messages du GameChat
   const [publicChat, setPublicChat] = useState([]);
   //-2- enregistre le message que le joueur veut publier
   const [publicMessageToSend, setPublicMessageToSend] = useState("");
+
+  //----------------------SOCKETSTUFF-------------------//
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  //----------------------SOCKETSTUFF-------------------//
 
   //-- FONCTIONS
   const publicMessageSender = async () => {
@@ -26,6 +36,20 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
     );
     console.log(response.data.message);
     setPublicChat(response.data.publicChat);
+    //----------------------SOCKETSTUFF-------------------//
+    socket.current.emit("send-msg", {
+      to: publicChat._id,
+      from: playerData.id,
+      message: publicMessageToSend,
+    });
+    console.log(
+      socket.current.emit("send-msg", {
+        to: publicChat._id,
+        from: playerData.id,
+        message: publicMessageToSend,
+      })
+    );
+    //----------------------SOCKETSTUFF-------------------//
     setPublicMessageToSend("");
   };
 
@@ -63,6 +87,26 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
       publicChatFetcher();
     }
   }, [gameConst, token, playerData, publicChat]);
+
+  //----------------------SOCKETSTUFF-------------------//
+  useEffect(() => {
+    // socket.current = io(gameConst.aLR.backend);
+    socket.current = io("ws:http://localhost:3001");
+    socket.current.emit("add-player", playerData.id);
+    console.log("useeffect ok");
+    console.log(socket.current);
+  }, [gameConst, playerData, socket]);
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("message-receive", (msg) => {
+        setArrivalMessage({ message: msg });
+      });
+    }
+  }, [socket]);
+  useEffect(() => {
+    arrivalMessage && setPublicChat((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
+  //----------------------SOCKETSTUFF-------------------//
 
   //-- RENDER
   return (

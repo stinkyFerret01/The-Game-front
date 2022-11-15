@@ -32,7 +32,7 @@ function App() {
   const lordlvl = 10;
   //-1- enregistre les variables de configuration
   const [gameConst, setGameConst] = useState({
-    backend: local,
+    backend: online,
     aLR: {
       banned: bannedlvl,
       restricted: restrictedlvl,
