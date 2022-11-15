@@ -43,6 +43,7 @@ const PrivateChat = ({
     console.log(response.data.message);
     setPVFLock(false);
     setPrivateChat(response.data.newPrivateChat);
+    setPrivateMessageToSend("");
   };
 
   const receiverChecker = (id) => {

@@ -9,10 +9,8 @@ const PlayerFate = ({
   gameConst,
   token,
   playerData,
-  playersSensData,
   setPlayersSensData,
   player,
-  index,
 }) => {
   //-- STATES
   //-1- détermine si le joueur a été selectioné pour etre effacer des BDD
@@ -21,10 +19,6 @@ const PlayerFate = ({
   const [playerPromSelection, setPlayerPromSelection] = useState(
     player.accessLevel
   );
-  //-3- détermine la médaille du rang
-  const [playerALMedal, setPlayerALMedal] = useState(
-    playersSensData[index].accessLevel.toString()
-  );
 
   //-- FONCTIONS
 
@@ -32,7 +26,7 @@ const PlayerFate = ({
     //-- efface un joueur des BDD
     if (playerData.accessLevel >= gameConst.aLR.admin) {
       const response = await axios.post(`${gameConst.backend}/admin/ban`, {
-        id: `${playerData.id}`,
+        playerId: `${playerData.id}`,
         playerToken: `${token}`,
         bannedId: `${bannedId}`,
       });
@@ -47,7 +41,7 @@ const PlayerFate = ({
     //-- promeut un joueur au rang d'administrateur
     if (playerData.accessLevel >= gameConst.aLR.admin) {
       const response = await axios.put(`${gameConst.backend}/lord/promote`, {
-        id: `${playerData.id}`,
+        playerId: `${playerData.id}`,
         playerToken: `${token}`,
         promotedId: `${promotedId}`,
         newAL: newAL,
@@ -55,7 +49,6 @@ const PlayerFate = ({
       console.log(response.data.message);
       const newList = response.data.newList;
       setPlayersSensData(newList);
-      setPlayerALMedal(newAL.toString());
     }
   };
 
@@ -64,40 +57,45 @@ const PlayerFate = ({
     playerDelSelection,
     playerPromSelection,
     setPlayersSensData,
-    playerALMedal,
   ]);
 
   //-- RENDER
   return (
     <article className="playerFate">
       <div className="playerFateMedal">
-        {playerALMedal === gameConst.aLR.banned.toString() && <div>💀</div>}
-        {playerALMedal === gameConst.aLR.restricted.toString() && <div>🚫</div>}
-        {playerALMedal === gameConst.aLR.player.toString() && <div>🎮</div>}
-        {playerALMedal === gameConst.aLR.admin.toString() && <div>🛡</div>}
-        {playerALMedal === gameConst.aLR.lord.toString() && <div>👑</div>}
+        {player.accessLevel === gameConst.aLR.banned && <div>💀</div>}
+        {player.accessLevel === gameConst.aLR.restricted && <div>🚫</div>}
+        {player.accessLevel === gameConst.aLR.player && <div>🎮</div>}
+        {player.accessLevel === gameConst.aLR.admin && <div>🛡</div>}
+        {player.accessLevel === gameConst.aLR.lord && <div>👑</div>}
       </div>
       <h2 className="playerFateName">{player.name}</h2>
       <h2 className="playerFateMail">{player.mail}</h2>
       {/* //-- promotion de joueurs */}
       <div className="playerFatePromote">
         {/* //-- select de promotion */}
-        {playerData.accessLevel >= gameConst.aLR.lord && (
+        {playerData.accessLevel >= gameConst.aLR.admin && (
           <div>
-            <select
-              value={playerPromSelection}
-              onChange={(event) => {
-                setPlayerPromSelection(event.target.value);
-              }}
-            >
-              <option value={gameConst.aLR.banned.toString()}>banned</option>
-              <option value={gameConst.aLR.restricted.toString()}>
-                restricted
-              </option>
-              <option value={gameConst.aLR.player.toString()}>Player</option>
-              <option value={gameConst.aLR.admin.toString()}>Admin</option>
-              <option value={gameConst.aLR.lord.toString()}>Lord</option>
-            </select>
+            {player.accessLevel < playerData.accessLevel && (
+              <select
+                value={playerPromSelection}
+                onChange={(event) => {
+                  setPlayerPromSelection(event.target.value);
+                }}
+              >
+                <option value={gameConst.aLR.banned.toString()}>banned</option>
+                <option value={gameConst.aLR.restricted.toString()}>
+                  restricted
+                </option>
+                <option value={gameConst.aLR.player.toString()}>Player</option>
+                {playerData.accessLevel === gameConst.aLR.lord && (
+                  <option value={gameConst.aLR.admin.toString()}>Admin</option>
+                )}
+                {playerData.accessLevel > gameConst.aLR.lord && (
+                  <option value={gameConst.aLR.lord.toString()}>Lord</option>
+                )}
+              </select>
+            )}
             {/* //-- confirmation de promotion (dépend du select) */}
             <button
               className={

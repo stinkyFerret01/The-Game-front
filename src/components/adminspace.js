@@ -28,11 +28,9 @@ const AdminSpace = ({
                 gameConst={gameConst}
                 token={token}
                 playerData={playerData}
-                playersSensData={playersSensData}
                 setPlayersSensData={setPlayersSensData}
                 player={player}
                 key={index}
-                index={index}
               />
             );
           })}

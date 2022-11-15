@@ -18,7 +18,7 @@ const Admin = ({ gameConst, token, playerData }) => {
     //-- elle récupère aussi des données sensibles (mail)
     if (AL > 0) {
       const response = await axios.post(`${gameConst.backend}/admin/players`, {
-        id: `${playerData.id}`,
+        playerId: `${playerData.id}`,
         playerToken: `${token}`,
       });
       console.log(response.data.message);
@@ -36,8 +36,8 @@ const Admin = ({ gameConst, token, playerData }) => {
         <div className="adminMain">
           {/* menu, coté gauche */}
           <section className="adminMenu">
-            {playerData.accessLevel === 5 && <h1>ADMIN</h1>}
-            {playerData.accessLevel === 10 && <h1>LORD</h1>}
+            {playerData.accessLevel === gameConst.aLR.admin && <h1>ADMIN</h1>}
+            {playerData.accessLevel === gameConst.aLR.lord && <h1>LORD</h1>}
             <button
               className="adminMenuBA"
               onClick={() => {
@@ -49,7 +49,7 @@ const Admin = ({ gameConst, token, playerData }) => {
           </section>
           {/* espace administration (acces à la supression des profils et des messages) */}
           <section className="adminWorkSpace">
-            {playerData.accessLevel > 0 && (
+            {playerData.accessLevel >= gameConst.aLR.admin && (
               <AdminSpace
                 gameConst={gameConst}
                 token={token}

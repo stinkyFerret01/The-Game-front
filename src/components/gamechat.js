@@ -26,6 +26,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
     );
     console.log(response.data.message);
     setPublicChat(response.data.publicChat);
+    setPublicMessageToSend("");
   };
 
   const medaler = (AL) => {
