@@ -84,9 +84,8 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
 
   //----------------------SOCKETSTUFF-------------------//
   useEffect(() => {
-    // socket.current = io(gameConst.aLR.backend);
-
-    socket.current = io("http://localhost:3001");
+    socket.current = io("https://the-pouler-game.netlify.app/");
+    // socket.current = io("http://localhost:3001");
     socket.on("retour", (msg) => {
       if (msg.publisherId !== playerData.id) {
         setArrivalMessage(msg);
