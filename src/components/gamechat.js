@@ -37,18 +37,12 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
     console.log(response.data.message);
     setPublicChat(response.data.publicChat);
     //----------------------SOCKETSTUFF-------------------//
-    socket.current.emit("send-msg", {
-      to: publicChat._id,
-      from: playerData.id,
-      message: publicMessageToSend,
+    socket.emit("send-msg", {
+      publisherId: playerData.id,
+      publisherName: playerData.name,
+      publisherMessage: publicMessageToSend,
+      publisherAccessLevel: playerData.accessLevel,
     });
-    console.log(
-      socket.current.emit("send-msg", {
-        to: publicChat._id,
-        from: playerData.id,
-        message: publicMessageToSend,
-      })
-    );
     //----------------------SOCKETSTUFF-------------------//
     setPublicMessageToSend("");
   };
@@ -91,24 +85,19 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
   useEffect(() => {
     // socket.current = io(gameConst.aLR.backend);
+
     socket.current = io("http://localhost:3001");
-    socket.on("retour", (string) => {
-      console.log(string);
+    socket.on("retour", (msg) => {
+      if (msg.publisherId !== playerData.id) {
+        setArrivalMessage(msg);
+      }
     });
-    socket.emit("test", {
+    socket.emit("addPlayer", {
       from: playerData.id,
-      fronthost: "http://localhost:3001",
     });
     console.log("useeffect ok");
-    console.log(socket.current);
   }, [gameConst, playerData, socket]);
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on("message-receive", (msg) => {
-        setArrivalMessage({ message: msg });
-      });
-    }
-  }, [socket]);
+
   useEffect(() => {
     arrivalMessage && setPublicChat((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
