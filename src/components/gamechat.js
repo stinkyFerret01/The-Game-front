@@ -1,25 +1,49 @@
 //-- CONFIG
 import { useState, useEffect } from "react";
 import axios from "axios";
+
 //----------------------SOCKETSTUFF-------------------//
 import { io } from "socket.io-client";
+// const socket = io.connect("http://localhost:3000");
 //----------------------SOCKETSTUFF-------------------//
 
 //-- START
 //-- GameChat est un composant permettant d'acceder au chat public
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
-  //----------------------SOCKETSTUFF-------------------//
-  const socket = io.connect(`${gameConst.backend}`);
-  //----------------------SOCKETSTUFF-------------------//
   //-- STATES
   //-1- enregistre les messages du GameChat
-  const [publicChat, setPublicChat] = useState([]);
+  const [publicChat, setPublicChat] = useState(null);
   //-2- enregistre le message que le joueur veut publier
   const [publicMessageToSend, setPublicMessageToSend] = useState("");
 
   //----------------------SOCKETSTUFF-------------------//
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  //----------------------SOCKETSTUFF-------------------//
+  const [socket, setSocket] = useState(io(`${gameConst.backend}`));
+  //----------------------SOCKETSTUFF-------------------//
+  useEffect(() => {
+    if (1 === 2) {
+      setSocket("");
+    }
+    // socket.current = io("https://the-pouler-game.netlify.app/");
+    // socket.current = io("http://localhost:3000");
+    // socket.current = io("http://localhost:3001");
+    socket.on("retour", (msg) => {
+      console.log(msg.publisherMessage);
+      if (msg.publisherId !== playerData.id) {
+        setArrivalMessage(msg);
+      }
+    });
+    socket.emit("addPlayer", {
+      from: playerData.id,
+    });
+    console.log("useeffect ok");
+  }, [playerData, socket]);
+
+  useEffect(() => {
+    arrivalMessage && setPublicChat((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage]);
   //----------------------SOCKETSTUFF-------------------//
 
   //-- FONCTIONS
@@ -77,32 +101,10 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
       console.log(response.data.message);
       setPublicChat(response.data.publicChat);
     };
-    if (publicChat.length === 0) {
+    if (publicChat === null) {
       publicChatFetcher();
     }
   }, [gameConst, token, playerData, publicChat]);
-
-  //----------------------SOCKETSTUFF-------------------//
-  useEffect(() => {
-    socket.current = io("https://the-pouler-game.netlify.app/");
-    // socket.current = io("http://localhost:3000");
-    // socket.current = io("http://localhost:3001");
-    socket.on("retour", (msg) => {
-      console.log(msg.publisherMessage);
-      if (msg.publisherId !== playerData.id) {
-        setArrivalMessage(msg);
-      }
-    });
-    socket.emit("addPlayer", {
-      from: playerData.id,
-    });
-    console.log("useeffect ok");
-  }, [gameConst, playerData, socket]);
-
-  useEffect(() => {
-    arrivalMessage && setPublicChat((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage]);
-  //----------------------SOCKETSTUFF-------------------//
 
   //-- RENDER
   return (
@@ -123,7 +125,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
           </button>
         </div>
         {/* Chat */}
-        {publicChat.length > 0 && (
+        {publicChat !== null && (
           <div className="publicChatDisplayer">
             {publicChat.map((message, index) => {
               return (
