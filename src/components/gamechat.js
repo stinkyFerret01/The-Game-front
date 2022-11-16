@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
-  const socket = io.connect("ws://localhost:3000");
+  const socket = io.connect(`ws:${gameConst.backend}`);
   //----------------------SOCKETSTUFF-------------------//
   //-- STATES
   //-1- enregistre les messages du GameChat
