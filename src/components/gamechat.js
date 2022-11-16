@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 //-- il est réservé aux joueurs inscrits
 const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
-  const socket = io.connect(`ws:${gameConst.backend}`);
+  const socket = io.connect(`${gameConst.backend}`);
   //----------------------SOCKETSTUFF-------------------//
   //-- STATES
   //-1- enregistre les messages du GameChat
@@ -85,8 +85,10 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
   //----------------------SOCKETSTUFF-------------------//
   useEffect(() => {
     socket.current = io("https://the-pouler-game.netlify.app/");
+    // socket.current = io("http://localhost:3000");
     // socket.current = io("http://localhost:3001");
     socket.on("retour", (msg) => {
+      console.log(msg.publisherMessage);
       if (msg.publisherId !== playerData.id) {
         setArrivalMessage(msg);
       }
