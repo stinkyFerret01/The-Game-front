@@ -1,0 +1,91 @@
+
+/* playercard */
+.playerCard {
+    position: relative;
+    top: 1rem;
+    right: 1rem;
+    overflow: hidden;
+    /*  */
+    width: 14rem;
+    height: 4rem;
+    display: flex;
+    flex-direction: column;
+    /* box-sizing: border-box; */
+}
+.playerCard:hover {
+    height: inherit;
+    border: solid yellow 2px;
+}
+/* .leaderBoardBA .playerCard:hover {
+    display: none;
+} */
+.playerCardAccessLevel {
+    height: 8px;
+    background-color: brown;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.playerInfo {
+    height: 3.5rem;
+    display: flex;
+}
+.playerInfo:hover {
+    cursor: pointer;
+}
+.playerAvatar {
+    height: 3.5rem;
+    width: 3rem;
+    background-color: green;
+}
+.playerNameAndStats {
+    width: calc(100% - 3rem);
+    padding: 4px 0px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.playerName {
+    display: flex;
+    padding-left: 1rem;
+    border-bottom: 1px solid black  ;
+}
+.playerStats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* playerCard affichage étendu */
+.enlargedPC {
+    width: 100%;
+    /* height: 10rem; */
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.enlargedPCButtons {
+    width: 100%;
+    height: 2rem;
+    text-align: left;
+    padding-left: 0.1rem;
+} 
+.enlargedPCButtons:hover {
+    background-color: rgba(240, 240, 240);
+}
+.enlargedPCButtonsBorder {
+    width: 100%;
+    height: 2rem;
+    border-top: solid gray 1px;
+    text-align: left;
+    padding-left: 0.1rem;
+}
+.enlargedPCButtonsBorder:hover {
+    background-color: rgba(240, 240, 240);
+}
+
+/* deconnexion */
+.playerCardDisconect {
+    width: 100%;
+    background-color: red;
+}

@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 
 //-- import des pages
 import Home from "./pages/home";
+import Game from "./pages/game";
 import Admin from "./pages/admin";
 
 //-- import des composants
@@ -17,6 +18,7 @@ import Dataform from "./components/dataform";
 import LeaderBoard from "./components/leaderboard";
 import GameChat from "./components/gamechat";
 import PrivateChat from "./components/privatechat";
+import PlayerCard from "./components/playercard";
 
 //-- START
 function App() {
@@ -102,11 +104,21 @@ function App() {
           setDisplayPrivateChat={setDisplayPrivateChat}
         />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home setFormType={setFormType} />} />
           <Route
             path="/admin"
             element={
               <Admin
+                gameConst={gameConst}
+                token={token}
+                playerData={playerData}
+              />
+            }
+          />
+          <Route
+            path="/game"
+            element={
+              <Game
                 gameConst={gameConst}
                 token={token}
                 playerData={playerData}
@@ -125,6 +137,17 @@ function App() {
             setToken={setToken}
           />
         )}
+        <PlayerCard
+          gameConst={gameConst}
+          token={token}
+          setToken={setToken}
+          playerData={playerData}
+          setPlayerData={setPlayerData}
+          setFormType={setFormType}
+          setDisplayLeaderBoard={setDisplayLeaderBoard}
+          setDisplayGameChat={setDisplayGameChat}
+          setDisplayPrivateChat={setDisplayPrivateChat}
+        />
         {/* décide de la présence du leaderBoard */}
         {displayLeaderBoard === true && (
           <LeaderBoard

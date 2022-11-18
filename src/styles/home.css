@@ -1,0 +1,40 @@
+.homeContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.homeTitle {
+    color: white;
+}
+/* dataForm access button */
+.dataformBA {
+    width: 13rem;
+    height: 4rem; 
+    background-color: rgb(95, 210, 135);
+    color: white;
+    font-weight: bold;
+    border: solid rgb(48, 109, 70) 4px;
+    box-shadow: 4px 4px 4px black;
+    border-radius: 1.9rem;
+    margin-top: 1rem;
+}
+/* No Login access button */
+.noLoginBA {
+    width: 13rem;
+    height: 4rem; 
+    background-color: rgb(114, 20, 157);
+    color: white;
+    font-weight: bold;
+    border: solid rgb(62, 10, 86) 4px;
+    box-shadow: 4px 4px 4px black;
+    border-radius: 1.9rem;
+    margin-top: 1.8rem;
+}
+.noLoginInfo {
+    width: 17rem;
+    color: white;
+    margin-top: 1rem;
+    text-align: center;
+}

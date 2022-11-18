@@ -1,8 +1,9 @@
 /* container */
 .header {
-    width: 1024px;
+    width: 100%;
+    min-width: 500px;
     height: 6rem;
-    background-color: orangered;
+    background-color: rgba(240, 240, 255);
     display: flex;
     justify-content: space-between;
     padding: 0rem 2rem;
@@ -11,125 +12,44 @@
 
 /* LEFT */
 .headerLeft {
-    width: 20rem;
+    width: 12rem;  
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 .logo {
     width: 8rem;
-    color: white;
+    color: rgba(10, 10, 30, 1);
+    font-weight: bold;
+    text-align: center;
 }
 .leaderBoardBA {
-    width: 10rem;
-    height: 2.4rem;
-    background-color: blue;
+    width: 3rem; 
+    height: 3rem;
+    background-color: white;
     color: white;
     font-weight: bold;
-    border: solid black 2px;
-    border-radius: 8px;
+    font-size: 1.8rem;
+    border: solid rgba(10, 10, 30, 1) 4px;
+    border-radius: 1rem;
+    box-shadow: 4px 4px 4px black;
 }
 
 /* RIGHT */
-/* connexion */
-.dataformBA {
-    width: 13rem;
-    height: 2.4rem; 
-    background-color: blue;
-    color: white;
-    font-weight: bold;
-    border: solid black 2px;
-    border-radius: 8px;
-    margin-top: 1.8rem;
-}
-
-/* playercard */
-.playerCard {
-    position: relative;
-    top: 1rem;
-    right: 1rem;
-    overflow: hidden;
-    /*  */
-    width: 14rem;
-    height: 4rem;
+.headerRight { 
     display: flex;
-    flex-direction: column;
-    /* box-sizing: border-box; */
-}
-.playerCard:hover {
-    height: inherit;
-    border: solid yellow 2px;
-}
-/* .leaderBoardBA .playerCard:hover {
-    display: none;
-} */
-.playerCardAccessLevel {
-    height: 8px;
-    background-color: brown;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-.playerInfo {
-    height: 3.5rem;
-    display: flex;
-}
-.playerInfo:hover {
-    cursor: pointer;
-}
-.playerAvatar {
-    height: 3.5rem;
-    width: 3rem;
-    background-color: green;
-}
-.playerNameAndStats {
-    width: calc(100% - 3rem);
-    padding: 4px 0px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-.playerName {
-    display: flex;
-    padding-left: 1rem;
-    border-bottom: 1px solid black  ;
-}
-.playerStats {
-    display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
-
-/* playerCard affichage étendu */
-.enlargedPC {
-    width: 100%;
-    /* height: 10rem; */
+/* connexion */
+.headerDataformBA {
+    width: 3rem; 
+    height: 3rem;
     background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-.enlargedPCButtons {
-    width: 100%;
-    height: 2rem;
-    text-align: left;
-    padding-left: 0.1rem;
-} 
-.enlargedPCButtons:hover {
-    background-color: rgba(240, 240, 240);
-}
-.enlargedPCButtonsBorder {
-    width: 100%;
-    height: 2rem;
-    border-top: solid gray 1px;
-    text-align: left;
-    padding-left: 0.1rem;
-}
-.enlargedPCButtonsBorder:hover {
-    background-color: rgba(240, 240, 240);
-}
-
-/* deconnexion */
-.playerCardDisconect {
-    width: 100%;
-    background-color: red;
+    color: white;
+    font-weight: bold;
+    font-size: 1.8rem;
+    border: solid rgba(10, 10, 30, 1) 4px;
+    border-radius: 1rem;
+    box-shadow: 4px 4px 4px black;
 }
