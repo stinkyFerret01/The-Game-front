@@ -104,7 +104,10 @@ function App() {
           setDisplayPrivateChat={setDisplayPrivateChat}
         />
         <Routes>
-          <Route path="/" element={<Home setFormType={setFormType} />} />
+          <Route
+            path="/"
+            element={<Home playerData={playerData} setFormType={setFormType} />}
+          />
           <Route
             path="/admin"
             element={

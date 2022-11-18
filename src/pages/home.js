@@ -4,13 +4,14 @@ import { useNavigate } from "react-router-dom";
 // import des composants
 
 //-- START
-const Home = ({ setFormType }) => {
+const Home = ({ playerData, setFormType }) => {
   // const location = useLocation();
   const navigate = useNavigate();
 
   //-- RENDER
   return (
     <main>
+      {playerData !== null && navigate("/game")}
       <section className="homeContainer">
         {/* <h1 className="homeTitle">home</h1> */}
         <button
