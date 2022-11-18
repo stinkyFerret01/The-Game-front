@@ -1,7 +1,6 @@
 /* container */
 .header {
     width: 100%;
-    min-width: 500px;
     height: 6rem;
     background-color: rgba(240, 240, 255);
     display: flex;

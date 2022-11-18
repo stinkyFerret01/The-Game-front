@@ -1,8 +1,10 @@
 .gameChat {
-    width: 44rem;
-    height: 40rem;
-    background-color: rgba(220, 220, 220);
-    padding: 0.4rem 1rem;
+    width: 24rem;
+    height: calc(100%-6rem);
+    background-color: aliceblue;
+    border: solid black 4px;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
     box-sizing: border-box;
 }
 .gameChatTopLeft {
@@ -13,10 +15,10 @@
     overflow-y: scroll;
     position : relative; bottom:0;
     /*  */
-    width: 42rem;
-    height: 32rem;
-    background-color: black;
-    padding: 0.2rem 0.2rem;
+    width: 100%;
+    height: 60vh;
+    background-color: rgba(10, 10, 30, 1);
+    padding: 0rem 0.5rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -26,10 +28,15 @@
     display: none;
 }
 .messageDisplay {
-    width: 38.6rem;
-    background-color: aliceblue;
-    margin-top: 0.1rem;
-    padding: 0.2rem 0.2rem;
+    position: relative;
+    width: 90%;
+    min-height:4rem ;
+    color: aliceblue;
+    background-color: rgb(114, 20, 157);
+    border: solid rgb(62, 10, 86) 3px;
+    border-radius: 1.9rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
     box-sizing: border-box;
 }
 .messageDisplayTop {
@@ -47,21 +54,31 @@
     margin-left: 2rem;
 }
 .messageToSendForm {
-    width: 42rem;
+    width: 100%;
     height: 4rem;
     display: flex;
     justify-content: space-between;
     margin-top: 0.4rem;
 }
 .messageInputs {
-    width: 36rem;
+    width: 75%;
 }
 .messageSubmitContainer {
-    width: 5rem;
-    background-color: aqua;
+    width: 20%;
 }
 .messageSubmit {
-    width: 5rem;
+    width: 100%;
     height: 4rem;
-    background-color: aquamarine
+    background-color: rgb(48, 109, 70);
+    box-shadow: 2px 2px 2px black;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    color: aliceblue;
 }
+@media (min-width: 1024px) {
+    .gameChat {
+        width: calc(100% - 4rem);
+        height: calc(100% + 2rem);
+    }
+  }

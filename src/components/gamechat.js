@@ -71,25 +71,6 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
     setPublicMessageToSend("");
   };
 
-  const medaler = (AL) => {
-    //-- détermine la médaille du publicateur
-    if (AL === 0) {
-      return "💀";
-    }
-    if (AL === 1) {
-      return "🚫";
-    }
-    if (AL === 2) {
-      return "🎮";
-    }
-    if (AL === 5) {
-      return "🛡";
-    }
-    if (AL === 10) {
-      return "👑";
-    }
-  };
-
   //-- USEEFFECT
   useEffect(() => {
     const publicChatFetcher = async () => {
@@ -134,22 +115,16 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
                   style={
                     message.publisherName === playerData.name
                       ? {
-                          marginLeft: 2 + "rem",
+                          marginLeft: 10 + "%",
+                          backgroundColor: "rgb(95, 210, 135)",
+                          borderColor: "rgb(48, 109, 70)",
                         }
                       : {}
                   }
                   key={index}
                 >
-                  <div
-                    className="messageDisplayTop"
-                    style={
-                      message.publisherName === playerData.name
-                        ? { backgroundColor: "aqua" }
-                        : { backgroundColor: "aquamarine" }
-                    }
-                  >
+                  <div className="messageDisplayTop">
                     <h3 className="messageDisplayPublisher">
-                      from {medaler(message.publisherAccessLevel)}/
                       {message.publisherName} :
                     </h3>
                     <h4>prochainement, la date et l'heure</h4>

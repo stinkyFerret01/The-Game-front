@@ -62,7 +62,7 @@ table {
 button {
 	padding: 0 0;
 	border: none;
-	background-color: white;
+	background-color: aliceblue;
 }
 button:hover {
 	cursor: pointer;
