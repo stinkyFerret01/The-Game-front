@@ -257,26 +257,28 @@ const PrivateChat = ({
         {/* choix du receveur */}
         {displaySection === "chats" && (
           <div className="privateChatSection">
-            {privateChats.length > 0 &&
-              privateChats.map((chat, index) => {
-                return (
-                  <button
-                    className="chatsDisplayer"
-                    onClick={() => {
-                      setPrivateChat(chat.chat);
-                      setReceiverId(chat.reId);
-                      setReceiverName(chat.reName);
-                      setChatId(chat._id);
-                      setDisplaySection("chat");
-                    }}
-                    key={index}
-                  >
-                    {chat.seName === playerData.name
-                      ? chat.reName
-                      : chat.seName}
-                  </button>
-                );
-              })}
+            <div className="privateChatOpen">
+              {privateChats.length > 0 &&
+                privateChats.map((chat, index) => {
+                  return (
+                    <button
+                      className="chatsDisplayer"
+                      onClick={() => {
+                        setPrivateChat(chat.chat);
+                        setReceiverId(chat.reId);
+                        setReceiverName(chat.reName);
+                        setChatId(chat._id);
+                        setDisplaySection("chat");
+                      }}
+                      key={index}
+                    >
+                      {chat.seName === playerData.name
+                        ? chat.reName
+                        : chat.seName}
+                    </button>
+                  );
+                })}
+            </div>
           </div>
         )}
       </section>
