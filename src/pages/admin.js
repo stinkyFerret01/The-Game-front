@@ -36,8 +36,7 @@ const Admin = ({ gameConst, token, playerData }) => {
         <div className="adminMain">
           {/* menu, coté gauche */}
           <section className="adminMenu">
-            {playerData.accessLevel === gameConst.aLR.admin && <h1>ADMIN</h1>}
-            {playerData.accessLevel === gameConst.aLR.lord && <h1>LORD</h1>}
+            <h1 style={{ color: "white" }}>ADMIN</h1>
             <button
               className="adminMenuBA"
               onClick={() => {
