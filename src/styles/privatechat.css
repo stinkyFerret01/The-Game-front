@@ -2,64 +2,108 @@
     width: 44rem;
     height: 30rem;
     background-color: rgba(220, 220, 220);
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
     box-sizing: border-box;
-}
-.privateChatSpace {
-    display: flex;
-    justify-content: space-between;
 }
 .privateChatTopBox {
     width: 100%;
     height: 2.5rem;
     background-color: aliceblue;
 }
+.chooseSection {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.chooseSectionBA {
+    width: 6rem;
+    height: 1.5rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
 
-/* CHATTERLIST */
-.privateChatterList {
-    width: 10rem;
-    height: 24rem;
-    background-color: blueviolet;
+.privateChatSection {
+    width: 100%;
+    height: 60vh;
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    border: solid black 4px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+/* CHATTERLIST */
+.privatePlayersList {
+    overflow: hidden;
+    overflow-y: scroll;
+    /*  */
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.playersDisplayer {
+    width: 16rem;
+    height: 2rem;
+    color: aliceblue;
+    font-weight: bold;
+    background-color: rgb(114, 20, 157);
+    border: solid rgb(62, 10, 86) 3px;
+    border-radius: 1rem;
+    margin-top: 0.2rem;
 }
 
 /* CHATBOX */
-.privateChatBox {
-    width: 21rem;
-    height: 20rem;
-}
-.displayedPrivateChatBox {
+.privateChatBoxDisplayer {
+    overflow: hidden;
+    overflow-y: scroll;
+    /*  */
+    width: 100%;
     height: 18rem;
     background-color: black;
     padding: 0.1rem 0.2rem;
     display: flex;
     flex-direction: column;
 }
-.privateMessageToDisplay {
-    background-color:  rgba(60, 60, 60, 0.5);
-    color: white;
-    margin-top: 0.1rem;
-    display: flex;
-    flex-direction: column;
-}
 .privateMessageToSendForm{
-    background-color: blue;
+    width: 100%;
+    height: 4rem;
+    margin-top: 0.5rem;
     display: flex;
+    justify-content: space-between;
 }
 .privateMessageInputs {
-    width: 9rem;
-    height: 2rem;
+    width: 75%;
+    height: 100%;
+    box-sizing: border-box;
 }
-.privateMessageSubmitContainer {
- 
+.privateMessageSubmit {
+    width: 20%;
+    height: 100%;
+    background-color: rgb(48, 109, 70);
+    box-shadow: 2px 2px 2px black;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    color: aliceblue;
 }
-.privateMessageSubmit {}
+
 /* CHATOPEN */
 .privateChatOpen {
-    width: 10rem;
+    width: 100%;
     height: 24rem;
     background-color: bisque;
     display: flex;
     flex-direction: column;
+}
+.chatsDisplayer {
+    width: 16rem;
+    height: 2rem;
+    color: aliceblue;
+    font-weight: bold;
+    background-color: rgb(95, 210, 135);
+    border: solid rgb(48, 109, 70) 3px;
+    border-radius: 1rem;
+    margin-top: 0.2rem;
 }

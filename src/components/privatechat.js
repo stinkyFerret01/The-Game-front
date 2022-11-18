@@ -12,6 +12,8 @@ const PrivateChat = ({
   setDisplayPrivateChat,
 }) => {
   //-- STATES
+  //-0- détermine la section a afficher
+  const [displaySection, setDisplaySection] = useState("players");
   //-1- enregistre la conversation selectionée
   const [privateChat, setPrivateChat] = useState([]);
   //-2- enregistre les conversations du joueurs
@@ -103,7 +105,7 @@ const PrivateChat = ({
   //-- RENDER
   return (
     <main className="overallContainer">
-      <section className="privateChat">
+      <section className="gameChat">
         {/* Private Chat Header */}
         <div className="dataformTop">
           {/* message discret */}
@@ -118,30 +120,83 @@ const PrivateChat = ({
             X
           </button>
         </div>
-        <div className="privateChatSpace">
-          {/* liste des chatteurs */}
-          <div className="privateChatterList">
-            <div className="privateChatTopBox">
-              <h3>joueurs à joindre</h3>
+        <div className="chooseSection">
+          <button
+            className="chooseSectionBA"
+            style={
+              displaySection === "players"
+                ? {
+                    color: "white",
+                    backgroundColor: "black",
+                  }
+                : {}
+            }
+            onClick={() => {
+              setDisplaySection("players");
+            }}
+          >
+            joueurs
+          </button>
+          <button
+            className="chooseSectionBA"
+            style={
+              displaySection === "chat"
+                ? {
+                    color: "white",
+                    backgroundColor: "black",
+                  }
+                : {}
+            }
+            onClick={() => {
+              setDisplaySection("chat");
+            }}
+          >
+            chat
+          </button>
+          <button
+            className="chooseSectionBA"
+            style={
+              displaySection === "chats"
+                ? {
+                    color: "white",
+                    backgroundColor: "black",
+                  }
+                : {}
+            }
+            onClick={() => {
+              setDisplaySection("chats");
+            }}
+          >
+            conversations
+          </button>
+        </div>
+        {/* liste des chatteurs */}
+        {displaySection === "players" && (
+          <div className="privateChatSection">
+            <div className="privatePlayersList">
+              {chatterList.length > 0 &&
+                chatterList.map((chatter, index) => {
+                  return (
+                    <button
+                      className="playersDisplayer"
+                      onClick={() => {
+                        setReceiverId(chatter.chatterId);
+                        setReceiverName(chatter.chatterName);
+                        receiverChecker(chatter.chatterId);
+                        setDisplaySection("chat");
+                      }}
+                      key={index}
+                    >
+                      {chatter.chatterName}
+                    </button>
+                  );
+                })}
             </div>
-            {chatterList.length > 0 &&
-              chatterList.map((chatter, index) => {
-                return (
-                  <button
-                    onClick={() => {
-                      setReceiverId(chatter.chatterId);
-                      setReceiverName(chatter.chatterName);
-                      receiverChecker(chatter.chatterId);
-                    }}
-                    key={index}
-                  >
-                    {chatter.chatterName}
-                  </button>
-                );
-              })}
           </div>
-          {/* chatBox avec le receveur */}
-          <div className="privateChatBox">
+        )}
+        {/* chatBox avec le receveur */}
+        {displaySection === "chat" && (
+          <div className="privateChatSection">
             {/* ChatBox receveur */}
             <div className="privateChatTopBox">
               {receiverName === "" ? (
@@ -151,12 +206,24 @@ const PrivateChat = ({
               )}
             </div>
             {/* ChatBox message */}
-            <div className="displayedPrivateChatBox">
+            <div className="privateChatBoxDisplayer">
               {privateChat &&
                 privateChat.length > 0 &&
                 privateChat.map((chat, index) => {
                   return (
-                    <article className="privateMessageToDisplay" key={index}>
+                    <article
+                      className="messageDisplay"
+                      style={
+                        chat.seName === playerData.name
+                          ? {
+                              marginLeft: 10 + "%",
+                              backgroundColor: "rgb(95, 210, 135)",
+                              borderColor: "rgb(48, 109, 70)",
+                            }
+                          : {}
+                      }
+                      key={index}
+                    >
                       <h4>{chat.seName}</h4>
                       <h4>{chat.senderMessage}</h4>
                     </article>
@@ -176,32 +243,31 @@ const PrivateChat = ({
                 }}
               />
               {/* chat submit */}
-              <div className="privateMessageSubmitContainer">
-                <input
-                  className="privateMessageSubmit"
-                  type="submit"
-                  value="Envoyer !"
-                  onClick={() => {
-                    privateMessageSender();
-                  }}
-                />
-              </div>
+              <input
+                className="privateMessageSubmit"
+                type="submit"
+                value="Envoyer !"
+                onClick={() => {
+                  privateMessageSender();
+                }}
+              />
             </div>
           </div>
-          {/* choix du receveur */}
-          <div className="privateChatOpen">
-            <div className="privateChatTopBox">
-              <h3>vos conversations</h3>
-            </div>
+        )}
+        {/* choix du receveur */}
+        {displaySection === "chats" && (
+          <div className="privateChatSection">
             {privateChats.length > 0 &&
               privateChats.map((chat, index) => {
                 return (
                   <button
+                    className="chatsDisplayer"
                     onClick={() => {
                       setPrivateChat(chat.chat);
                       setReceiverId(chat.reId);
                       setReceiverName(chat.reName);
                       setChatId(chat._id);
+                      setDisplaySection("chat");
                     }}
                     key={index}
                   >
@@ -212,7 +278,7 @@ const PrivateChat = ({
                 );
               })}
           </div>
-        </div>
+        )}
       </section>
     </main>
   );
