@@ -142,10 +142,53 @@
     align-items: center;
     box-sizing: border-box;
 }
+.avatarMaker {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatarMakerTitle {
+    margin-bottom: 1rem;
+}
 .selectAvatarImg {
     width: 12rem;
     height: 12rem;
     border-radius: 50%;
     border: solid black 6px;
+    margin-bottom: 1rem;
     box-shadow: 4px 4px 4px black;
+}
+.avatarMakerSubTitle {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    text-align: start;
+
+}
+.avatarSelectors {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+.avatarSelector {
+    width: 6rem;
+    height: 1.5rem;
+}
+.avatarSeeds {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+.avatarSeedInput {
+    width: 6rem;
+    height: 1.5rem;
+    box-sizing: border-box;
+}
+.avatarSeedRandom {
+    width: 6rem;
+    height: 1.5rem;
+    background-color: rgb(48, 122, 226);
+    border: solid rgb(29, 76, 142) 2px ;
 }

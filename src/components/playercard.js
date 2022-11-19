@@ -1,10 +1,13 @@
-import Cookies from "js-cookie";
+//-- CONFIG
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 //-- START
 const PlayerCard = ({
   gameConst,
+  token,
   setToken,
   playerData,
   setPlayerData,
@@ -17,23 +20,36 @@ const PlayerCard = ({
   //-2- enregistre l'url de l'avatar
   const [avatarUrl, setAvatarUrl] = useState(null);
   //-3- enregistre l'url de l'avatar dans le selecteur
-  const [newAvatarUrl, setNewAvatarUrl] = useState(
-    "https://avatars.dicebear.com/api/male/john.svg?background=%230000ff"
-  );
+  const [newAvatarUrl, setNewAvatarUrl] = useState(null);
   //-4- détermine le genre de l'avatar
   const [avatarGender, setAvatarGender] = useState("male");
   //-5- détermine la couleur du background de l'avatar
   const [avatarBackground, setAvatarBackground] = useState(
     "background=%232300ff"
   );
+  //-- détermine la seed de l'avatar
+  const [avatarSeed, setAvatarSeed] = useState("john");
 
   //-- variables de configuration
   const navigate = useNavigate();
   const location = useLocation();
 
+  //-- FONCTIONS
+  const avatarRegister = async () => {
+    //-- avatarRegister envoie une requête pour enregistre l'avatar en BDD
+    await axios.post(`${gameConst.backend}/avatar/update`, {
+      playerId: `${playerData.id}`,
+      playerToken: `${token}`,
+      avatar: `${newAvatarUrl}`,
+    });
+  };
+
   //-- USEEFFECT
   useEffect(() => {
     playerData !== null && setAvatarUrl(playerData.avatar);
+    playerData !== null &&
+      newAvatarUrl === null &&
+      setNewAvatarUrl(playerData.avatar);
   }, [newAvatarUrl, playerData]);
 
   //-- RENDER
@@ -125,53 +141,88 @@ const PlayerCard = ({
         {/* select avatar Top */}
         {displayAvatar && (
           <section className="chooseAvatar">
-            <button
-              className="closingBox"
-              onClick={() => setDisplayAvatar(false)}
-            >
-              X
-            </button>
-            <h2 style={{ color: "red" }}>Ne fonctionne pas encore</h2>
-            <div>
-              <select
-                value={avatarGender}
-                onChange={(event) => {
-                  setAvatarGender(event.target.value);
-                  const newUrl = `https://avatars.dicebear.com/api/${event.target.value}/john.svg?${avatarBackground}`;
-                  setNewAvatarUrl(newUrl);
-                }}
+            <div className="dataformTop">
+              {/* message discret */}
+              <div className="dataformTopLeft">
+                <h6>* les avatars proviennent de Dicebear API</h6>
+              </div>
+
+              {/* femer le formulaire */}
+              <button
+                className="closingBox"
+                onClick={() => setDisplayAvatar(false)}
               >
-                <option value="male">boy</option>
-                <option value="female">girl</option>
-              </select>
-              <select
-                value={avatarBackground}
-                onChange={(event) => {
-                  setAvatarBackground(event.target.value);
-                  const newUrl = `https://avatars.dicebear.com/api/${avatarGender}/john.svg?${event.target.value}`;
-                  setNewAvatarUrl(newUrl);
-                }}
-              >
-                <option value="background=%230000ff">blue</option>
-                <option value="background=%23ac00ff">purple</option>
-                <option value="background=%2300acff">lightblue</option>
-                <option value="background=%231200">white</option>
-              </select>
+                X
+              </button>
             </div>
-            <div>
-              <img
-                className="selectAvatarImg"
-                src={newAvatarUrl}
-                alt="nouvel avatar"
-              ></img>
-            </div>
-            <h4>{newAvatarUrl}</h4>
-            <h4>{avatarUrl}</h4>
-            <h2 style={{ color: "red" }}>Ne fonctionne pas encore</h2>
+            <h1 className="avatarMakerTitle">Créez votre avatar!</h1>
+            <img
+              className="selectAvatarImg"
+              src={newAvatarUrl}
+              alt="nouvel avatar"
+            ></img>
+            <section className="avatarMaker">
+              <h2 className="avatarMakerSubTitle">Paramétrage</h2>
+              <div className="avatarSelectors">
+                <select
+                  className="avatarSelector"
+                  value={avatarGender}
+                  onChange={(event) => {
+                    setAvatarGender(event.target.value);
+                    const newUrl = `https://avatars.dicebear.com/api/${event.target.value}/${avatarSeed}.svg?${avatarBackground}`;
+                    setNewAvatarUrl(newUrl);
+                  }}
+                >
+                  <option value="male">boy</option>
+                  <option value="female">girl</option>
+                </select>
+                <select
+                  className="avatarSelector"
+                  value={avatarBackground}
+                  onChange={(event) => {
+                    setAvatarBackground(event.target.value);
+                    const newUrl = `https://avatars.dicebear.com/api/${avatarGender}/${avatarSeed}.svg?${event.target.value}`;
+                    setNewAvatarUrl(newUrl);
+                  }}
+                >
+                  <option value="background=%230000ff">blue</option>
+                  <option value="background=%23ac00ff">purple</option>
+                  <option value="background=%2300acff">lightblue</option>
+                  <option value="background=%231200">clear</option>
+                </select>
+              </div>
+              <h2 className="avatarMakerSubTitle">Seed</h2>
+              <div className="avatarSeeds">
+                <input
+                  className="avatarSeedInput"
+                  type="name"
+                  placeholder="Try a seed"
+                  value={avatarSeed}
+                  onChange={(event) => {
+                    setAvatarSeed(event.target.value);
+                    const newUrl = `https://avatars.dicebear.com/api/${avatarGender}/${event.target.value}.svg?${avatarBackground}`;
+                    setNewAvatarUrl(newUrl);
+                  }}
+                />
+                <button
+                  className="avatarSeedRandom"
+                  onClick={() => {
+                    const seed = Math.floor(Math.random() * 100000).toString();
+                    setAvatarSeed(seed);
+                    const newUrl = `https://avatars.dicebear.com/api/${avatarGender}/${seed}.svg?${avatarBackground}`;
+                    setNewAvatarUrl(newUrl);
+                  }}
+                >
+                  randomSeed
+                </button>
+              </div>
+            </section>
+            <div></div>
             <button
               className="formSubmit"
               onClick={() => {
                 setAvatarUrl(`${newAvatarUrl}`);
+                avatarRegister();
               }}
             >
               valider
