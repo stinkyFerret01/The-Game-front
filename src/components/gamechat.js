@@ -127,7 +127,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
                     <h3 className="messageDisplayPublisher">
                       {message.publisherName} :
                     </h3>
-                    <h4>prochainement, la date et l'heure</h4>
+                    <h4>{message.publicationDate.displayTime}</h4>
                   </div>
                   <h3 className="messageDisplayMessage">
                     {message.publisherMessage}

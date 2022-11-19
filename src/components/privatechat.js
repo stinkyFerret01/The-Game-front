@@ -224,8 +224,15 @@ const PrivateChat = ({
                       }
                       key={index}
                     >
-                      <h4>{chat.seName}</h4>
-                      <h4>{chat.senderMessage}</h4>
+                      <div className="messageDisplayTop">
+                        <h3 className="messageDisplayPublisher">
+                          {chat.seName} :
+                        </h3>
+                        <h4>{chat.messageDate.displayTime}</h4>
+                      </div>
+                      <h3 className="messageDisplayMessage">
+                        {chat.senderMessage}
+                      </h3>
                     </article>
                   );
                 })}

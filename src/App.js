@@ -43,8 +43,6 @@ function App() {
       lord: lordlvl,
     },
   });
-  // const [backend, setBackend] = useState(local);
-
   //-2- détermine l'authentification d'un Player
   const [token, setToken] = useState(Cookies.get("TGtoken") || null);
   //-3- détérmine l'affichage d'un formulaire et son type
