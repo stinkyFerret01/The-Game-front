@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 //-- START
@@ -15,9 +15,7 @@ const PlayerCard = ({
   //-1- détermine l'affichage du selecteur d'avatar
   const [displayAvatar, setDisplayAvatar] = useState(false);
   //-2- enregistre l'url de l'avatar
-  const [avatarUrl, setAvatarUrl] = useState(
-    "https://avatars.dicebear.com/api/male/john.svg?background=%230000ff"
-  );
+  const [avatarUrl, setAvatarUrl] = useState(null);
   //-3- enregistre l'url de l'avatar dans le selecteur
   const [newAvatarUrl, setNewAvatarUrl] = useState(
     "https://avatars.dicebear.com/api/male/john.svg?background=%230000ff"
@@ -32,6 +30,12 @@ const PlayerCard = ({
   //-- variables de configuration
   const navigate = useNavigate();
   const location = useLocation();
+
+  //-- USEEFFECT
+  useEffect(() => {
+    playerData !== null && setAvatarUrl(playerData.avatar);
+  }, [newAvatarUrl, playerData]);
+
   //-- RENDER
   return (
     playerData !== null && (
@@ -117,6 +121,8 @@ const PlayerCard = ({
             </button>
           </article>
         </section>
+        {/* SELECT AVATAR */}
+        {/* select avatar Top */}
         {displayAvatar && (
           <section className="chooseAvatar">
             <button
@@ -125,42 +131,47 @@ const PlayerCard = ({
             >
               X
             </button>
+            <h2 style={{ color: "red" }}>Ne fonctionne pas encore</h2>
             <div>
               <select
                 value={avatarGender}
                 onChange={(event) => {
                   setAvatarGender(event.target.value);
-                  setNewAvatarUrl(
-                    `https://avatars.dicebear.com/api/${avatarGender}/john.svg?${avatarBackground}`
-                  );
+                  const newUrl = `https://avatars.dicebear.com/api/${event.target.value}/john.svg?${avatarBackground}`;
+                  setNewAvatarUrl(newUrl);
                 }}
               >
-                <option value="male">girl</option>
-                <option value="female">boy</option>
+                <option value="male">boy</option>
+                <option value="female">girl</option>
               </select>
               <select
                 value={avatarBackground}
                 onChange={(event) => {
                   setAvatarBackground(event.target.value);
-                  setNewAvatarUrl(
-                    `https://avatars.dicebear.com/api/${avatarGender}/john.svg?${avatarBackground}`
-                  );
+                  const newUrl = `https://avatars.dicebear.com/api/${avatarGender}/john.svg?${event.target.value}`;
+                  setNewAvatarUrl(newUrl);
                 }}
               >
                 <option value="background=%230000ff">blue</option>
-                <option value="background=%ff0000ff">other</option>
-                {/* <option value="background=%120000ff">other2</option>
-                <option value="background=%230000ff">other3</option> */}
+                <option value="background=%23ac00ff">purple</option>
+                <option value="background=%2300acff">lightblue</option>
+                <option value="background=%231200">white</option>
               </select>
             </div>
             <div>
-              <img src={newAvatarUrl} alt="nouvel avatar"></img>
+              <img
+                className="selectAvatarImg"
+                src={newAvatarUrl}
+                alt="nouvel avatar"
+              ></img>
             </div>
             <h4>{newAvatarUrl}</h4>
             <h4>{avatarUrl}</h4>
+            <h2 style={{ color: "red" }}>Ne fonctionne pas encore</h2>
             <button
+              className="formSubmit"
               onClick={() => {
-                setAvatarUrl({ newAvatarUrl });
+                setAvatarUrl(`${newAvatarUrl}`);
               }}
             >
               valider

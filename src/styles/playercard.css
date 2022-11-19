@@ -34,8 +34,8 @@
     top: -0.5rem;
     overflow: hidden;
     /*  */
-    height: 4rem;
-    width: 4rem;
+    height: 5rem;
+    width: 5rem;
     background-color: aqua;
     border: solid black 4px;
     border-radius: 50%;
@@ -137,5 +137,15 @@
     border: solid black 4px;
     border-radius: 1rem;
     padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     box-sizing: border-box;
+}
+.selectAvatarImg {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    border: solid black 6px;
+    box-shadow: 4px 4px 4px black;
 }
