@@ -109,6 +109,7 @@ const GameChat = ({ gameConst, token, playerData, setDisplayGameChat }) => {
         {publicChat !== null && (
           <div className="publicChatDisplayer">
             {publicChat.map((message, index) => {
+              console.log(message);
               return (
                 <article
                   className="messageDisplay"
