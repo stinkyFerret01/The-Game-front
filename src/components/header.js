@@ -20,33 +20,35 @@ const Header = ({ token, playerData, setFormType, setDisplayLeaderBoard }) => {
   //-- RENDER
   return (
     <header className="header">
-      {/* LEFT */}
-      <div className="headerLeft">
-        {/* logo/acceuil */}
-        <div>
-          <h1 className="logo">THE GAME</h1>
+      <div className="headerSizer">
+        {/* LEFT */}
+        <div className="headerLeft">
+          {/* logo/acceuil */}
+          <div>
+            <h1 className="logo">C-N-D</h1>
+          </div>
+          {/* acces au leaderBoard */}
+          {location.pathname !== "/" && (
+            <button
+              className="leaderBoardBA"
+              onClick={() => setDisplayLeaderBoard(true)}
+            >
+              ⭐
+            </button>
+          )}
         </div>
-        {/* acces au leaderBoard */}
-        {location.pathname !== "/" && (
-          <button
-            className="leaderBoardBA"
-            onClick={() => setDisplayLeaderBoard(true)}
-          >
-            ⭐
-          </button>
-        )}
-      </div>
-      {/* RIGHT */}
-      <div className="headerRight">
-        {/* inscription, connection */}
-        {token === null && location.pathname !== "/" && (
-          <button
-            className="headerDataformBA"
-            onClick={() => setFormType("signup")}
-          >
-            🔌
-          </button>
-        )}
+        {/* RIGHT */}
+        <div className="headerRight">
+          {/* inscription, connection */}
+          {token === null && location.pathname !== "/" && (
+            <button
+              className="headerDataformBA"
+              onClick={() => setFormType("signup")}
+            >
+              🔌
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

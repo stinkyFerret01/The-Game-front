@@ -44,16 +44,21 @@ const LeaderBoard = ({ gameConst, setDisplayLeaderBoard }) => {
         {/* Board-Title */}
         <h1 className="leaderBoardTitle">LEADERBOARD</h1>
         {/* Board-List */}
-        <div className="board">
-          {boardList.length > 0 &&
-            boardList.map((player, index) => {
-              return (
-                <article key={index} className="playerDisplayer">
-                  <div>{player.name}</div>
-                  <div>{player.score}</div>
-                </article>
-              );
-            })}
+        <div className="boardContainer">
+          <div className="board">
+            {boardList.length > 0 &&
+              boardList.map((player, index) => {
+                return (
+                  <article key={index} className="playerDisplayer">
+                    <div style={{ display: "flex" }}>
+                      <div className="leaderScoreDisplay">{index}:</div>
+                      <div>{player.name}</div>
+                    </div>
+                    <div>{player.score}</div>
+                  </article>
+                );
+              })}
+          </div>
         </div>
       </section>
     </main>

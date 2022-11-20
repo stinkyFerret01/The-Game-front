@@ -3,6 +3,7 @@
 
 /* import des styles de pages */
 @import "styles/home.css";
+@import "styles/game.css";
 @import "styles/admin.css";
 
 /* import des styles de composants */
@@ -27,22 +28,23 @@
 }
 
 main {
+  width: 100%;
   max-width: 1024px;
   height: calc(100vh - 6rem);
-  /* background-color: white; */
-  padding: 3rem 1rem 1rem 1rem;
+  padding: 1rem 2rem 1rem 1rem;
   box-sizing: border-box;
 }
 
 .overallContainer {
   position: absolute;
   /*  */
-  width: 1024px;
+  max-width: 1024px;
+  width: 100%;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: rgba(100, 100, 100, 0.5); */
+  background-color: rgba(30, 30, 50, 0.8);
   background-color: none;
 }
 

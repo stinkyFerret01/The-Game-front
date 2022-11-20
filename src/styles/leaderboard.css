@@ -2,8 +2,9 @@
 .leaderboard {
     width: 20rem;
     height: 30rem;
-    background-color: blue;
-    border-radius: 0.5rem;
+    background-color: rgba(10, 10, 30, 1);
+    border: solid rgba(195, 180, 20, 0.476) 4px;
+    border-radius: 1rem;
     display: flex;
     flex-direction: column;
     padding: 0.4rem 0.4rem;
@@ -16,8 +17,15 @@
 .leaderBoardTitle {
     color: orange;
     font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
 }
 .board {
+    overflow: hidden;
+    overflow-y: scroll;
+    /*  */
+    height: 20rem;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 0.2);
@@ -25,5 +33,16 @@
 .playerDisplayer {
     display: flex;
     margin: 0.1rem 0.2rem 0.1rem 0.2rem;
-    background-color: yellow;
+    background-color: rgb(255, 234, 0);
+    border: solid orange 4px;
+    border-radius: 4px;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.leaderScoreDisplay {
+    width: 2rem;
+    margin-right: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
 }

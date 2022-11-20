@@ -138,7 +138,6 @@ function App() {
             setToken={setToken}
           />
         )}
-
         <PlayerCard
           gameConst={gameConst}
           token={token}

@@ -3,6 +3,7 @@
 .playerCardContainer {
     pointer-events:none;
     position: absolute;
+    /* position: relative; */
     top: 1.5rem;
     right: 1.5rem;
     /*  */
@@ -49,7 +50,6 @@
     width: 100%;
     padding: 0.2rem 0.5rem;
     color: aliceblue;
-    /* background-color: rgb(255, 234, 0); */
     background-color:rgba(10, 10, 30, 1);
     border:solid rgba(195, 180, 20, 0.476) 4px;
     border-radius: 8px;
@@ -101,7 +101,7 @@
     padding-left: 0.1rem;
 } 
 .enlargedPCButtons:hover {
-    background-color: rgba(240, 240, 240);
+    background-color: rgba(220, 220, 240);
 }
 .enlargedPCButtonsBorder {
     width: 100%;
@@ -111,7 +111,7 @@
     padding-left: 0.1rem;
 }
 .enlargedPCButtonsBorder:hover {
-    background-color: rgba(240, 240, 240);
+    background-color: rgba(220, 220, 240);
 }
 
 /* deconnexion */

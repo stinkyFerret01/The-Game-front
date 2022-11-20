@@ -6,7 +6,13 @@ import axios from "axios";
 import CndSquare from "./cnd-square";
 
 //-- START
-const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
+const ChickNDuck = ({
+  gameConst,
+  token,
+  playerData,
+  setPlayerData,
+  setDisplayCnd,
+}) => {
   //-- STATES
   //-1- enregistre les valeurs de la grille
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
@@ -16,6 +22,8 @@ const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
   const [cndTurn, setCndTurn] = useState(0);
   //-4- gagnant
   const [cndWinner, setCndWinner] = useState("none");
+  //-5- fight
+  const [displayFight, setDisplayFight] = useState(false);
 
   //-- FONCTIONS
   //-1- changePlayer
@@ -88,14 +96,12 @@ const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
         ) {
           gotWinner = true;
           setCndWinner(board[cond[0]]);
-          console.log(board[cond[0]]);
           if (board[cond[0]] === "🐔") {
             score = score + 1;
           }
           if (board[cond[0]] === "🦆") {
             score = score - 1;
           }
-          console.log(score);
         }
       });
       if (score !== 0) {
@@ -128,6 +134,12 @@ const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
     if (playerTurn === "🦆" && cndWinner === "none") {
       setTimeout(autoplay, 1000);
     }
+    const fightDisplayer = () => {
+      setDisplayFight(false);
+    };
+    if (displayFight === true) {
+      setTimeout(fightDisplayer, 600);
+    }
   }, [
     gameConst,
     token,
@@ -137,76 +149,130 @@ const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
     cndTurn,
     cndWinner,
     playerTurn,
+    displayFight,
   ]);
 
   //-- RENDER
   return (
     <section className="chickNDuckContainer">
-      <h1>ChickNDuck</h1>
-      <div className="cndBoard">
-        <div className="cndBoardLine">
-          <CndSquare
-            val={board[0]}
-            chooseSquare={() => {
-              chooseSquare(0);
-            }}
-          />
-          <CndSquare
-            val={board[1]}
-            chooseSquare={() => {
-              chooseSquare(1);
-            }}
-          />
-          <CndSquare
-            val={board[2]}
-            chooseSquare={() => {
-              chooseSquare(2);
-            }}
-          />
+      <div className="cndTitleContainer">
+        <h1 className="cndTitle">Chick-Duck-Luck</h1>
+        <button className="closingBox" onClick={() => setDisplayCnd(false)}>
+          X
+        </button>
+      </div>
+      {displayFight && <div className="cndFight">FIGHT</div>}
+      <div className="cndBoardContainer">
+        <div
+          className="cndPlayerTurn"
+          style={
+            playerTurn === "🐔"
+              ? {
+                  borderColor: "gold",
+                  backgroundColor: "yellow",
+                }
+              : {}
+          }
+        >
+          🐔
         </div>
-        <div className="cndBoardLine">
-          <CndSquare
-            val={board[3]}
-            chooseSquare={() => {
-              chooseSquare(3);
-            }}
-          />
-          <CndSquare
-            val={board[4]}
-            chooseSquare={() => {
-              chooseSquare(4);
-            }}
-          />
-          <CndSquare
-            val={board[5]}
-            chooseSquare={() => {
-              chooseSquare(5);
-            }}
-          />
+        <div className="cndBoard">
+          <div className="cndBoardLine">
+            <CndSquare
+              val={board[0]}
+              chooseSquare={() => {
+                chooseSquare(0);
+              }}
+            />
+            <CndSquare
+              val={board[1]}
+              chooseSquare={() => {
+                chooseSquare(1);
+              }}
+            />
+            <CndSquare
+              val={board[2]}
+              chooseSquare={() => {
+                chooseSquare(2);
+              }}
+            />
+          </div>
+          <div className="cndBoardLine">
+            <CndSquare
+              val={board[3]}
+              chooseSquare={() => {
+                chooseSquare(3);
+              }}
+            />
+            <CndSquare
+              val={board[4]}
+              chooseSquare={() => {
+                chooseSquare(4);
+              }}
+            />
+            <CndSquare
+              val={board[5]}
+              chooseSquare={() => {
+                chooseSquare(5);
+              }}
+            />
+          </div>
+          <div className="cndBoardLine">
+            <CndSquare
+              val={board[6]}
+              chooseSquare={() => {
+                chooseSquare(6);
+              }}
+            />
+            <CndSquare
+              val={board[7]}
+              chooseSquare={() => {
+                chooseSquare(7);
+              }}
+            />
+            <CndSquare
+              val={board[8]}
+              chooseSquare={() => {
+                chooseSquare(8);
+              }}
+            />
+          </div>
         </div>
-        <div className="cndBoardLine">
-          <CndSquare
-            val={board[6]}
-            chooseSquare={() => {
-              chooseSquare(6);
-            }}
-          />
-          <CndSquare
-            val={board[7]}
-            chooseSquare={() => {
-              chooseSquare(7);
-            }}
-          />
-          <CndSquare
-            val={board[8]}
-            chooseSquare={() => {
-              chooseSquare(8);
-            }}
-          />
+        <div
+          className="cndPlayerTurn"
+          style={
+            playerTurn === "🦆"
+              ? {
+                  borderColor: "gold",
+                  backgroundColor: "yellow",
+                }
+              : {}
+          }
+        >
+          🦆
         </div>
       </div>
-      <h1>turn : {playerTurn}</h1>
-      {cndWinner !== "none" && <h1>winner is {cndWinner}</h1>}
+      <div className="cndBottom">
+        {cndWinner !== "none" && cndWinner !== "tie" && (
+          <h1>{cndWinner} à gagné!</h1>
+        )}
+        {cndWinner === "none" && <h1>Battez-vous!</h1>}
+        {cndWinner === "tie" && <h1>Match trop nul!</h1>}
+      </div>
+      <div className="cndTitleContainer">
+        <button
+          className="cndRestarter"
+          onClick={() => {
+            setCndWinner("none");
+            setBoard(["", "", "", "", "", "", "", "", ""]);
+            setPlayerTurn("🐔");
+            setCndTurn(0);
+            setDisplayFight(true);
+          }}
+        >
+          RESTART
+        </button>
+      </div>
     </section>
   );
 };

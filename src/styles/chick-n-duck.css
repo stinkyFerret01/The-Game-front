@@ -1,21 +1,79 @@
 .chickNDuckContainer {
-    width: 26rem;
-    height: 36rem;
-    background-color: aqua;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 36rem;
+    font-weight: bold;
+    background-color: lightgreen;
+    border: solid black 4px;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cndTitleContainer {
+    width: 100%;
+    height: 3rem;
+    background-color: rgb(255, 234, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cndBoardContainer {
+    width: 110%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cndFight {
+    position: absolute;
+    top:32%;
+    width: 24rem;
+    height: 10rem;
+    font-size: 8rem;
+    font-weight: bold;
+    background-color: red;
+    border: solid black 4px;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cndPlayerTurn {
+    height: 4rem;
+    width: 4rem;
+    border: solid black 4px;
+    border-radius: 50%;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cndBoard {
-    width: 24rem;
-    height: 24rem;
-    background-color: yellow;
+    width: 20rem;
+    height: 20rem;
+    background-color:rgb(255, 234, 0);
+    margin: 1rem 2rem 1rem 2rem;
 }
 .cndBoardLine {
     width: 100%;
-    height: 8rem;
+    height: 33%;
     display: flex;
 }
 .cndSquare {
-    width: 8rem;
-    height: 8rem;
+    width: 33%;
+    height: 100%;
     border: solid black 2px;
     font-size: 4rem;
+}
+.cndBottom {
+    margin-bottom: 1rem;
+}
+.cndRestarter {
+    width: 8rem;
+    height: 2rem;
+    font-weight: bold;
+    background-color: orangered;
+    border: solid black 4px;
+    border-radius: 8px;
 }

@@ -1,0 +1,24 @@
+.gameMain {
+    max-width: 1024px;
+    width: 100%;
+    height: calc(100vh - 6rem);
+}
+.gameTitle {
+    width: 12rem;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+.displayGameBA {
+    height: 6rem;
+    width: 10rem;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: lightgreen;
+    border: solid goldenrod 4px;
+    border-radius: 1rem;
+    margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
