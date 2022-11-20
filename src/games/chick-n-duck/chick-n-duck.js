@@ -1,11 +1,12 @@
 //-- CONFIG
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 //-- import des composants
 import CndSquare from "./cnd-square";
 
 //-- START
-const ChickNDuck = () => {
+const ChickNDuck = ({ gameConst, token, playerData, setPlayerData }) => {
   //-- STATES
   //-1- enregistre les valeurs de la grille
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
@@ -52,9 +53,22 @@ const ChickNDuck = () => {
         setPlayerTurn("🦆");
       }
     };
-    //-2- winCondition
+    //-2- saveScore
+    const saveScore = async (score) => {
+      //-- la fonction saveScore envoie une requete pour enregistrer le score en BDD
+      const response = await axios.post(`${gameConst.backend}/game/score`, {
+        playerId: `${playerData.id}`,
+        playerToken: `${token}`,
+        newScore: score,
+      });
+      console.log(response.data.score);
+      const copyData = { ...playerData };
+      copyData.score = response.data.score;
+    };
+    //-3- winCondition
     const winConditon = () => {
       //-- condition de victoire
+      let score = 0;
       const conditions = [
         [0, 1, 2],
         [3, 4, 5],
@@ -75,8 +89,18 @@ const ChickNDuck = () => {
           gotWinner = true;
           setCndWinner(board[cond[0]]);
           console.log(board[cond[0]]);
+          if (board[cond[0]] === "🐔") {
+            score = score + 1;
+          }
+          if (board[cond[0]] === "🦆") {
+            score = score - 1;
+          }
+          console.log(score);
         }
       });
+      if (score !== 0) {
+        saveScore(score);
+      }
       if (
         board.filter((val) => val === "").length === 0 &&
         gotWinner === false
@@ -87,6 +111,7 @@ const ChickNDuck = () => {
     if (cndWinner === "none") {
       winConditon();
     }
+    //-4- autoplay
     const autoplay = () => {
       setBoard(
         board.map((val) => {
@@ -103,7 +128,16 @@ const ChickNDuck = () => {
     if (playerTurn === "🦆" && cndWinner === "none") {
       setTimeout(autoplay, 1000);
     }
-  }, [board, cndTurn, cndWinner, playerTurn]);
+  }, [
+    gameConst,
+    token,
+    playerData,
+    setPlayerData,
+    board,
+    cndTurn,
+    cndWinner,
+    playerTurn,
+  ]);
 
   //-- RENDER
   return (

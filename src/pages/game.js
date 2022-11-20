@@ -2,20 +2,18 @@
 import ChickNDuck from "../games/chick-n-duck/chick-n-duck";
 
 //-- START
-const Game = ({
-  gameConst,
-  setToken,
-  playerData,
-  setPlayerData,
-  setDisplayGameChat,
-  setDisplayPrivateChat,
-}) => {
+const Game = ({ gameConst, token, playerData, setPlayerData }) => {
   //--  RENDER
   return (
     <main>
       <section>
         <h1 style={{ color: "white" }}>GAME</h1>
-        <ChickNDuck />
+        <ChickNDuck
+          gameConst={gameConst}
+          token={token}
+          playerData={playerData}
+          setPlayerData={setPlayerData}
+        />
       </section>
     </main>
   );
