@@ -1,4 +1,5 @@
 //-- import des composants
+import ChickNDuck from "../games/chick-n-duck/chick-n-duck";
 
 //-- START
 const Game = ({
@@ -14,6 +15,7 @@ const Game = ({
     <main>
       <section>
         <h1 style={{ color: "white" }}>GAME</h1>
+        <ChickNDuck />
       </section>
     </main>
   );
