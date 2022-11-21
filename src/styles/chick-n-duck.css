@@ -49,6 +49,10 @@
     justify-content: center;
     align-items: center;
 }
+.cndPlayerMarks {
+    height: 3rem;
+    width: 3rem;
+}
 .cndBoard {
     width: 20rem;
     height: 20rem;
@@ -76,4 +80,10 @@
     background-color: orangered;
     border: solid black 4px;
     border-radius: 8px;
+    box-shadow: 0 0 0 0 black;
 }
+@keyframes pulse {
+    to { 
+        box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0.01);
+    }
+  }

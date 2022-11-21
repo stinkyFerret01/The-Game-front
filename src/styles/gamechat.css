@@ -15,7 +15,7 @@
     position : relative; bottom:0;
     /*  */
     width: 100%;
-    min-height: 20rem;
+    height: 20rem;
     background-color: rgba(10, 10, 30, 1);
     padding: 0rem 0.5rem;
     box-sizing: border-box;
@@ -75,6 +75,8 @@
     font-size: 0.7rem;
     color: aliceblue;
 }
+
+  /* MEDIA */
 @media (min-width: 1024px) {
     .gameChat {
         width: calc(100% - 4rem);

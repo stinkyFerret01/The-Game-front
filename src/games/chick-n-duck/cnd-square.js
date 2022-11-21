@@ -4,6 +4,7 @@ const CndSquare = ({ val, chooseSquare }) => {
   return (
     <button onClick={chooseSquare} className="cndSquare">
       {val}
+      {/* <img className="cndPlayerMarks" src={val} alt="image"></img> */}
     </button>
   );
 };

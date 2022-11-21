@@ -37,9 +37,9 @@ main {
 
 .overallContainer {
   position: absolute;
+  z-index: 1;
   /*  */
-  max-width: 1024px;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -60,6 +60,9 @@ main {
 }
 .closingBox:hover {
   cursor: pointer;
+}
+.closingBox:active {
+  border: solid rgba(112, 10, 10, 0.8) 2px;
 }
 
 /* text */

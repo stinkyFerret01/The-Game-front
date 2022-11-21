@@ -13,11 +13,18 @@ const ChickNDuck = ({
   setPlayerData,
   setDisplayCnd,
 }) => {
+  //-- IMAGES et variables jeu
+  // const pouler = "https://img.freepik.com/premium-vector/logo_418367-188.jpg";
+  // const canar =
+  //   "https://img.freepik.com/icones-gratuites/canard_318-750322.jpg";
+  const pouler = "🐔";
+  const canar = "🦆";
+
   //-- STATES
   //-1- enregistre les valeurs de la grille
   const [board, setBoard] = useState(["", "", "", "", "", "", "", "", ""]);
   //-2- enregistre le tour du joueur
-  const [playerTurn, setPlayerTurn] = useState("🐔");
+  const [playerTurn, setPlayerTurn] = useState(pouler);
   //-3- tours de jeu
   const [cndTurn, setCndTurn] = useState(0);
   //-4- gagnant
@@ -28,16 +35,16 @@ const ChickNDuck = ({
   //-- FONCTIONS
   //-1- changePlayer
   const changePlayer = () => {
-    if (playerTurn === "🦆") {
-      setPlayerTurn("🐔");
+    if (playerTurn === canar) {
+      setPlayerTurn(pouler);
     } else {
-      setPlayerTurn("🦆");
+      setPlayerTurn(canar);
     }
   };
 
   //-2- chooseSquare
   const chooseSquare = (square) => {
-    if (cndWinner === "none" && playerTurn === "🐔") {
+    if (cndWinner === "none" && playerTurn === pouler) {
       setBoard(
         board.map((val, index) => {
           if (index === square && val === "") {
@@ -55,10 +62,10 @@ const ChickNDuck = ({
   useEffect(() => {
     //-1- changePlayer
     const changePlayer = () => {
-      if (playerTurn === "🦆") {
-        setPlayerTurn("🐔");
+      if (playerTurn === canar) {
+        setPlayerTurn(pouler);
       } else {
-        setPlayerTurn("🦆");
+        setPlayerTurn(canar);
       }
     };
     //-2- saveScore
@@ -96,11 +103,11 @@ const ChickNDuck = ({
         ) {
           gotWinner = true;
           setCndWinner(board[cond[0]]);
-          if (board[cond[0]] === "🐔") {
+          if (board[cond[0]] === pouler) {
             score = score + 1;
           }
-          if (board[cond[0]] === "🦆") {
-            score = score - 1;
+          if (board[cond[0]] === canar) {
+            score = score - 1 * playerData.score.level * playerData.score.level;
           }
         }
       });
@@ -124,7 +131,6 @@ const ChickNDuck = ({
       for (let i = 0; i < board.length; i++) {
         const prob = Math.floor(Math.random() * (8 - cndTurn));
         if (board[i] === "" && prob < 1 && spawnnedDuck < 2) {
-          console.log("ok1");
           newBoard.push(playerTurn);
           setCndTurn(cndTurn + 1);
           spawnnedDuck++;
@@ -132,10 +138,7 @@ const ChickNDuck = ({
           newBoard.push(board[i]);
           let index = board.indexOf("");
           newBoard.splice(index, 1, playerTurn);
-          console.log("ok 2");
-          console.log(board.indexOf(""));
         } else {
-          console.log("ok 3");
           newBoard.push(board[i]);
         }
       }
@@ -143,7 +146,7 @@ const ChickNDuck = ({
       changePlayer();
     };
 
-    if (playerTurn === "🦆" && cndWinner === "none") {
+    if (playerTurn === canar && cndWinner === "none") {
       setTimeout(autoplay, 1000);
     }
     //-5- fight displayer
@@ -277,10 +280,11 @@ const ChickNDuck = ({
       <div className="cndTitleContainer">
         <button
           className="cndRestarter"
+          style={cndWinner !== "none" ? { animation: "pulse infinite 2s" } : {}}
           onClick={() => {
             setCndWinner("none");
             setBoard(["", "", "", "", "", "", "", "", ""]);
-            setPlayerTurn("🐔");
+            setPlayerTurn(pouler);
             setCndTurn(0);
             setDisplayFight(true);
           }}
