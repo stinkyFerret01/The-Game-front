@@ -185,10 +185,17 @@ const PlayerCard = ({
                     setNewAvatarUrl(newUrl);
                   }}
                 >
-                  <option value="background=%230000ff">blue</option>
-                  <option value="background=%23ac00ff">purple</option>
+                  <option value="background=%23dd00ff">purple</option>
                   <option value="background=%2300acff">lightblue</option>
                   <option value="background=%231200">clear</option>
+                  <option value="background=%23000000">black</option>
+                  <option value="background=%23ffffff">white</option>
+                  <option value="background=%2300aaaa">turquoise</option>
+                  <option value="background=%230000aa">darkblue</option>
+                  <option value="background=%23ff5599">pink</option>
+                  <option value="background=%23df0000">red</option>
+                  <option value="background=%2312e34f">green</option>
+                  <option value="background=%23ffdd22">yellow</option>
                 </select>
               </div>
               <h2 className="avatarMakerSubTitle">Seed</h2>

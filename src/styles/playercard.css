@@ -3,7 +3,6 @@
 .playerCardContainer {
     pointer-events:none;
     position: absolute;
-    /* position: relative; */
     top: 1.5rem;
     right: 1.5rem;
     /*  */
@@ -130,7 +129,7 @@
 .chooseAvatar {
     position: absolute;
     top: 4rem;
-    left: calc(50vh);
+    right: 2rem;
     /*  */
     width: 24rem;
     background-color: aliceblue;
