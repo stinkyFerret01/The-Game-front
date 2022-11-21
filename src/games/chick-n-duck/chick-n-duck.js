@@ -119,21 +119,34 @@ const ChickNDuck = ({
     }
     //-4- autoplay
     const autoplay = () => {
-      setBoard(
-        board.map((val) => {
-          const prob = Math.floor(Math.random() * (8 - cndTurn));
-          if (val === "" && prob < 1) {
-            setCndTurn(cndTurn + 1);
-            return playerTurn;
-          }
-          return val;
-        })
-      );
+      let newBoard = [];
+      let spawnnedDuck = 0;
+      for (let i = 0; i < board.length; i++) {
+        const prob = Math.floor(Math.random() * (8 - cndTurn));
+        if (board[i] === "" && prob < 1 && spawnnedDuck < 2) {
+          console.log("ok1");
+          newBoard.push(playerTurn);
+          setCndTurn(cndTurn + 1);
+          spawnnedDuck++;
+        } else if (spawnnedDuck === 0 && i === 8) {
+          newBoard.push(board[i]);
+          let index = board.indexOf("");
+          newBoard.splice(index, 1, playerTurn);
+          console.log("ok 2");
+          console.log(board.indexOf(""));
+        } else {
+          console.log("ok 3");
+          newBoard.push(board[i]);
+        }
+      }
+      setBoard(newBoard);
       changePlayer();
     };
+
     if (playerTurn === "🦆" && cndWinner === "none") {
       setTimeout(autoplay, 1000);
     }
+    //-5- fight displayer
     const fightDisplayer = () => {
       setDisplayFight(false);
     };
@@ -162,96 +175,98 @@ const ChickNDuck = ({
         </button>
       </div>
       {displayFight && <div className="cndFight">FIGHT</div>}
-      <div className="cndBoardContainer">
-        <div
-          className="cndPlayerTurn"
-          style={
-            playerTurn === "🐔"
-              ? {
-                  borderColor: "gold",
-                  backgroundColor: "yellow",
-                }
-              : {}
-          }
-        >
-          🐔
-        </div>
-        <div className="cndBoard">
-          <div className="cndBoardLine">
-            <CndSquare
-              val={board[0]}
-              chooseSquare={() => {
-                chooseSquare(0);
-              }}
-            />
-            <CndSquare
-              val={board[1]}
-              chooseSquare={() => {
-                chooseSquare(1);
-              }}
-            />
-            <CndSquare
-              val={board[2]}
-              chooseSquare={() => {
-                chooseSquare(2);
-              }}
-            />
+      {board && (
+        <div className="cndBoardContainer">
+          <div
+            className="cndPlayerTurn"
+            style={
+              playerTurn === "🐔"
+                ? {
+                    borderColor: "gold",
+                    backgroundColor: "yellow",
+                  }
+                : {}
+            }
+          >
+            🐔
           </div>
-          <div className="cndBoardLine">
-            <CndSquare
-              val={board[3]}
-              chooseSquare={() => {
-                chooseSquare(3);
-              }}
-            />
-            <CndSquare
-              val={board[4]}
-              chooseSquare={() => {
-                chooseSquare(4);
-              }}
-            />
-            <CndSquare
-              val={board[5]}
-              chooseSquare={() => {
-                chooseSquare(5);
-              }}
-            />
+          <div className="cndBoard">
+            <div className="cndBoardLine">
+              <CndSquare
+                val={board[0]}
+                chooseSquare={() => {
+                  chooseSquare(0);
+                }}
+              />
+              <CndSquare
+                val={board[1]}
+                chooseSquare={() => {
+                  chooseSquare(1);
+                }}
+              />
+              <CndSquare
+                val={board[2]}
+                chooseSquare={() => {
+                  chooseSquare(2);
+                }}
+              />
+            </div>
+            <div className="cndBoardLine">
+              <CndSquare
+                val={board[3]}
+                chooseSquare={() => {
+                  chooseSquare(3);
+                }}
+              />
+              <CndSquare
+                val={board[4]}
+                chooseSquare={() => {
+                  chooseSquare(4);
+                }}
+              />
+              <CndSquare
+                val={board[5]}
+                chooseSquare={() => {
+                  chooseSquare(5);
+                }}
+              />
+            </div>
+            <div className="cndBoardLine">
+              <CndSquare
+                val={board[6]}
+                chooseSquare={() => {
+                  chooseSquare(6);
+                }}
+              />
+              <CndSquare
+                val={board[7]}
+                chooseSquare={() => {
+                  chooseSquare(7);
+                }}
+              />
+              <CndSquare
+                val={board[8]}
+                chooseSquare={() => {
+                  chooseSquare(8);
+                }}
+              />
+            </div>
           </div>
-          <div className="cndBoardLine">
-            <CndSquare
-              val={board[6]}
-              chooseSquare={() => {
-                chooseSquare(6);
-              }}
-            />
-            <CndSquare
-              val={board[7]}
-              chooseSquare={() => {
-                chooseSquare(7);
-              }}
-            />
-            <CndSquare
-              val={board[8]}
-              chooseSquare={() => {
-                chooseSquare(8);
-              }}
-            />
+          <div
+            className="cndPlayerTurn"
+            style={
+              playerTurn === "🦆"
+                ? {
+                    borderColor: "gold",
+                    backgroundColor: "yellow",
+                  }
+                : {}
+            }
+          >
+            🦆
           </div>
         </div>
-        <div
-          className="cndPlayerTurn"
-          style={
-            playerTurn === "🦆"
-              ? {
-                  borderColor: "gold",
-                  backgroundColor: "yellow",
-                }
-              : {}
-          }
-        >
-          🦆
-        </div>
-      </div>
+      )}
       <div className="cndBottom">
         {cndWinner !== "none" && cndWinner !== "tie" && (
           <h1>{cndWinner} à gagné!</h1>
