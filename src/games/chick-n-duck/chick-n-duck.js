@@ -11,7 +11,7 @@ const ChickNDuck = ({
   token,
   playerData,
   setPlayerData,
-  setDisplayCnd,
+  setDisplayGame,
 }) => {
   //-- IMAGES et variables jeu
   // const pouler = "https://img.freepik.com/premium-vector/logo_418367-188.jpg";
@@ -177,7 +177,7 @@ const ChickNDuck = ({
     <section className="chickNDuckContainer">
       <div className="cndTitleContainer">
         <h1 className="cndTitle">Chick-Duck-Luck</h1>
-        <button className="closingBox" onClick={() => setDisplayCnd(false)}>
+        <button className="closingBox" onClick={() => setDisplayGame(false)}>
           X
         </button>
       </div>
