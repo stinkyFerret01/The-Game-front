@@ -14,7 +14,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const [playerPositionY, setPlayerPositionY] = useState(2);
 
   //-test-
-  // const [isListen, setIsListen] = useState(false);
+  const [key, setKey] = useState(false);
 
   //-- FONCTION
   const nivCharger = (niv) => {
@@ -28,16 +28,37 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
     return nivToCharge;
   };
+  const spePos = [{ y: 27, x: 12 }];
+  const spePosChecker = (x, y) => {
+    let s = false;
+    for (let i = 0; i < spePos.length; i++) {
+      if (spePos[i].y === y && spePos[i].x === x) {
+        s = true;
+      }
+    }
+    return s;
+  };
 
   const styleMaker = (col) => {
     if (col === "🐔") {
-      return { color: "orange" };
+      if (spePosChecker(playerPositionY, playerPositionX) === true) {
+        return {
+          zIndex: "1",
+          color: "orange",
+          animation: "pulseMoveP infinite 1.3s",
+        };
+      } else {
+        return { color: "orange" };
+      }
     }
     if (col === ".") {
       return { bottom: "0.125rem" };
     }
     if (col === "W") {
       return { backgroundColor: "gray" };
+    }
+    if (col === "🗝") {
+      return { overflow: "inherit" };
     }
   };
 
@@ -69,28 +90,30 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   //-- USEEFFECT
   useEffect(() => {
-    const niv1 = [
-      "                                   ",
-      "                                   ",
-      "    Bienvenue joueur               ",
-      "                                   ",
-      "  trouve la sorti de cette page    ",
-      "                                   ",
-      "  si tu y arrives                  ",
-      "                                   ",
-      "                                   ",
-      "                                   ",
-      "                                   ",
-      "                                   ",
-      "  crois en toi, tu es la clef      ",
-      "                                   ",
-      "                                   ",
-      "                                   ",
-      "  sortie   |  |                    ",
-      "           |  |                    ",
-      "           |  |                    ",
-    ];
-    const base = nivCharger(niv1);
+    const niv1 = {
+      grid: [
+        "                                   ",
+        "                                   ",
+        "    Bienvenue joueur               ",
+        "                                   ",
+        "  trouve la sorti de cette page    ",
+        "                                   ",
+        "  si tu y arrives                  ",
+        "                                   ",
+        "                                   ",
+        "                                   ",
+        "                                   ",
+        "                                   ",
+        "  crois en toi, tu es la clef      ",
+        "                                   ",
+        "                                   ",
+        "                                   ",
+        "  sortie   |  |                    ",
+        "           |  |                    ",
+        "           |  |                    ",
+      ],
+    };
+    const base = nivCharger(niv1.grid);
     console.log("useEffect");
     const gridMaker = () => {
       const newGrid = [];
@@ -100,6 +123,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
           const char = base[gy][gx];
           if (gy === playerPositionY && gx === playerPositionX) {
             newLign.push("🐔");
+          } else if (gy === 7 && gx === 32 && key === true) {
+            newLign.push("🗝");
           } else {
             newLign.push(char);
           }
@@ -109,7 +134,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       setGrid(newGrid);
     };
     gridMaker();
-  }, [playerPositionX, playerPositionY]);
+  }, [playerPositionX, playerPositionY, key]);
 
   // useEffect(() => {
   //   //-- Add event listener on keydown
@@ -145,7 +170,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
             return (
               <div className="meLigns" key={index}>
                 {lign.map((column, indexc) => {
-                  return (
+                  return spePosChecker(index, indexc) === false ||
+                    column !== "🐔" ? (
                     <div
                       className="meColumns"
                       style={styleMaker(column)}
@@ -153,6 +179,19 @@ const MoveExperiment = ({ setDisplayGame }) => {
                     >
                       {column === "🐔" ? "e" : column}
                     </div>
+                  ) : (
+                    column === "🐔" && (
+                      <button
+                        className="meColumns"
+                        onClick={() => {
+                          setKey(true);
+                        }}
+                        style={styleMaker(column)}
+                        key={indexc}
+                      >
+                        {column === "🐔" ? "e" : column}
+                      </button>
+                    )
                   );
                 })}
               </div>
