@@ -123,6 +123,7 @@ function App() {
                 gameConst={gameConst}
                 token={token}
                 playerData={playerData}
+                setPlayerData={setPlayerData}
               />
             }
           />

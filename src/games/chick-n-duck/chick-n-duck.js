@@ -62,6 +62,7 @@ const ChickNDuck = ({
   useEffect(() => {
     //-1- changePlayer
     const changePlayer = () => {
+      //-- la fonction changePlayer modifie le tour du joueur
       if (playerTurn === canar) {
         setPlayerTurn(pouler);
       } else {
@@ -79,8 +80,32 @@ const ChickNDuck = ({
       console.log(response.data.score);
       const copyData = { ...playerData };
       copyData.score = response.data.score;
+      setPlayerData(copyData);
     };
-    //-3- winCondition
+    //-3- autoplay
+    const autoplay = () => {
+      let newBoard = [];
+      let spawnnedDuck = 0;
+      for (let i = 0; i < board.length; i++) {
+        const prob = Math.floor(Math.random() * (8 - cndTurn));
+        if (board[i] === "" && prob < 1 && spawnnedDuck < 2) {
+          newBoard.push(playerTurn);
+          setCndTurn(cndTurn + 1);
+          spawnnedDuck++;
+        } else if (spawnnedDuck === 0 && i === 8) {
+          newBoard.push(board[i]);
+          let index = board.indexOf("");
+          newBoard.splice(index, 1, playerTurn);
+        } else {
+          newBoard.push(board[i]);
+        }
+      }
+      if (cndWinner === "none") {
+        setBoard(newBoard);
+      }
+      changePlayer();
+    };
+    //-4- winCondition
     const winConditon = () => {
       //-- condition de victoire
       let score = 0;
@@ -102,6 +127,7 @@ const ChickNDuck = ({
           board[cond[0]] === board[cond[2]]
         ) {
           gotWinner = true;
+          setPlayerTurn(board[cond[0]]);
           setCndWinner(board[cond[0]]);
           if (board[cond[0]] === pouler) {
             score = score + 1;
@@ -120,34 +146,12 @@ const ChickNDuck = ({
       ) {
         setCndWinner("tie");
       }
+      if (playerTurn === canar && gotWinner === false) {
+        setTimeout(autoplay, 400);
+      }
     };
     if (cndWinner === "none") {
       winConditon();
-    }
-    //-4- autoplay
-    const autoplay = () => {
-      let newBoard = [];
-      let spawnnedDuck = 0;
-      for (let i = 0; i < board.length; i++) {
-        const prob = Math.floor(Math.random() * (8 - cndTurn));
-        if (board[i] === "" && prob < 1 && spawnnedDuck < 2) {
-          newBoard.push(playerTurn);
-          setCndTurn(cndTurn + 1);
-          spawnnedDuck++;
-        } else if (spawnnedDuck === 0 && i === 8) {
-          newBoard.push(board[i]);
-          let index = board.indexOf("");
-          newBoard.splice(index, 1, playerTurn);
-        } else {
-          newBoard.push(board[i]);
-        }
-      }
-      setBoard(newBoard);
-      changePlayer();
-    };
-
-    if (playerTurn === canar && cndWinner === "none") {
-      setTimeout(autoplay, 1000);
     }
     //-5- fight displayer
     const fightDisplayer = () => {
@@ -271,26 +275,31 @@ const ChickNDuck = ({
         </div>
       )}
       <div className="cndBottom">
-        {cndWinner !== "none" && cndWinner !== "tie" && (
-          <h1>{cndWinner} à gagné!</h1>
-        )}
         {cndWinner === "none" && <h1>Battez-vous!</h1>}
-        {cndWinner === "tie" && <h1>Match trop nul!</h1>}
       </div>
       <div className="cndTitleContainer">
-        <button
-          className="cndRestarter"
-          style={cndWinner !== "none" ? { animation: "pulse infinite 2s" } : {}}
-          onClick={() => {
-            setCndWinner("none");
-            setBoard(["", "", "", "", "", "", "", "", ""]);
-            setPlayerTurn(pouler);
-            setCndTurn(0);
-            setDisplayFight(true);
-          }}
-        >
-          RESTART
-        </button>
+        {cndWinner !== "none" && (
+          <div className="restartDiv">
+            {cndWinner === canar && <h1>arf, vous avez perdu!</h1>}
+            {cndWinner === pouler && <h1>vous avez gagné!</h1>}
+            {cndWinner === "tie" && <h1>Match trop nul!</h1>}
+            <button
+              className="cndRestarter"
+              style={
+                cndWinner !== "none" ? { animation: "pulse infinite 1.3s" } : {}
+              }
+              onClick={() => {
+                setCndWinner("none");
+                setBoard(["", "", "", "", "", "", "", "", ""]);
+                setPlayerTurn(pouler);
+                setCndTurn(0);
+                setDisplayFight(true);
+              }}
+            >
+              RESTART
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
