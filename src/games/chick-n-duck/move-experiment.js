@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+// import { useLocation } from "react-router-dom";
 
 //-- START
 const MoveExperiment = ({ setDisplayGame }) => {
+  //-0- variables de config
+  // const location = useLocation();
   //-0- varibles de jeu
   const columns = 19;
   const ligns = 19;
@@ -13,6 +16,9 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const [playerPositionX, setPlayerPositionX] = useState(9);
   const [playerPositionY, setPlayerPositionY] = useState(9);
 
+  //-test-
+  // const [isListen, setIsListen] = useState(false);
+
   //-- FONCTION
   const styleMaker = (col) => {
     if (col === "@") {
@@ -22,7 +28,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
       return { bottom: "0.125rem" };
     }
   };
-
   const playerMover = (dir) => {
     if (dir === "L") {
       console.log(dir);
@@ -44,13 +49,17 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   //-- USEEFFECT
   useEffect(() => {
+    console.log("useEffect");
     const gridMaker = () => {
       const newGrid = [];
-      for (let i = 0; i < columns; i++) {
+      const chest = { x: 4, y: 4 };
+      for (let gy = 0; gy < columns; gy++) {
         const newLign = [];
-        for (let j = 0; j < ligns; j++) {
-          if (i === playerPositionY && j === playerPositionX) {
-            newLign.push("@");
+        for (let gx = 0; gx < ligns; gx++) {
+          if (gy === playerPositionY && gx === playerPositionX) {
+            newLign.push("🐔");
+          } else if (gy === chest.y && gx === chest.x) {
+            newLign.push("M");
           } else {
             newLign.push(".");
           }
@@ -62,9 +71,28 @@ const MoveExperiment = ({ setDisplayGame }) => {
     gridMaker();
   }, [playerPositionX, playerPositionY]);
 
+  // useEffect(() => {
+  //   //-- Add event listener on keydown
+  //   if (isListen === false) {
+  //     document.addEventListener(
+  //       // "onkeydown",
+  //       "keyup",
+  //       (event) => {
+  //         var name = event.key;
+  //         var code = event.code;
+  //         if (location.pathname === "game") {
+  //           console.log("game");
+  //         }
+  //         console.log(`Key pressed ${name} \r\n Key code value: ${code}`);
+  //       },
+  //       false
+  //     );
+  //   }
+  // }, []);
+
   //-- RENDER
   return (
-    <section className="moveExperimentContainer">
+    <section id="meGame" className="moveExperimentContainer">
       <div className="meTitleContainer">
         <h1>Move Experiment</h1>
         <button className="closingBox" onClick={() => setDisplayGame(false)}>
@@ -83,7 +111,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
                       style={styleMaker(column)}
                       key={indexc}
                     >
-                      {column}
+                      {column !== "." && column}
                     </div>
                   );
                 })}
