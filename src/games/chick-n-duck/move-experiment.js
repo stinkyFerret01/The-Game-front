@@ -5,63 +5,103 @@ import { useState, useEffect } from "react";
 const MoveExperiment = ({ setDisplayGame }) => {
   //-0- variables de config
   // const location = useLocation();
-  //-0- varibles de jeu
-  const columns = 19;
-  const ligns = 19;
 
   //-- STATES
   //-1- détermine l'état de la grid
   const [grid, setGrid] = useState("");
   //-2- détermine la position du joueur sur la grid
-  const [playerPositionX, setPlayerPositionX] = useState(9);
-  const [playerPositionY, setPlayerPositionY] = useState(9);
+  const [playerPositionX, setPlayerPositionX] = useState(17);
+  const [playerPositionY, setPlayerPositionY] = useState(2);
 
   //-test-
   // const [isListen, setIsListen] = useState(false);
 
   //-- FONCTION
+  const nivCharger = (niv) => {
+    let nivToCharge = [];
+    for (let i = 0; i < niv.length; i++) {
+      let lignToCharge = [];
+      for (let j = 0; j < niv[0].length; j++) {
+        lignToCharge.push(niv[i][j]);
+      }
+      nivToCharge.push(lignToCharge);
+    }
+    return nivToCharge;
+  };
+
   const styleMaker = (col) => {
-    if (col === "@") {
-      return { color: "blue" };
+    if (col === "🐔") {
+      return { color: "orange" };
     }
     if (col === ".") {
       return { bottom: "0.125rem" };
     }
+    if (col === "W") {
+      return { backgroundColor: "gray" };
+    }
   };
+
   const playerMover = (dir) => {
+    let newPos = { x: playerPositionX, y: playerPositionY };
     if (dir === "L") {
       console.log(dir);
-      setPlayerPositionX(playerPositionX - 1);
+      newPos.x--;
     }
     if (dir === "R") {
       console.log(dir);
-      setPlayerPositionX(playerPositionX + 1);
+      newPos.x++;
     }
     if (dir === "U") {
       console.log(dir);
-      setPlayerPositionY(playerPositionY - 1);
+      newPos.y--;
     }
     if (dir === "D") {
       console.log(dir);
-      setPlayerPositionY(playerPositionY + 1);
+      newPos.y++;
+    }
+    let compare = grid[newPos.y][newPos.x];
+    if (compare === " " || compare === "e") {
+      console.log("ok");
+      setPlayerPositionX(newPos.x);
+      setPlayerPositionY(newPos.y);
     }
   };
 
   //-- USEEFFECT
   useEffect(() => {
+    const niv1 = [
+      "                                   ",
+      "                                   ",
+      "    Bienvenue joueur               ",
+      "                                   ",
+      "  trouve la sorti de cette page    ",
+      "                                   ",
+      "  si tu y arrives                  ",
+      "                                   ",
+      "                                   ",
+      "                                   ",
+      "                                   ",
+      "                                   ",
+      "  crois en toi, tu es la clef      ",
+      "                                   ",
+      "                                   ",
+      "                                   ",
+      "  sortie   |  |                    ",
+      "           |  |                    ",
+      "           |  |                    ",
+    ];
+    const base = nivCharger(niv1);
     console.log("useEffect");
     const gridMaker = () => {
       const newGrid = [];
-      const chest = { x: 4, y: 4 };
-      for (let gy = 0; gy < columns; gy++) {
+      for (let gy = 0; gy < base.length; gy++) {
         const newLign = [];
-        for (let gx = 0; gx < ligns; gx++) {
+        for (let gx = 0; gx < base[0].length; gx++) {
+          const char = base[gy][gx];
           if (gy === playerPositionY && gx === playerPositionX) {
             newLign.push("🐔");
-          } else if (gy === chest.y && gx === chest.x) {
-            newLign.push("M");
           } else {
-            newLign.push(".");
+            newLign.push(char);
           }
         }
         newGrid.push(newLign);
@@ -111,7 +151,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
                       style={styleMaker(column)}
                       key={indexc}
                     >
-                      {column !== "." && column}
+                      {column === "🐔" ? "e" : column}
                     </div>
                   );
                 })}
