@@ -118,34 +118,52 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
-  /////---PROBLEMO---/////
-  // const copsMover = () => {
-  //   let newCops = [];
-  //   if (cops[0] > playerPositionX) {
-  //     newCops.push(cops[0] - 1);
-  //   } else if (cops[0] < playerPositionX) {
-  //     newCops.push(cops[0] + 1);
-  //   } else {
-  //     newCops.push(cops[0]);
-  //   }
-  //   if (cops[1] > playerPositionY) {
-  //     newCops.push(cops[1] - 1);
-  //   } else if (cops[1] < playerPositionY) {
-  //     newCops.push(cops[1] + 1);
-  //   } else {
-  //     newCops.push(cops[1]);
-  //   }
-  //   setCops(newCops);
-  // };
-  // if (start === true) {
-  //   setTimeout(copsMover, 1000);
-  // }
-
   const handleKeyDown = (event) => {
     playerMover(event.key);
   };
 
   //-- USEEFFECT
+  useEffect(() => {
+    console.log("useEffect 0");
+    let interval;
+    if (start === false) {
+      clearTimeout(interval);
+    }
+    const copsMover = () => {
+      let newCops = [];
+      if (cops[0] > playerPositionX) {
+        newCops.push(cops[0] - 1);
+      } else if (cops[0] < playerPositionX) {
+        newCops.push(cops[0] + 1);
+      } else {
+        newCops.push(cops[0]);
+      }
+      if (cops[1] > playerPositionY) {
+        newCops.push(cops[1] - 1);
+      } else if (cops[1] < playerPositionY) {
+        newCops.push(cops[1] + 1);
+      } else {
+        newCops.push(cops[1]);
+      }
+      if (start === true) {
+      }
+      const checkStart = () => {
+        if (start === true) {
+          setCops(newCops);
+          clearTimeout(interval);
+        } else {
+          clearTimeout(interval);
+        }
+      };
+      interval = setTimeout(checkStart, 1000);
+    };
+    if (start === true) {
+      copsMover();
+      // interval = setTimeout(copsMover, 1000);
+    }
+    // eslint-disable-next-line
+  }, [start, cops]);
+
   useEffect(() => {
     console.log("useEffect 1");
     // const niv1 = [
@@ -213,10 +231,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
     if (cops[0] === playerPositionX && cops[1] === playerPositionY) {
       setStart(false);
     }
-    // if (start === false && cops[0] !== 28 && cops[1] !== 3) {
-    //   setCops([28, 3]);
-    // }
-  }, [playerPositionX, playerPositionY, cops, key]);
+  }, [start, playerPositionX, playerPositionY, cops, key]);
 
   useEffect(() => {
     console.log("useEffect 2");
@@ -226,7 +241,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
     // cleanup this component
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      console.log("CLOSE");
     };
     // eslint-disable-next-line
   }, [grid, playerPositionX, playerPositionY, start]);
