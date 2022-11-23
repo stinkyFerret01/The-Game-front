@@ -1,11 +1,8 @@
+//-- CONFIG
 import { useState, useEffect } from "react";
-// import { useLocation } from "react-router-dom";
 
 //-- START
 const MoveExperiment = ({ setDisplayGame }) => {
-  //-0- variables de config
-  // const location = useLocation();
-
   //-- STATES
   //-1- détermine l'état de la grid
   const [grid, setGrid] = useState("");
@@ -120,31 +117,60 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
-  const copsMover = () => {
-    let newCops = [];
-    if (cops[0] > playerPositionX) {
-      newCops.push(cops[0] - 1);
-    } else if (cops[0] < playerPositionX) {
-      newCops.push(cops[0] + 1);
-    } else {
-      newCops.push(cops[0]);
-    }
-    if (cops[1] > playerPositionY) {
-      newCops.push(cops[1] - 1);
-    } else if (cops[1] < playerPositionY) {
-      newCops.push(cops[1] + 1);
-    } else {
-      newCops.push(cops[1]);
-    }
-    setCops(newCops);
-  };
-  if (start === true) {
-    setTimeout(copsMover, 1000);
-  }
+  /////---PROBLEMO---/////
+  // const copsMover = () => {
+  //   let newCops = [];
+  //   if (cops[0] > playerPositionX) {
+  //     newCops.push(cops[0] - 1);
+  //   } else if (cops[0] < playerPositionX) {
+  //     newCops.push(cops[0] + 1);
+  //   } else {
+  //     newCops.push(cops[0]);
+  //   }
+  //   if (cops[1] > playerPositionY) {
+  //     newCops.push(cops[1] - 1);
+  //   } else if (cops[1] < playerPositionY) {
+  //     newCops.push(cops[1] + 1);
+  //   } else {
+  //     newCops.push(cops[1]);
+  //   }
+  //   setCops(newCops);
+  // };
+  // if (start === true) {
+  //   setTimeout(copsMover, 1000);
+  // }
 
+  const handleKeyDown = (event) => {
+    const playerMover = (key) => {
+      console.log(key);
+      if (start === true) {
+        let newPos = { x: playerPositionX, y: playerPositionY };
+        if (key === "ArrowLeft") {
+          newPos.x = newPos.x - 1;
+        }
+        if (key === "ArrowRight") {
+          newPos.x = newPos.x + 1;
+        }
+        if (key === "ArrowUp") {
+          newPos.y = newPos.y - 1;
+        }
+        if (key === "ArrowDown") {
+          console.log("ok");
+          newPos.y = newPos.y + 1;
+        }
+        let compare = grid[newPos.y][newPos.x];
+        if (compare === " " || compare === "e") {
+          setPlayerPositionX(newPos.x);
+          setPlayerPositionY(newPos.y);
+        }
+      }
+    };
+    playerMover(event.key);
+    // console.log("A key was pressed", event.key);
+  };
   //-- USEEFFECT
   useEffect(() => {
-    console.log("useEffect");
+    console.log("useEffect 1");
     // const niv1 = [
     //   "                                   ",
     //   "                                   ",
@@ -215,24 +241,18 @@ const MoveExperiment = ({ setDisplayGame }) => {
     // }
   }, [playerPositionX, playerPositionY, cops, key]);
 
-  // useEffect(() => {
-  //   //-- Add event listener on keydown
-  //   if (isListen === false) {
-  //     document.addEventListener(
-  //       // "onkeydown",
-  //       "keyup",
-  //       (event) => {
-  //         var name = event.key;
-  //         var code = event.code;
-  //         if (location.pathname === "game") {
-  //           console.log("game");
-  //         }
-  //         console.log(`Key pressed ${name} \r\n Key code value: ${code}`);
-  //       },
-  //       false
-  //     );
-  //   }
-  // }, []);
+  useEffect(() => {
+    console.log("useEffect 2");
+    //-- Add event listener on keydown
+    window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    // cleanup this component
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      console.log("CLOSE");
+    };
+    // eslint-disable-next-line
+  }, [grid, playerPositionX, playerPositionY]);
 
   //-- RENDER
   return (
