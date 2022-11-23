@@ -19,6 +19,17 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const [cops, setCops] = useState([28, 3]);
 
   //-- FONCTION
+  const restarter = () => {
+    if (start === true) {
+      setStart(false);
+      setPlayerPositionX(2);
+      setPlayerPositionY(7);
+      setCops([28, 3]);
+    } else {
+      setStart(true);
+    }
+  };
+
   const nivCharger = (niv) => {
     let nivToCharge = [];
     for (let i = 0; i < niv.length; i++) {
@@ -30,8 +41,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
     return nivToCharge;
   };
-  const spePos = [{ y: 27, x: 12 }];
 
+  const spePos = [{ y: 27, x: 12 }];
   const spePosChecker = (x, y) => {
     let s = false;
     for (let i = 0; i < spePos.length; i++) {
@@ -44,7 +55,15 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   const styleMaker = (col) => {
     if (col === "🐔") {
-      if (spePosChecker(playerPositionY, playerPositionX) === true) {
+      if (cops[1] === playerPositionY && cops[0] === playerPositionX) {
+        return {
+          zIndex: "1",
+          color: "red",
+          animation: "pulseMoveP infinite 1.3s",
+          borderRadius: "50%",
+          backgroundColor: "red",
+        };
+      } else if (spePosChecker(playerPositionY, playerPositionX) === true) {
         return {
           zIndex: "1",
           color: "orange",
@@ -79,33 +98,44 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const playerMover = (dir) => {
-    let newPos = { x: playerPositionX, y: playerPositionY };
-    if (dir === "L") {
-      console.log(dir);
-      newPos.x--;
-    }
-    if (dir === "R") {
-      console.log(dir);
-      newPos.x++;
-    }
-    if (dir === "U") {
-      console.log(dir);
-      newPos.y--;
-    }
-    if (dir === "D") {
-      console.log(dir);
-      newPos.y++;
-    }
-    let compare = grid[newPos.y][newPos.x];
-    if (compare === " " || compare === "e") {
-      console.log("ok");
-      setPlayerPositionX(newPos.x);
-      setPlayerPositionY(newPos.y);
+    if (start === true) {
+      let newPos = { x: playerPositionX, y: playerPositionY };
+      if (dir === "L") {
+        newPos.x--;
+      }
+      if (dir === "R") {
+        newPos.x++;
+      }
+      if (dir === "U") {
+        newPos.y--;
+      }
+      if (dir === "D") {
+        newPos.y++;
+      }
+      let compare = grid[newPos.y][newPos.x];
+      if (compare === " " || compare === "e") {
+        setPlayerPositionX(newPos.x);
+        setPlayerPositionY(newPos.y);
+      }
     }
   };
 
   const copsMover = () => {
-    let newCops = [cops[0] - 1, cops[1]];
+    let newCops = [];
+    if (cops[0] > playerPositionX) {
+      newCops.push(cops[0] - 1);
+    } else if (cops[0] < playerPositionX) {
+      newCops.push(cops[0] + 1);
+    } else {
+      newCops.push(cops[0]);
+    }
+    if (cops[1] > playerPositionY) {
+      newCops.push(cops[1] - 1);
+    } else if (cops[1] < playerPositionY) {
+      newCops.push(cops[1] + 1);
+    } else {
+      newCops.push(cops[1]);
+    }
     setCops(newCops);
   };
   if (start === true) {
@@ -114,6 +144,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   //-- USEEFFECT
   useEffect(() => {
+    console.log("useEffect");
     // const niv1 = [
     //   "                                   ",
     //   "                                   ",
@@ -176,6 +207,12 @@ const MoveExperiment = ({ setDisplayGame }) => {
       setGrid(newGrid);
     };
     gridMaker();
+    if (cops[0] === playerPositionX && cops[1] === playerPositionY) {
+      setStart(false);
+    }
+    // if (start === false && cops[0] !== 28 && cops[1] !== 3) {
+    //   setCops([28, 3]);
+    // }
   }, [playerPositionX, playerPositionY, cops, key]);
 
   // useEffect(() => {
@@ -281,13 +318,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
         </div>
       </article>
       <div className="meTitleContainer">
-        <button
-          className="restarter"
-          onClick={() => {
-            start === true ? setStart(false) : setStart(true);
-          }}
-        >
-          start
+        <button className="restarter" onClick={() => restarter()}>
+          restart
         </button>
       </div>
     </section>
