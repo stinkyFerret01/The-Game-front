@@ -22,8 +22,8 @@
     align-items: center;
 }
 .moveBox {
-    width: 19.125rem;
-    height: 19.125rem;
+    /* width: 19.125rem;
+    height: 19.125rem; */
     background-color: black;
     display: flex;
     flex-direction: column;

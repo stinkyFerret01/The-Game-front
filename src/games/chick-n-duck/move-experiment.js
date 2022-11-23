@@ -10,11 +10,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
   //-1- détermine l'état de la grid
   const [grid, setGrid] = useState("");
   //-2- détermine la position du joueur sur la grid
-  const [playerPositionX, setPlayerPositionX] = useState(17);
-  const [playerPositionY, setPlayerPositionY] = useState(2);
+  const [playerPositionX, setPlayerPositionX] = useState(2);
+  const [playerPositionY, setPlayerPositionY] = useState(7);
 
   //-test-
   const [key, setKey] = useState(false);
+  const [start, setStart] = useState(false);
+  const [cops, setCops] = useState([28, 3]);
 
   //-- FONCTION
   const nivCharger = (niv) => {
@@ -29,6 +31,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
     return nivToCharge;
   };
   const spePos = [{ y: 27, x: 12 }];
+
   const spePosChecker = (x, y) => {
     let s = false;
     for (let i = 0; i < spePos.length; i++) {
@@ -46,9 +49,15 @@ const MoveExperiment = ({ setDisplayGame }) => {
           zIndex: "1",
           color: "orange",
           animation: "pulseMoveP infinite 1.3s",
+          borderRadius: "50%",
+          backgroundColor: "orange",
         };
       } else {
-        return { color: "orange" };
+        return {
+          borderRadius: "50%",
+          color: "orange",
+          backgroundColor: "orange",
+        };
       }
     }
     if (col === ".") {
@@ -59,6 +68,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
     if (col === "🗝") {
       return { overflow: "inherit" };
+    }
+    if (col === "C") {
+      return {
+        borderRadius: "50%",
+        color: "aqua",
+        backgroundColor: "aqua",
+      };
     }
   };
 
@@ -88,33 +104,57 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
+  const copsMover = () => {
+    let newCops = [cops[0] - 1, cops[1]];
+    setCops(newCops);
+  };
+  if (start === true) {
+    setTimeout(copsMover, 1000);
+  }
+
   //-- USEEFFECT
   useEffect(() => {
-    const niv1 = {
-      grid: [
-        "                                   ",
-        "                                   ",
-        "    Bienvenue joueur               ",
-        "                                   ",
-        "  trouve la sorti de cette page    ",
-        "                                   ",
-        "  si tu y arrives                  ",
-        "                                   ",
-        "                                   ",
-        "                                   ",
-        "                                   ",
-        "                                   ",
-        "  crois en toi, tu es la clef      ",
-        "                                   ",
-        "                                   ",
-        "                                   ",
-        "  sortie   |  |                    ",
-        "           |  |                    ",
-        "           |  |                    ",
-      ],
-    };
-    const base = nivCharger(niv1.grid);
-    console.log("useEffect");
+    // const niv1 = [
+    //   "                                   ",
+    //   "                                   ",
+    //   "    Bienvenue joueur               ",
+    //   "                                   ",
+    //   "  trouve la sorti de cette page    ",
+    //   "                                   ",
+    //   "  si tu y arrives                  ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "  crois en toi, tu es la clef      ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "                                   ",
+    //   "  sortie   |  |                    ",
+    //   "           |  |                    ",
+    //   "           |  |                    ",
+    // ];
+
+    const niv2 = [
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "W                                 W",
+      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+    ];
+
+    const base = nivCharger(niv2);
     const gridMaker = () => {
       const newGrid = [];
       for (let gy = 0; gy < base.length; gy++) {
@@ -125,6 +165,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
             newLign.push("🐔");
           } else if (gy === 7 && gx === 32 && key === true) {
             newLign.push("🗝");
+          } else if (gx === cops[0] && gy === cops[1]) {
+            newLign.push("C");
           } else {
             newLign.push(char);
           }
@@ -134,7 +176,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       setGrid(newGrid);
     };
     gridMaker();
-  }, [playerPositionX, playerPositionY, key]);
+  }, [playerPositionX, playerPositionY, cops, key]);
 
   // useEffect(() => {
   //   //-- Add event listener on keydown
@@ -200,25 +242,54 @@ const MoveExperiment = ({ setDisplayGame }) => {
       </div>
       <article className="moveControl">
         <div className="moveControl1">
-          <button className="moveButton" onClick={() => playerMover("U")}>
+          <button
+            className="moveButton"
+            onClick={() => {
+              playerMover("U");
+            }}
+          >
             ⬆
           </button>
         </div>
         <div className="moveControl2">
-          <button className="moveButton" onClick={() => playerMover("L")}>
+          <button
+            className="moveButton"
+            onClick={() => {
+              playerMover("L");
+            }}
+          >
             ⬅
           </button>
-          <button className="moveButton" onClick={() => playerMover("R")}>
+          <button
+            className="moveButton"
+            onClick={() => {
+              playerMover("R");
+            }}
+          >
             ➡
           </button>
         </div>
         <div className="moveControl1">
-          <button className="moveButton" onClick={() => playerMover("D")}>
+          <button
+            className="moveButton"
+            onClick={() => {
+              playerMover("D");
+            }}
+          >
             ⬇
           </button>
         </div>
       </article>
-      <div className="meTitleContainer"></div>
+      <div className="meTitleContainer">
+        <button
+          className="restarter"
+          onClick={() => {
+            start === true ? setStart(false) : setStart(true);
+          }}
+        >
+          start
+        </button>
+      </div>
     </section>
   );
 };
