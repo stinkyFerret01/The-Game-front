@@ -13,7 +13,14 @@ const MoveExperiment = ({ setDisplayGame }) => {
   //-test-
   const [key, setKey] = useState(false);
   const [start, setStart] = useState(false);
-  const [cops, setCops] = useState([28, 3]);
+  const [cops, setCops] = useState([
+    [28, 3],
+    [28, 11],
+    [30, 3],
+    [30, 11],
+    [32, 3],
+    [32, 11],
+  ]);
 
   //-- FONCTION
   const restarter = () => {
@@ -52,7 +59,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   const styleMaker = (col) => {
     if (col === "🐔") {
-      if (cops[1] === playerPositionY && cops[0] === playerPositionX) {
+      if (
+        cops.findIndex(
+          (cop) => cop[0] === playerPositionX && cop[1] === playerPositionY
+        ) >= 0
+      ) {
         return {
           zIndex: "1",
           color: "red",
@@ -85,10 +96,10 @@ const MoveExperiment = ({ setDisplayGame }) => {
     if (col === "🗝") {
       return { overflow: "inherit" };
     }
-    if (col === "C") {
+    if (col.slice(0, 1) === "C") {
       return {
         borderRadius: "50%",
-        color: "aqua",
+        color: "blue",
         backgroundColor: "aqua",
       };
     }
@@ -111,7 +122,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
         newPosY = newPosY + 1;
       }
       let compare = grid[newPosY][newPosX];
-      if (compare === " " || compare === "e") {
+      if (compare === " " || compare === "C") {
         setPlayerPositionX(newPosX);
         setPlayerPositionY(newPosY);
       }
@@ -131,22 +142,46 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
     const copsMover = () => {
       let newCops = [];
-      if (cops[0] > playerPositionX) {
-        newCops.push(cops[0] - 1);
-      } else if (cops[0] < playerPositionX) {
-        newCops.push(cops[0] + 1);
-      } else {
-        newCops.push(cops[0]);
+      for (let c = 0; c < cops.length; c++) {
+        let oldCop = [cops[c][0], cops[c][1]];
+        let newCop = [];
+        if (oldCop[0] > playerPositionX) {
+          newCop.push(oldCop[0] - 1);
+        } else if (oldCop[0] < playerPositionX) {
+          newCop.push(oldCop[0] + 1);
+        } else {
+          newCop.push(oldCop[0]);
+        }
+        if (oldCop[1] > playerPositionY) {
+          newCop.push(oldCop[1] - 1);
+        } else if (oldCop[1] < playerPositionY) {
+          newCop.push(oldCop[1] + 1);
+        } else {
+          newCop.push(oldCop[1]);
+        }
+        if (
+          newCops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
+          cops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1])
+        ) {
+          newCops.push(oldCop);
+        } else {
+          newCops.push(newCop);
+        }
       }
-      if (cops[1] > playerPositionY) {
-        newCops.push(cops[1] - 1);
-      } else if (cops[1] < playerPositionY) {
-        newCops.push(cops[1] + 1);
-      } else {
-        newCops.push(cops[1]);
-      }
-      if (start === true) {
-      }
+      // if (cops[0] > playerPositionX) {
+      //   newCops.push(cops[0] - 1);
+      // } else if (cops[0] < playerPositionX) {
+      //   newCops.push(cops[0] + 1);
+      // } else {
+      //   newCops.push(cops[0]);
+      // }
+      // if (cops[1] > playerPositionY) {
+      //   newCops.push(cops[1] - 1);
+      // } else if (cops[1] < playerPositionY) {
+      //   newCops.push(cops[1] + 1);
+      // } else {
+      //   newCops.push(cops[1]);
+      // }
       const checkStart = () => {
         if (start === true) {
           setCops(newCops);
@@ -155,7 +190,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           clearTimeout(interval);
         }
       };
-      interval = setTimeout(checkStart, 1000);
+      interval = setTimeout(checkStart, 300);
     };
     if (start === true) {
       copsMover();
@@ -217,8 +252,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
             newLign.push("🐔");
           } else if (gy === 7 && gx === 32 && key === true) {
             newLign.push("🗝");
-          } else if (gx === cops[0] && gy === cops[1]) {
-            newLign.push("C");
+          } else if (
+            cops.findIndex((cop) => cop[0] === gx && cop[1] === gy) >= 0
+          ) {
+            let index = cops.findIndex((cop) => cop[0] === gx && cop[1] === gy);
+            newLign.push(`C${index}`);
           } else {
             newLign.push(char);
           }
@@ -227,8 +265,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
       }
       setGrid(newGrid);
     };
+    console.log();
     gridMaker();
-    if (cops[0] === playerPositionX && cops[1] === playerPositionY) {
+    if (
+      cops.find(
+        (cop) => cop[0] === playerPositionX && cop[1] === playerPositionY
+      )
+    ) {
       setStart(false);
     }
   }, [start, playerPositionX, playerPositionY, cops, key]);
