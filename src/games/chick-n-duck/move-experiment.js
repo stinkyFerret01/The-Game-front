@@ -190,7 +190,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           clearTimeout(interval);
         }
       };
-      interval = setTimeout(checkStart, 300);
+      interval = setTimeout(checkStart, 600);
     };
     if (start === true) {
       copsMover();
