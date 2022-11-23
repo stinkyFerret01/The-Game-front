@@ -96,23 +96,24 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   const playerMover = (dir) => {
     if (start === true) {
-      let newPos = { x: playerPositionX, y: playerPositionY };
-      if (dir === "L") {
-        newPos.x--;
+      let newPosX = playerPositionX;
+      let newPosY = playerPositionY;
+      if (dir === "ArrowLeft") {
+        newPosX = newPosX - 1;
       }
-      if (dir === "R") {
-        newPos.x++;
+      if (dir === "ArrowRight") {
+        newPosX = newPosX + 1;
       }
-      if (dir === "U") {
-        newPos.y--;
+      if (dir === "ArrowUp") {
+        newPosY = newPosY - 1;
       }
-      if (dir === "D") {
-        newPos.y++;
+      if (dir === "ArrowDown") {
+        newPosY = newPosY + 1;
       }
-      let compare = grid[newPos.y][newPos.x];
+      let compare = grid[newPosY][newPosX];
       if (compare === " " || compare === "e") {
-        setPlayerPositionX(newPos.x);
-        setPlayerPositionY(newPos.y);
+        setPlayerPositionX(newPosX);
+        setPlayerPositionY(newPosY);
       }
     }
   };
@@ -141,33 +142,9 @@ const MoveExperiment = ({ setDisplayGame }) => {
   // }
 
   const handleKeyDown = (event) => {
-    const playerMover = (key) => {
-      console.log(key);
-      if (start === true) {
-        let newPos = { x: playerPositionX, y: playerPositionY };
-        if (key === "ArrowLeft") {
-          newPos.x = newPos.x - 1;
-        }
-        if (key === "ArrowRight") {
-          newPos.x = newPos.x + 1;
-        }
-        if (key === "ArrowUp") {
-          newPos.y = newPos.y - 1;
-        }
-        if (key === "ArrowDown") {
-          console.log("ok");
-          newPos.y = newPos.y + 1;
-        }
-        let compare = grid[newPos.y][newPos.x];
-        if (compare === " " || compare === "e") {
-          setPlayerPositionX(newPos.x);
-          setPlayerPositionY(newPos.y);
-        }
-      }
-    };
     playerMover(event.key);
-    // console.log("A key was pressed", event.key);
   };
+
   //-- USEEFFECT
   useEffect(() => {
     console.log("useEffect 1");
@@ -252,7 +229,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       console.log("CLOSE");
     };
     // eslint-disable-next-line
-  }, [grid, playerPositionX, playerPositionY]);
+  }, [grid, playerPositionX, playerPositionY, start]);
 
   //-- RENDER
   return (
@@ -302,7 +279,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           <button
             className="moveButton"
             onClick={() => {
-              playerMover("U");
+              playerMover("ArrowUp");
             }}
           >
             ⬆
@@ -312,7 +289,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           <button
             className="moveButton"
             onClick={() => {
-              playerMover("L");
+              playerMover("ArrowLeft");
             }}
           >
             ⬅
@@ -320,7 +297,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           <button
             className="moveButton"
             onClick={() => {
-              playerMover("R");
+              playerMover("ArrowRight");
             }}
           >
             ➡
@@ -330,7 +307,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           <button
             className="moveButton"
             onClick={() => {
-              playerMover("D");
+              playerMover("ArrowDown");
             }}
           >
             ⬇
@@ -338,7 +315,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
         </div>
       </article>
       <div className="meTitleContainer">
-        <button className="restarter" onClick={() => restarter()}>
+        <button
+          className="restarter"
+          style={start === false ? { backgroundColor: "red" } : {}}
+          onClick={() => restarter()}
+        >
           restart
         </button>
       </div>
