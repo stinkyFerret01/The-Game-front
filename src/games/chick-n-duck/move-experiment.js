@@ -7,8 +7,12 @@ const MoveExperiment = ({ setDisplayGame }) => {
   //-1- détermine l'état de la grid
   const [grid, setGrid] = useState("");
   //-2- détermine la position du joueur sur la grid
-  const [playerPositionX, setPlayerPositionX] = useState(2);
   const [playerPositionY, setPlayerPositionY] = useState(7);
+  const [playerPositionX, setPlayerPositionX] = useState(2);
+  const [playerActivity, setPlayerActivity] = useState([
+    playerPositionY,
+    playerPositionX,
+  ]);
 
   //-test-
   const [key, setKey] = useState(false);
@@ -16,8 +20,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const [cops, setCops] = useState([
     [28, 3],
     [28, 11],
-    [30, 3],
     [30, 11],
+    [30, 3],
     [32, 3],
     [32, 11],
   ]);
@@ -58,13 +62,15 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const styleMaker = (col) => {
+    const hard = col.slice(0, 1);
+    let styleToReturn = {};
     if (col === "🐔") {
       if (
         cops.findIndex(
           (cop) => cop[0] === playerPositionX && cop[1] === playerPositionY
         ) >= 0
       ) {
-        return {
+        styleToReturn = {
           zIndex: "1",
           color: "red",
           animation: "pulseMoveP infinite 1.3s",
@@ -72,7 +78,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           backgroundColor: "red",
         };
       } else if (spePosChecker(playerPositionY, playerPositionX) === true) {
-        return {
+        styleToReturn = {
           zIndex: "1",
           color: "orange",
           animation: "pulseMoveP infinite 1.3s",
@@ -80,28 +86,52 @@ const MoveExperiment = ({ setDisplayGame }) => {
           backgroundColor: "orange",
         };
       } else {
-        return {
+        styleToReturn = {
           borderRadius: "50%",
           color: "orange",
           backgroundColor: "orange",
         };
       }
     }
-    if (col === ".") {
-      return { bottom: "0.125rem" };
+    if (hard === ".") {
+      styleToReturn = { bottom: "0.125rem" };
     }
-    if (col === "W") {
-      return { backgroundColor: "gray" };
+    if (hard === "W") {
+      styleToReturn = { backgroundColor: "gray" };
     }
-    if (col === "🗝") {
-      return { overflow: "inherit" };
+    if (hard === "🗝") {
+      styleToReturn = { overflow: "inherit" };
     }
-    if (col.slice(0, 1) === "C") {
-      return {
+    if (hard === "C") {
+      styleToReturn = {
         borderRadius: "50%",
         color: "blue",
         backgroundColor: "aqua",
       };
+    }
+    if (hard === "D") {
+      styleToReturn = {
+        backgroundColor: "brown",
+        borderLeft: "solid black 6px",
+        borderRight: "solid black 6px",
+        color: "brown",
+      };
+    }
+    if (col.slice(1, 2) === "a") {
+      styleToReturn["animation"] = "pulseMoveP infinite 1.3s";
+      styleToReturn.zIndex = "1";
+      console.log(styleToReturn);
+    }
+    return styleToReturn;
+  };
+
+  const okToMoveChecker = (char) => {
+    char = char.slice(0, 1);
+    const okToMove = [" ", "C", "d", "a"];
+    if (okToMove.indexOf(char) > -1) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -110,21 +140,36 @@ const MoveExperiment = ({ setDisplayGame }) => {
       let newPosX = playerPositionX;
       let newPosY = playerPositionY;
       if (dir === "ArrowLeft") {
-        newPosX = newPosX - 1;
+        if (okToMoveChecker(grid[newPosY][newPosX - 1]) === true) {
+          setPlayerPositionX(newPosX - 1);
+          setPlayerActivity([playerPositionY, newPosX - 2]);
+        } else {
+          setPlayerActivity([playerPositionY, newPosX - 1]);
+        }
       }
       if (dir === "ArrowRight") {
-        newPosX = newPosX + 1;
+        if (okToMoveChecker(grid[newPosY][newPosX + 1]) === true) {
+          setPlayerPositionX(newPosX + 1);
+          setPlayerActivity([playerPositionY, newPosX + 2]);
+        } else {
+          setPlayerActivity([playerPositionY, newPosX + 1]);
+        }
       }
       if (dir === "ArrowUp") {
-        newPosY = newPosY - 1;
+        if (okToMoveChecker(grid[newPosY - 1][newPosX]) === true) {
+          setPlayerPositionY(newPosY - 1);
+          setPlayerActivity([newPosY - 2, playerPositionX]);
+        } else {
+          setPlayerActivity([newPosY - 1, playerPositionX]);
+        }
       }
       if (dir === "ArrowDown") {
-        newPosY = newPosY + 1;
-      }
-      let compare = grid[newPosY][newPosX];
-      if (compare === " " || compare === "C") {
-        setPlayerPositionX(newPosX);
-        setPlayerPositionY(newPosY);
+        if (okToMoveChecker(grid[newPosY + 1][newPosX]) === true) {
+          setPlayerPositionY(newPosY + 1);
+          setPlayerActivity([newPosY + 2, playerPositionX]);
+        } else {
+          setPlayerActivity([newPosY + 1, playerPositionX]);
+        }
       }
     }
   };
@@ -161,7 +206,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
         }
         if (
           newCops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
-          cops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1])
+          okToMoveChecker(grid[newCop[1]][newCop[0]]) === false
         ) {
           newCops.push(oldCop);
         } else {
@@ -225,19 +270,19 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
     const niv2 = [
       "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
-      "W                                 W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    D            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
+      "W                    W            W",
       "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
     ];
 
@@ -257,6 +302,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
           ) {
             let index = cops.findIndex((cop) => cop[0] === gx && cop[1] === gy);
             newLign.push(`C${index}`);
+          } else if (gy === playerActivity[0] && gx === playerActivity[1]) {
+            newLign.push(char + "a");
           } else {
             newLign.push(char);
           }
@@ -274,7 +321,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
     ) {
       setStart(false);
     }
-  }, [start, playerPositionX, playerPositionY, cops, key]);
+  }, [start, playerPositionX, playerPositionY, cops, key, playerActivity]);
 
   useEffect(() => {
     console.log("useEffect 2");
