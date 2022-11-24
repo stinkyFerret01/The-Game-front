@@ -16,7 +16,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   //-test-
   const [key, setKey] = useState(false);
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState("Start");
   const [cops, setCops] = useState([
     [28, 3],
     [28, 11],
@@ -31,14 +31,27 @@ const MoveExperiment = ({ setDisplayGame }) => {
   ]);
 
   //-- FONCTION
-  const restarter = () => {
-    if (start === true) {
-      setStart(false);
-      setPlayerPositionX(2);
+  const restarter = (start) => {
+    if (start === "Start") {
+      setStart("Pause");
+    } else if (start === "Pause") {
+      setStart("Reset");
+    } else if (start === "Reset") {
+      setCops([
+        [28, 3],
+        [28, 11],
+        [30, 11],
+        [30, 3],
+        [32, 3],
+        [32, 11],
+      ]);
+      setDoors([
+        [7, 21, "D"],
+        [7, 25, "D"],
+      ]);
       setPlayerPositionY(7);
-      setCops([28, 3]);
-    } else {
-      setStart(true);
+      setPlayerPositionX(2);
+      setStart("Start");
     }
   };
 
@@ -139,8 +152,40 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
+  const possibleActivity = (char, key) => {
+    console.log(char);
+    if (char === "Da" || char === "da") {
+      const openDoor = () => {
+        let doorToChange = doors.find(
+          (door) =>
+            door[0] === playerActivity[0] && door[1] === playerActivity[1]
+        );
+        console.log(doorToChange);
+        let doorIndex = doors.findIndex(
+          (door) =>
+            door[0] === playerActivity[0] && door[1] === playerActivity[1]
+        );
+        if (char === "Da") {
+          doorToChange.splice(2, 1, "d");
+        } else {
+          doorToChange.splice(2, 1, "D");
+        }
+        let newDoors = [...doors];
+        newDoors.splice(doorIndex, 1, doorToChange);
+        setDoors(newDoors);
+      };
+      if (key) {
+        openDoor();
+      }
+      return ["porte", openDoor];
+    } else {
+      return ["none"];
+    }
+  };
+
   const playerMover = (dir) => {
-    if (start === true) {
+    console.log(dir);
+    if (start === "Pause") {
       let newPosX = playerPositionX;
       let newPosY = playerPositionY;
       if (dir === "ArrowLeft") {
@@ -175,45 +220,29 @@ const MoveExperiment = ({ setDisplayGame }) => {
           setPlayerActivity([newPosY + 1, playerPositionX]);
         }
       }
-    }
-  };
-
-  const possibleActivity = (char) => {
-    if (char === "Da" || char === "da") {
-      const openDoor = () => {
-        let doorToChange = doors.find(
-          (door) =>
-            door[0] === playerActivity[0] && door[1] === playerActivity[1]
-        );
-        console.log(doorToChange);
-        let doorIndex = doors.findIndex(
-          (door) =>
-            door[0] === playerActivity[0] && door[1] === playerActivity[1]
-        );
-        if (char === "Da") {
-          doorToChange.splice(2, 1, "d");
-        } else {
-          doorToChange.splice(2, 1, "D");
-        }
-        let newDoors = [...doors];
-        newDoors.splice(doorIndex, 1, doorToChange);
-        setDoors(newDoors);
-      };
-      return ["porte", openDoor];
-    } else {
-      return ["none"];
+      if (dir === "Enter") {
+        console.log(dir);
+        let char = grid[playerActivity[0]][playerActivity[1]];
+        possibleActivity(char, true);
+      }
     }
   };
 
   const handleKeyDown = (event) => {
+    console.log(event.key);
     playerMover(event.key);
+    // if (event.key.slice(0, 5) === "Arrow") {
+    // } else if (event.key === "m") {
+    //   let char = grid[playerActivity[0]][playerActivity[1]];
+    //   possibleActivity("Da");
+    // }
   };
 
   //-- USEEFFECT
   useEffect(() => {
     console.log("useEffect 0");
     let interval;
-    if (start === false) {
+    if (start === "Pause") {
       clearTimeout(interval);
     }
     const copsMover = () => {
@@ -259,7 +288,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       //   newCops.push(cops[1]);
       // }
       const checkStart = () => {
-        if (start === true) {
+        if (start === "Pause") {
           setCops(newCops);
           clearTimeout(interval);
         } else {
@@ -268,7 +297,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       };
       interval = setTimeout(checkStart, 600);
     };
-    if (start === true) {
+    if (start === "Pause") {
       copsMover();
       // interval = setTimeout(copsMover, 1000);
     }
@@ -385,7 +414,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       window.removeEventListener("keydown", handleKeyDown);
     };
     // eslint-disable-next-line
-  }, [grid, playerPositionX, playerPositionY, start]);
+  }, [grid, playerPositionX, playerPositionY, doors, start]);
 
   //-- RENDER
   return (
@@ -409,7 +438,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
                       style={styleMaker(column)}
                       key={indexc}
                     >
-                      {column === "🐔" ? "e" : column}
+                      {/* {column === "🐔" ? "e" : column} */}
                     </div>
                   ) : (
                     column === "🐔" && (
@@ -421,7 +450,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
                         style={styleMaker(column)}
                         key={indexc}
                       >
-                        {column === "🐔" ? "e" : column}
+                        {/* {column === "🐔" ? "e" : column} */}
                       </button>
                     )
                   );
@@ -451,6 +480,22 @@ const MoveExperiment = ({ setDisplayGame }) => {
             >
               ⬅
             </button>
+            {grid.length > 0 &&
+            possibleActivity(grid[playerActivity[0]][playerActivity[1]])
+              .length > 1 ? (
+              <button
+                className="playerActivity"
+                onClick={
+                  possibleActivity(
+                    grid[playerActivity[0]][playerActivity[1]]
+                  )[1]
+                }
+              >
+                {possibleActivity(grid[playerActivity[0]][playerActivity[1]])}
+              </button>
+            ) : (
+              <></>
+            )}
             <button
               className="moveButton"
               onClick={() => {
@@ -471,27 +516,10 @@ const MoveExperiment = ({ setDisplayGame }) => {
             </button>
           </div>
         </article>
-        {grid.length > 0 &&
-        possibleActivity(grid[playerActivity[0]][playerActivity[1]]).length >
-          1 ? (
-          <button
-            onClick={
-              possibleActivity(grid[playerActivity[0]][playerActivity[1]])[1]
-            }
-          >
-            {possibleActivity(grid[playerActivity[0]][playerActivity[1]])}
-          </button>
-        ) : (
-          <></>
-        )}
       </section>
       <div className="meTitleContainer">
-        <button
-          className="restarter"
-          style={start === false ? { backgroundColor: "red" } : {}}
-          onClick={() => restarter()}
-        >
-          restart
+        <button className="restarter" onClick={() => restarter(start)}>
+          {start}
         </button>
       </div>
     </section>
