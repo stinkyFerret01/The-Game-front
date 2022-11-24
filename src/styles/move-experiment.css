@@ -45,6 +45,9 @@
     color: rgba(125, 125, 125);
     box-sizing: border-box;
 }
+.meCommand {
+    display: flex;
+}
 .moveControl {
     width: 6rem;
     display: flex;
