@@ -3,7 +3,7 @@ import { useState } from "react";
 
 //-- import des composants
 import ChickNDuck from "../games/chick-n-duck/chick-n-duck";
-import MoveExperiment from "../games/chick-n-duck/move-experiment";
+import MoveExperiment from "../games/move-experiment/move-experiment";
 
 //-- START
 const Game = ({ gameConst, token, playerData, setPlayerData }) => {
