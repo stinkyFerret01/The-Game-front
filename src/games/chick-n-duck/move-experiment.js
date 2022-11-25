@@ -9,25 +9,29 @@ const MoveExperiment = ({ setDisplayGame }) => {
   //-2- détermine la position du joueur sur la grid
   const [playerPositionY, setPlayerPositionY] = useState(7);
   const [playerPositionX, setPlayerPositionX] = useState(2);
+  //-2- détermine l'activité (direction) du joueur sur la grid
   const [playerActivity, setPlayerActivity] = useState([
     playerPositionY,
     playerPositionX,
+    "none",
   ]);
 
   //-test-
-  const [key, setKey] = useState(false);
   const [start, setStart] = useState("Start");
+  const [key, setKey] = useState([2, 32, false]);
+  const [box, setBox] = useState([12, 2, false]);
   const [cops, setCops] = useState([
-    [28, 3],
-    [28, 11],
-    [30, 11],
-    [30, 3],
+    // [28, 3],
+    // [28, 11],
+    // [30, 11],
+    // [30, 3],
     [32, 3],
     [32, 11],
   ]);
   const [doors, setDoors] = useState([
     [7, 21, "D"],
     [7, 25, "D"],
+    [12, 4, "L"],
   ]);
 
   //-- FONCTION
@@ -134,6 +138,21 @@ const MoveExperiment = ({ setDisplayGame }) => {
         color: "brown",
       };
     }
+    if (hard === "L") {
+      styleToReturn = {
+        backgroundColor: "gold",
+        borderLeft: "solid black 6px",
+        borderRight: "solid black 6px",
+        color: "brown",
+      };
+    }
+    if (hard === "B") {
+      styleToReturn = {
+        backgroundColor: "green",
+        border: "solid black 1px",
+        color: "brown",
+      };
+    }
     if (col.slice(1, 2) === "a") {
       styleToReturn["animation"] = "pulseMoveP infinite 1.3s";
       styleToReturn.zIndex = "1";
@@ -143,8 +162,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const okToMoveChecker = (char) => {
+    console.log("ok");
     char = char.slice(0, 1);
-    const okToMove = [" ", "C", "d", "a"];
+    let okToMove = [" ", "C", "d", "a"];
+    if (box[2] === true) {
+      okToMove.push("B");
+      console.log(okToMove);
+    }
     if (okToMove.indexOf(char) > -1) {
       return true;
     } else {
@@ -152,32 +176,60 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
-  const possibleActivity = (char, key) => {
+  const possibleActivity = (char, keyboard) => {
     console.log(char);
-    if (char === "Da" || char === "da") {
+    if (char === "Da" || char === "da" || char === "La") {
       const openDoor = () => {
         let doorToChange = doors.find(
           (door) =>
             door[0] === playerActivity[0] && door[1] === playerActivity[1]
         );
-        console.log(doorToChange);
         let doorIndex = doors.findIndex(
           (door) =>
             door[0] === playerActivity[0] && door[1] === playerActivity[1]
         );
         if (char === "Da") {
           doorToChange.splice(2, 1, "d");
-        } else {
+        } else if (char === "da") {
           doorToChange.splice(2, 1, "D");
+        } else if (char === "La" && key[2] === true) {
+          doorToChange.splice(2, 1, "d");
         }
         let newDoors = [...doors];
         newDoors.splice(doorIndex, 1, doorToChange);
         setDoors(newDoors);
       };
-      if (key) {
+      if (keyboard) {
         openDoor();
       }
-      return ["porte", openDoor];
+      if (char === "La") {
+        return ["porte vérrouillée", openDoor];
+      } else {
+        return ["porte", openDoor];
+      }
+    } else if (char === "🗝") {
+      const takeKey = () => {
+        let newKey = [0, 0, true];
+        setKey(newKey);
+      };
+      if (keyboard) {
+        takeKey();
+      }
+      return ["clef", takeKey];
+    } else if (char === "Ba") {
+      const treatBox = () => {
+        if (box[2] === false) {
+          let newBox = [playerActivity[0], playerActivity[1], true];
+          setBox(newBox);
+        } else {
+          let newBox = [playerActivity[0], playerActivity[1], false];
+          setBox(newBox);
+        }
+      };
+      if (keyboard) {
+        treatBox();
+      }
+      return ["box", treatBox];
     } else {
       return ["none"];
     }
@@ -306,6 +358,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   useEffect(() => {
     console.log("useEffect 1");
+
     // const niv1 = [
     //   "                                   ",
     //   "                                   ",
@@ -330,25 +383,26 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
     const niv2 = [
       "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-      "W                    W            W",
-      "W                    W            W",
-      "W                    W            W",
-      "W                    W            W",
+      "W                        W        W",
+      "W                        W        W",
+      "W                        W        W",
+      "W                        W        W",
       "W                    WWWWW        W",
       "W                    W   W        W",
       "W                        D        W",
       "W                    W   W        W",
       "W                    WWWWW        W",
+      "WWWWW                W            W",
+      "W   W                W            W",
       "W                    W            W",
-      "W                    W            W",
-      "W                    W            W",
-      "W                    W            W",
+      "W   W                W            W",
       "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
     ];
 
     const base = nivCharger(niv2);
 
     const activityChecker = (gy, gx, char) => {
+      console.log(`${char}a`);
       if (gy === playerActivity[0] && gx === playerActivity[1]) {
         return `${char}a`;
       } else {
@@ -367,8 +421,16 @@ const MoveExperiment = ({ setDisplayGame }) => {
           );
           if (gy === playerPositionY && gx === playerPositionX) {
             newLign.push("🐔");
-          } else if (gy === 7 && gx === 32 && key === true) {
+          } else if (gy === key[0] && gx === key[1] && key[2] === false) {
             newLign.push("🗝");
+          } else if (gy === box[0] && gx === box[1] && box[2] === false) {
+            newLign.push(activityChecker(gy, gx, "B"));
+          } else if (
+            gy === playerActivity[0] &&
+            gx === playerActivity[1] &&
+            box[2] === true
+          ) {
+            newLign.push(activityChecker(gy, gx, "B"));
           } else if (
             cops.findIndex((cop) => cop[0] === gx && cop[1] === gy) >= 0
           ) {
@@ -398,10 +460,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
     start,
     playerPositionX,
     playerPositionY,
-    cops,
-    key,
     playerActivity,
+    cops,
     doors,
+    key,
+    box,
   ]);
 
   useEffect(() => {
@@ -438,7 +501,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
                       style={styleMaker(column)}
                       key={indexc}
                     >
-                      {/* {column === "🐔" ? "e" : column} */}
+                      {column === "🗝" && column}
                     </div>
                   ) : (
                     column === "🐔" && (
