@@ -353,6 +353,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       copsMover();
       // interval = setTimeout(copsMover, 1000);
     }
+    //-- PROBLEMO
     // eslint-disable-next-line
   }, [start, cops]);
 

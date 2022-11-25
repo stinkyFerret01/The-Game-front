@@ -24,7 +24,8 @@ import PlayerCard from "./components/playercard";
 function App() {
   //-- variables de configuration
   //-- détermine l'acces au backend en ligne ou en local (test)
-  const online = "https://the-game-backend.herokuapp.com";
+  // const onlineOld = "https://the-game-backend.herokuapp.com";
+  const online = "https://thegameback.onrender.com";
   const local = "http://localhost:3000";
   //-- détermine les niveaux d'acces
   const bannedlvl = 0;
