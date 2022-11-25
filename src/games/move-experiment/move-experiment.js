@@ -20,6 +20,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const [start, setStart] = useState("Start");
   const [key, setKey] = useState([2, 32, false]);
   const [box, setBox] = useState([12, 2, false]);
+  const [press, setPress] = useState([1, 1, false]);
   const [cops, setCops] = useState([
     // [28, 3],
     // [28, 11],
@@ -83,9 +84,14 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const styleMaker = (col) => {
+    if (col === "p" && press[2] === true) {
+      setPress([press[0], press[1], false]);
+    } else if ((col === "🐔p" || col === "Bp") && press[2] === false) {
+      setPress([press[0], press[1], true]);
+    }
     const hard = col.slice(0, 1);
     let styleToReturn = {};
-    if (col === "🐔") {
+    if (col === "🐔" || col === "🐔p") {
       if (
         cops.findIndex(
           (cop) => cop[0] === playerPositionX && cop[1] === playerPositionY
@@ -120,6 +126,21 @@ const MoveExperiment = ({ setDisplayGame }) => {
     if (hard === "W") {
       styleToReturn = { backgroundColor: "gray" };
     }
+    if (hard === "w") {
+      if (press[2] === false) {
+        styleToReturn = { backgroundColor: "gray" };
+      } else {
+        styleToReturn = { backgroundColor: "blue" };
+      }
+    }
+    if (hard === "p") {
+      styleToReturn = {
+        borderRadius: "50%",
+        color: "blue",
+        border: "solid black 3px",
+        backgroundColor: "aqua",
+      };
+    }
     if (hard === "🗝") {
       styleToReturn = { overflow: "inherit" };
     }
@@ -146,7 +167,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
         color: "brown",
       };
     }
-    if (hard === "B") {
+    if (hard === "B" || col.slice(0, 2) === "Bp") {
       styleToReturn = {
         backgroundColor: "green",
         border: "solid black 1px",
@@ -162,12 +183,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const okToMoveChecker = (char) => {
-    console.log("ok");
     char = char.slice(0, 1);
-    let okToMove = [" ", "C", "d", "a", "🐔"];
+    let okToMove = [" ", "C", "d", "a", "🐔", "p"];
+    if (press[2] === true) {
+      okToMove.push("w");
+    }
     if (box[2] === true) {
       okToMove.push("B");
-      console.log(okToMove);
     }
     if (okToMove.indexOf(char) > -1) {
       return true;
@@ -177,7 +199,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const possibleActivity = (char, keyboard) => {
-    console.log(char);
     if (char === "Da" || char === "da" || char === "La") {
       const openDoor = () => {
         let doorToChange = doors.find(
@@ -216,7 +237,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
         takeKey();
       }
       return ["clef", takeKey];
-    } else if (char === "Ba") {
+    } else if (char === "Ba" || char === "Bp") {
       const treatBox = () => {
         if (box[2] === false) {
           let newBox = [playerActivity[0], playerActivity[1], true];
@@ -283,11 +304,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const handleKeyDown = (event) => {
     console.log(event.key);
     playerMover(event.key);
-    // if (event.key.slice(0, 5) === "Arrow") {
-    // } else if (event.key === "m") {
-    //   let char = grid[playerActivity[0]][playerActivity[1]];
-    //   possibleActivity("Da");
-    // }
   };
 
   //-- USEEFFECT
@@ -316,7 +332,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
         } else {
           newCop.push(oldCop[1]);
         }
-        console.log(grid);
         if (
           cops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
           newCops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
@@ -407,11 +422,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
     // ];
 
     const niv2 = [
-      "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-      "W                        W        W",
-      "W                        W        W",
-      "W                        W        W",
-      "W                        W        W",
+      "WWWWwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+      "W W   W                  W        W",
+      "W W   W                  W        W",
+      "W W   W                  W        W",
+      "W WW WW                  W        W",
       "W                    WWWWW        W",
       "W                    W   W        W",
       "W                        D        W",
@@ -427,7 +442,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
     const base = nivCharger(niv2);
 
     const activityChecker = (gy, gx, char) => {
-      console.log(`${char}a`);
       if (gy === playerActivity[0] && gx === playerActivity[1]) {
         return `${char}a`;
       } else {
@@ -444,7 +458,20 @@ const MoveExperiment = ({ setDisplayGame }) => {
           let doorIndex = doors.findIndex(
             (door) => door[0] === gy && door[1] === gx
           );
-          if (gy === playerPositionY && gx === playerPositionX) {
+          if (gy === press[0] && gx === press[1]) {
+            if (gy === playerPositionY && gx === playerPositionX) {
+              newLign.push("🐔p");
+            } else if (
+              (gy === playerActivity[0] &&
+                gx === playerActivity[1] &&
+                box[2] === true) ||
+              (gy === box[0] && gx === box[1] && box[2] === false)
+            ) {
+              newLign.push("Bp");
+            } else {
+              newLign.push(activityChecker(gy, gx, "p"));
+            }
+          } else if (gy === playerPositionY && gx === playerPositionX) {
             newLign.push("🐔");
           } else if (gy === key[0] && gx === key[1] && key[2] === false) {
             newLign.push("🗝");
@@ -486,6 +513,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
     playerPositionX,
     playerPositionY,
     playerActivity,
+    press,
     cops,
     doors,
     key,
