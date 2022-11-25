@@ -18,6 +18,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
 
   //-test-
   const [start, setStart] = useState("Start");
+  // const [endGame, setEndGame] = useState("tie");
   const [key, setKey] = useState([2, 32, false]);
   const [box, setBox] = useState([12, 2, false]);
   const [press, setPress] = useState([1, 1, false]);
@@ -256,6 +257,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
+  // const endGameChecker = (wall) => {
+  //   if (wall === 0) {
+  //     setEndGame("won");
+  //   }
+  //   return true;
+  // };
+
   const playerMover = (dir) => {
     console.log(dir);
     if (start === "Pause") {
@@ -432,7 +440,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       "W                        D        W",
       "W                    W   W        W",
       "W                    WWWWW        W",
-      "WWWWW                W            W",
+      "WW WW                W            W",
       "W   W                W            W",
       "W                    W            W",
       "W   W                W            W",
