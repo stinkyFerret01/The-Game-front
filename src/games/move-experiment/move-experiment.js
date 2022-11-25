@@ -164,7 +164,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
   const okToMoveChecker = (char) => {
     console.log("ok");
     char = char.slice(0, 1);
-    let okToMove = [" ", "C", "d", "a"];
+    let okToMove = [" ", "C", "d", "a", "🐔"];
     if (box[2] === true) {
       okToMove.push("B");
       console.log(okToMove);
@@ -272,7 +272,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           setPlayerActivity([newPosY + 1, playerPositionX]);
         }
       }
-      if (dir === "Enter") {
+      if (dir === "a") {
         console.log(dir);
         let char = grid[playerActivity[0]][playerActivity[1]];
         possibleActivity(char, true);
@@ -316,11 +316,35 @@ const MoveExperiment = ({ setDisplayGame }) => {
         } else {
           newCop.push(oldCop[1]);
         }
+        console.log(grid);
         if (
+          cops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
           newCops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
           okToMoveChecker(grid[newCop[1]][newCop[0]]) === false
         ) {
-          newCops.push(oldCop);
+          if (
+            cops.find((cop) => cop[0] === oldCop[0] && cop[1] === newCop[1]) ===
+              undefined &&
+            newCops.find(
+              (cop) => cop[0] === oldCop[0] && cop[1] === newCop[1]
+            ) === undefined &&
+            okToMoveChecker(grid[newCop[1]][oldCop[0]]) === true
+          ) {
+            let newCopB = [oldCop[0], newCop[1]];
+            newCops.push(newCopB);
+          } else if (
+            cops.find((cop) => cop[0] === newCop[0] && cop[1] === oldCop[1]) ===
+              undefined &&
+            newCops.find(
+              (cop) => cop[0] === newCop[0] && cop[1] === oldCop[1]
+            ) === undefined &&
+            okToMoveChecker(grid[oldCop[1]][newCop[0]]) === true
+          ) {
+            let newCopA = [newCop[0], oldCop[1]];
+            newCops.push(newCopA);
+          } else {
+            newCops.push(oldCop);
+          }
         } else {
           newCops.push(newCop);
         }
