@@ -56,6 +56,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       setDoors([
         [7, 21, "D"],
         [7, 25, "D"],
+        [12, 4, "L"],
       ]);
       setBox([12, 2, false]);
       setKey([2, 32, false]);
@@ -263,18 +264,18 @@ const MoveExperiment = ({ setDisplayGame }) => {
     }
   };
 
-  const endGameChecker = (wall, axe) => {
-    if (
-      ((wall === 0 || wall === grid.length - 1) && axe === "y") ||
-      ((wall === 0 || wall === grid[0].length - 1) && axe === "x")
-    ) {
-      setEndGame("won");
-      setStart("Reset");
-      return true;
-    } else {
-      return false;
-    }
-  };
+  // const endGameChecker = (wall, axe) => {
+  //   if (
+  //     ((wall === 0 || wall === grid.length - 1) && axe === "y") ||
+  //     ((wall === 0 || wall === grid[0].length - 1) && axe === "x")
+  //   ) {
+  //     setEndGame("won");
+  //     setStart("Reset");
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   const playerMover = (dir) => {
     console.log(dir);
@@ -282,54 +283,92 @@ const MoveExperiment = ({ setDisplayGame }) => {
       let newPosX = playerPositionX;
       let newPosY = playerPositionY;
       if (dir === "ArrowLeft") {
-        if (okToMoveChecker(grid[newPosY][newPosX - 1]) === true) {
-          if (endGameChecker(newPosX - 1, "x") === false) {
-            setPlayerPositionX(newPosX - 1);
-            setPlayerActivity([playerPositionY, newPosX - 2]);
-          } else {
-            setPlayerPositionX(newPosX - 1);
-          }
-        } else {
+        if (
+          okToMoveChecker(grid[newPosY][newPosX - 1]) === true &&
+          ((okToMoveChecker(grid[newPosY][newPosX - 2]) === true &&
+            box[2] === true) ||
+            box[2] === false)
+        ) {
+          setPlayerPositionX(newPosX - 1);
+          setPlayerActivity([playerPositionY, newPosX - 2]);
+        } else if (
+          box[2] === true &&
+          okToMoveChecker(grid[newPosY][newPosX - 1]) === true
+        ) {
           setPlayerActivity([playerPositionY, newPosX - 1]);
+        } else {
+          if (box[2] === false) {
+            setPlayerActivity([playerPositionY, newPosX - 1]);
+          }
         }
       }
       if (dir === "ArrowRight") {
-        if (okToMoveChecker(grid[newPosY][newPosX + 1]) === true) {
-          if (endGameChecker(newPosX + 1, "x") === false) {
-            setPlayerPositionX(newPosX + 1);
-            setPlayerActivity([playerPositionY, newPosX + 2]);
-          } else {
-            setPlayerPositionX(newPosX + 1);
-          }
-
+        if (
+          okToMoveChecker(grid[newPosY][newPosX + 1]) === true &&
+          ((okToMoveChecker(grid[newPosY][newPosX + 2]) === true &&
+            box[2] === true) ||
+            box[2] === false)
+        ) {
           setPlayerPositionX(newPosX + 1);
           setPlayerActivity([playerPositionY, newPosX + 2]);
-        } else {
+        } else if (
+          box[2] === true &&
+          okToMoveChecker(grid[newPosY][newPosX + 1]) === true
+        ) {
           setPlayerActivity([playerPositionY, newPosX + 1]);
+        } else {
+          if (box[2] === false) {
+            setPlayerActivity([playerPositionY, newPosX + 1]);
+          }
         }
       }
       if (dir === "ArrowUp") {
-        if (okToMoveChecker(grid[newPosY - 1][newPosX]) === true) {
-          if (endGameChecker(newPosY - 1, "y") === false) {
-            setPlayerPositionY(newPosY - 1);
-            setPlayerActivity([newPosY - 2, playerPositionX]);
-          } else {
-            setPlayerPositionY(newPosY - 1);
-          }
-        } else {
+        if (
+          okToMoveChecker(grid[newPosY - 1][newPosX]) === true &&
+          grid[newPosY - 2] &&
+          ((okToMoveChecker(grid[newPosY - 2][newPosX]) === true &&
+            box[2] === true) ||
+            box[2] === false)
+        ) {
+          setPlayerPositionY(newPosY - 1);
+          setPlayerActivity([newPosY - 2, playerPositionX]);
+        } else if (
+          box[2] === true &&
+          okToMoveChecker(grid[newPosY - 1][newPosX]) === true
+        ) {
+          setPlayerActivity([newPosY - 1, playerPositionX]);
+        } else if (
+          grid[newPosY - 1][newPosX] === "wa" ||
+          grid[newPosY - 1][newPosX] === "w"
+        ) {
+          setPlayerActivity([newPosY - 1, playerPositionX]);
+          setPlayerPositionX(newPosX);
+          setPlayerPositionY(newPosY - 1);
+          setEndGame("won");
+          setStart("Reset");
+        } else if (box[2] === false) {
           setPlayerActivity([newPosY - 1, playerPositionX]);
         }
       }
       if (dir === "ArrowDown") {
-        if (okToMoveChecker(grid[newPosY + 1][newPosX]) === true) {
-          if (endGameChecker(newPosY + 1, "y") === false) {
-            setPlayerPositionY(newPosY + 1);
-            setPlayerActivity([newPosY + 2, playerPositionX]);
-          } else {
-            setPlayerPositionY(newPosY + 1);
-          }
-        } else {
+        if (
+          okToMoveChecker(grid[newPosY + 1][newPosX]) === true &&
+          grid[newPosY + 2] &&
+          ((okToMoveChecker(grid[newPosY + 2][newPosX]) === true &&
+            box[2] === true) ||
+            box[2] === false)
+        ) {
+          setPlayerPositionY(newPosY + 1);
+          setPlayerActivity([newPosY + 2, playerPositionX]);
+        } else if (
+          box[2] === true &&
+          okToMoveChecker(grid[newPosY + 1][newPosX]) === true
+        ) {
           setPlayerActivity([newPosY + 1, playerPositionX]);
+        } else {
+          if (box[2] === false) {
+            setPlayerActivity([newPosY + 1, playerPositionX]);
+          }
         }
       }
       if (dir === "a") {
@@ -471,7 +510,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       "W                        D        W",
       "W                    W   W        W",
       "W                    WWWWW        W",
-      "WW WW                W            W",
+      "WWWWW                W            W",
       "W   W                W            W",
       "W                    W            W",
       "W   W                W            W",
@@ -614,6 +653,11 @@ const MoveExperiment = ({ setDisplayGame }) => {
             );
           })}
       </div>
+      {endGame === "won" ? (
+        <div className="meResult">GAGNé</div>
+      ) : (
+        endGame === "lost" && <div className="meResult">PERDU</div>
+      )}
       <section className="meCommand">
         <article className="moveControl">
           <div className="moveControl1">
