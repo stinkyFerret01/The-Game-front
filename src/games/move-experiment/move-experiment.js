@@ -9,24 +9,23 @@ const MoveExperiment = ({ setDisplayGame }) => {
   //-2- détermine la position du joueur sur la grid
   const [playerPositionY, setPlayerPositionY] = useState(7);
   const [playerPositionX, setPlayerPositionX] = useState(2);
-  //-2- détermine l'activité (direction) du joueur sur la grid
+  //-3- détermine l'activité (direction) du joueur sur la grid
   const [playerActivity, setPlayerActivity] = useState([
     playerPositionY,
     playerPositionX,
     "none",
   ]);
 
-  //-test-
+  //-4- détermine les conditions du jeu
   const [start, setStart] = useState("Start");
   const [endGame, setEndGame] = useState("tie");
+  //-5- détermine les options du jeu
   const [key, setKey] = useState([2, 32, false]);
   const [box, setBox] = useState([12, 2, false]);
   const [press, setPress] = useState([1, 1, false]);
   const [cops, setCops] = useState([
-    // [28, 3],
-    // [28, 11],
-    // [30, 11],
-    // [30, 3],
+    [28, 3],
+    [28, 11],
     [32, 3],
     [32, 11],
   ]);
@@ -46,10 +45,8 @@ const MoveExperiment = ({ setDisplayGame }) => {
       console.log("ok");
     } else if (start === "Reset") {
       setCops([
-        // [28, 3],
-        // [28, 11],
-        // [30, 11],
-        // [30, 3],
+        [28, 3],
+        [28, 11],
         [32, 3],
         [32, 11],
       ]);
@@ -108,7 +105,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
         styleToReturn = {
           zIndex: "1",
           color: "red",
-          animation: "pulseMoveP infinite 1.3s",
+          animation: "pulseDeadP infinite 1.3s",
           borderRadius: "50%",
           backgroundColor: "red",
         };
@@ -191,7 +188,9 @@ const MoveExperiment = ({ setDisplayGame }) => {
   };
 
   const okToMoveChecker = (char) => {
-    char = char.slice(0, 1);
+    if (char !== "🐔") {
+      char = char.slice(0, 1);
+    }
     let okToMove = [" ", "C", "d", "a", "🐔", "p"];
     if (press[2] === true) {
       okToMove.push("w");
@@ -263,19 +262,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
       return ["none"];
     }
   };
-
-  // const endGameChecker = (wall, axe) => {
-  //   if (
-  //     ((wall === 0 || wall === grid.length - 1) && axe === "y") ||
-  //     ((wall === 0 || wall === grid[0].length - 1) && axe === "x")
-  //   ) {
-  //     setEndGame("won");
-  //     setStart("Reset");
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
 
   const playerMover = (dir) => {
     console.log(dir);
@@ -415,6 +401,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
           newCops.find((cop) => cop[0] === newCop[0] && cop[1] === newCop[1]) ||
           okToMoveChecker(grid[newCop[1]][newCop[0]]) === false
         ) {
+          console.log(grid[newCop[1]][newCop[0]]);
           if (
             cops.find((cop) => cop[0] === oldCop[0] && cop[1] === newCop[1]) ===
               undefined &&
@@ -442,20 +429,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
           newCops.push(newCop);
         }
       }
-      // if (cops[0] > playerPositionX) {
-      //   newCops.push(cops[0] - 1);
-      // } else if (cops[0] < playerPositionX) {
-      //   newCops.push(cops[0] + 1);
-      // } else {
-      //   newCops.push(cops[0]);
-      // }
-      // if (cops[1] > playerPositionY) {
-      //   newCops.push(cops[1] - 1);
-      // } else if (cops[1] < playerPositionY) {
-      //   newCops.push(cops[1] + 1);
-      // } else {
-      //   newCops.push(cops[1]);
-      // }
       const checkStart = () => {
         if (start === "Abandon") {
           setCops(newCops);
@@ -477,28 +450,6 @@ const MoveExperiment = ({ setDisplayGame }) => {
   useEffect(() => {
     console.log("useEffect 1");
 
-    // const niv1 = [
-    //   "                                   ",
-    //   "                                   ",
-    //   "    Bienvenue joueur               ",
-    //   "                                   ",
-    //   "  trouve la sorti de cette page    ",
-    //   "                                   ",
-    //   "  si tu y arrives                  ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "  crois en toi, tu es la clef      ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "                                   ",
-    //   "  sortie   |  |                    ",
-    //   "           |  |                    ",
-    //   "           |  |                    ",
-    // ];
-
     const niv2 = [
       "WWWWwWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
       "W W   W                  W        W",
@@ -507,7 +458,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       "W WW WW                  W        W",
       "W                    WWWWW        W",
       "W                    W   W        W",
-      "W                        D        W",
+      "W                                 W",
       "W                    W   W        W",
       "W                    WWWWW        W",
       "WWWWW                W            W",
@@ -566,6 +517,13 @@ const MoveExperiment = ({ setDisplayGame }) => {
           ) {
             let index = cops.findIndex((cop) => cop[0] === gx && cop[1] === gy);
             newLign.push(`C${index}`);
+          } else if (
+            cops.findIndex(
+              (cop) => cop[0] === playerPositionX && cop[1] === playerPositionY
+            ) >= 0
+          ) {
+            setEndGame("lost");
+            setStart("Reset");
           } else if (doorIndex >= 0) {
             char = doors[doorIndex][2];
             newLign.push(activityChecker(gy, gx, char));
