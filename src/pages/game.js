@@ -4,11 +4,13 @@ import { useState } from "react";
 //-- import des composants
 import ChickNDuck from "../games/chick-n-duck/chick-n-duck";
 import MoveExperiment from "../games/move-experiment/move-experiment";
+import TestIa from "../games/test-ia/test-ia";
 
 //-- START
 const Game = ({ gameConst, token, playerData, setPlayerData }) => {
   const [displayCnd, setDisplayCnd] = useState(false);
   const [displayMe, setDisplayMe] = useState(false);
+  const [displayTestIa, setDisplayTestIa] = useState(false);
 
   //--  RENDER
   return (
@@ -17,7 +19,7 @@ const Game = ({ gameConst, token, playerData, setPlayerData }) => {
         <div className="gameTitle">
           <h1 style={{ color: "white" }}>GAMES :</h1>
         </div>
-        {!displayCnd && !displayMe && (
+        {!displayCnd && !displayMe && !displayTestIa && (
           <div>
             <button
               className="displayGameBA"
@@ -30,6 +32,12 @@ const Game = ({ gameConst, token, playerData, setPlayerData }) => {
               onClick={() => setDisplayMe(true)}
             >
               move Experiment
+            </button>
+            <button
+              className="displayGameBA"
+              onClick={() => setDisplayTestIa(true)}
+            >
+              test IA
             </button>
           </div>
         )}
@@ -49,6 +57,15 @@ const Game = ({ gameConst, token, playerData, setPlayerData }) => {
             playerData={playerData}
             setPlayerData={setPlayerData}
             setDisplayGame={setDisplayMe}
+          />
+        )}
+        {displayTestIa && (
+          <TestIa
+            gameConst={gameConst}
+            token={token}
+            playerData={playerData}
+            setPlayerData={setPlayerData}
+            setDisplayGame={setDisplayTestIa}
           />
         )}
       </section>
