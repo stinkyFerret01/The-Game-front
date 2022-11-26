@@ -13,7 +13,12 @@ const Home = ({ playerData, setFormType }) => {
     <main>
       {playerData !== null && navigate("/game")}
       <section className="homeContainer">
-        {/* <h1 className="homeTitle">home</h1> */}
+        <h4 className="noLoginInfo">
+          ce site est hébergé par un plan gratuit: le backend, lorsqu'il est
+          inactif, est mis en veille, ce qui peut provoquer une latence dans le
+          chargement des données et de fait, des pages. Nous nous excucons pour
+          ce désagrément, cordialement. l'équipe technique.
+        </h4>
         <button
           className="dataformBA"
           onClick={() => {

@@ -136,7 +136,7 @@ const MoveExperiment = ({ setDisplayGame }) => {
       if (press[2] === false) {
         styleToReturn = { backgroundColor: "gray" };
       } else {
-        styleToReturn = { backgroundColor: "blue" };
+        styleToReturn = { backgroundColor: "black" };
       }
     }
     if (hard === "p") {
