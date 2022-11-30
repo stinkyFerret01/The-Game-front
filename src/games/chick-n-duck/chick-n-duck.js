@@ -129,10 +129,10 @@ const ChickNDuck = ({
           gotWinner = true;
           setPlayerTurn(board[cond[0]]);
           setCndWinner(board[cond[0]]);
-          if (board[cond[0]] === pouler) {
+          if (board[cond[0]] === pouler && playerData) {
             score = score + 1;
           }
-          if (board[cond[0]] === canar) {
+          if (board[cond[0]] === canar && playerData) {
             score = score - 1 * playerData.score.level * playerData.score.level;
           }
         }
